@@ -13,8 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionEvent;
 
-public class VistaOperador extends JFrame implements IVistaOperador {
+public class VistaOperador extends JFrame implements IVistaOperador, ActionListener {
 	
 	private JPanel mainPanel;
 	private int numeroPuesto;
@@ -38,11 +39,12 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		mainPanel.add(panelBotones);
 		panelBotones.setLayout(new GridLayout(0, 2, 0, 0));
 
-		btnEliminar = new JButton("Eliminar cliente atendido");
+		btnEliminar = new JButton("Cliente ausente");
 		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelBotones.add(btnEliminar);
 
-		btnLlamar = new JButton("Llamar siguiente cliente");
+		btnLlamar = new JButton("Siguiente atenci\u00F3n");
+		this.btnLlamar.addActionListener(this);
 		btnLlamar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelBotones.add(btnLlamar);
 
@@ -127,4 +129,6 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		this.setTitle("Puesto de trabajo numero " + String.valueOf(this.numeroPuesto));
 	}
 
+	public void actionPerformed(ActionEvent e) {
+	}
 }
