@@ -1,15 +1,14 @@
 package back;
 
-public class Totem implements IConexion{
+public class TvLlamado implements IConexion{
 	private String IPCliente;
 	private int PuertoServidor;
-	private String ID;
-	private static int siguienteID=0;
+	private String ID ;
 	
-	public Totem(String IPCliente, int puertoServidor) {
+	public TvLlamado(String IPCliente, int puertoServidor) {
 		this.IPCliente=IPCliente;
 		this.PuertoServidor=puertoServidor;
-		this.ID="T"+siguienteID++;
+		this.ID="L";
 	}
 
 	@Override
