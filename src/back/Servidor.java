@@ -37,10 +37,18 @@ public class Servidor extends Thread implements ILlamado, IRegistro{
                     	System.out.println("El número de puerto de entrada es: "+ parametros.getContraseña()+"\n");
                         break;
                     case 3:
-                        System.out.println("Ingrese la nueva contraseña:");
+                        System.out.println("Ingrese la nueva contraseña:(no puede ser vacia)");
+                        do {
+            				contraseña = scanner.nextLine();
+            				if(!contraseña.isEmpty() && contraseña!=null && !contraseña.isBlank())
+            					valida=true;
+            				else
+            					System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
+            			}while(valida);
+                        parametros.setContraseña(contraseña);
                         break;
                     case 4:
-                        System.out.println("Saliendo del programa...");
+                        parametros.setFinalizar(true); //cuando se quiera terminar con el programa, hay que matar todos los threads de conexion
                         return;
                     default:
                         System.out.println("Opción no válida. Intente nuevamente.");

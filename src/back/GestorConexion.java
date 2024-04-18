@@ -31,19 +31,18 @@ public class GestorConexion extends Thread {
 							this.puertoEntrada.aceptarConexion();
 							String mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
-								String[] elementos = mensaje.split(";"); // Contraseña	
+								String[] elementos = mensaje.split(";");	
 								 if(elementos[0].equals(parametros.getContraseña()) && (elementos[1].equals("Totem")||elementos[1].equals("Box")||elementos[1].equals("TvLlamado"))){
-									 //busca puerto libre
 									 switch (elementos[1]) {
 							            case "Totem":
 							            	//se busca puerto libre (crear conexion y pasarlo por parametro)
-							                //implementar crear thread(lanzar thread (con ref a conexion e IPcliente) e ingresarlo en conexiones)
+							                //implementar crear thread(lanzar thread (con ref a conexion, IPcliente y parametros, ademas del resto) e ingresarlo en conexiones)
 							                break;
 							            case "Box":
-							                //implementar crear thread (verificar nro box no repetido, si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente) e ingresarlo en conexiones)
+							                //implementar crear thread (verificar nro box no repetido, si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente y parametros, ademas del resto) e ingresarlo en conexiones)
 							                break;
 							            case "TvLlamado":
-							                //implementar crear thread (verificar que sea unico,si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente), e ingresarlo en conexiones) e ingresarlo en conexiones
+							                //implementar crear thread (verificar que sea unico,si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente y parametros, ademas del resto), e ingresarlo en conexiones) e ingresarlo en conexiones
 							                break;
 							            default:
 							                System.out.println("Opción no válida");
@@ -67,7 +66,7 @@ public class GestorConexion extends Thread {
 							//si no se puede cerrar se supone que no hay nada abierto
 						}
 					}
-					//IMPLEMENTAR LA LOGICA PARA CERRAR LOS THREADS
+					//IMPLEMENTAR LA LOGICA PARA CERRAR LOS THREADS (deberia despertarlos, y que cada thread administre lo que hace)!!!
 				} catch (ExcepcionNoHayPuertos e) {
 					e.printStackTrace(); //ERROR DE NO HAY PUERTOS ES IRRECUPERABLE
 				}
