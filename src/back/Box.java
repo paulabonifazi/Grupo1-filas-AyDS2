@@ -29,7 +29,7 @@ public class Box implements IConexion{
 		return ID;
 	}
 	
-	public Thread getHilo() {
-		return hilo;
+	public boolean isConectado() {
+		return this.hilo.isAlive();
 	}
 }

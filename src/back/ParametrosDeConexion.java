@@ -1,12 +1,10 @@
 package back;
 
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class ParametrosDeConexion {
 	private int PuertoLibre; //este atributo lo completa el gestor de conexiones (no el main)
-	private String contraseña;
-	private boolean finalizar=false;
+	private String IP; //este atributo se define en el gestor de conexiones (no en el main)
+	private String contraseña; //lo cambia y consulta el main e impacta en el gestor de conexiones
+	private boolean finalizar=false; //lo cambia el main e impacta en todos los threads de conexiones, cerrando recursos y finalizandolos
 
 	public ParametrosDeConexion(String contraseña) {
 		this.contraseña=contraseña;
@@ -35,6 +33,9 @@ public class ParametrosDeConexion {
 	public void setFinalizar(boolean finalizar) {
 		this.finalizar = finalizar;
 	}
-	
+
+	public String getIP() {
+		return IP;
+	}
 	
 }
