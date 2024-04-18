@@ -117,10 +117,13 @@ public class GestorConexion extends Thread {
 						}
 					}
 				} catch(ExcepcionDeInterrupcion a) {
-			 		cierraConexiones();
+					if(parametros.isFinalizar())
+			 			cierraConexiones();
+					else
+						System.out.println("Error critico: se interrumpió el gestor de conexiones");
 			 	}
 			 	catch (ExcepcionNoHayPuertos e) {
-					e.printStackTrace(); //ERROR DE NO HAY PUERTOS ES IRRECUPERABLE
+					System.out.println("Error critico: no hay puertos disponibles");
 				}
 			 	
 		    }

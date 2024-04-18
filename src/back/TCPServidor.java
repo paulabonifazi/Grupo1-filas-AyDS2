@@ -143,4 +143,8 @@ public class TCPServidor {
 			throw new ExcecionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}
 	}
+	
+	public boolean validarIPCliente(String IPEntrante) {
+		return this.getIPCliente().equals(IPEntrante);
+	}
 }

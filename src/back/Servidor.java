@@ -6,7 +6,7 @@ import java.util.Scanner;
 import interfaces.ILlamado;
 import interfaces.IRegistro;
 
-public class Servidor extends Thread implements ILlamado, IRegistro{
+public class Servidor{
 
 	public static void main(String[] args) {
 		MonitorDeCola cola = new MonitorDeCola();
