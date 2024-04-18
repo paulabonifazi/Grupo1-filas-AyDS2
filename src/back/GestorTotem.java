@@ -31,8 +31,9 @@ public class GestorTotem  extends Thread implements IRegistro{
 		 			if (elementos[0].equals("Registro")) {
 		 				if(this.registrar(elementos[1])) 
 		 					respuesta="Exito";
-		 				else
-		 					respuesta="ErrorAlInsertar";
+		 				else {
+		 					throw new ExcepcionDeInterrupcion(); //no se pudo cargar el elemento en la cola porque se interrumpio al thread, hay que cortar la conexion
+		 				}
 		 			}
 		 			else
 		 				respuesta="InstruccionInexistente";
@@ -55,8 +56,14 @@ public class GestorTotem  extends Thread implements IRegistro{
 	
 	
 	@Override
-	public boolean registrar(String DNI) {
-		return false;//metodo de cola
+	public Boolean registrar(String DNI){
+		Turno turno=new Turno(DNI);
+		try {
+			cola.put(turno);
+			return true;
+		} catch (InterruptedException e) {
+			return false;
+		}
 	}
 
 }

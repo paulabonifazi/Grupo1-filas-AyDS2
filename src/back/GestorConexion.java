@@ -59,7 +59,7 @@ public class GestorConexion extends Thread {
 									 switch (elementos[1]) { 
 							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-						            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, ID);
 						            		
 						            		nuevaConexion=new Totem(puertonuevaconexion, nuevaEjecucion);
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);

@@ -1,16 +1,24 @@
 package back;
 
-import interfaces.IRegistro;
+import java.time.LocalTime;
 
-/*TURNO!!*/
 
-/*guarda fecha y hora (mepa que timestamp)*/
-
-/*espera conexión, recibe dnis y los almacena en la blockingqueue*/
-
-/*debe de implementar la vista de registro!! IVistaRegistro*/
 public class Turno {
+	LocalTime hrRegistro;
+	String dni;
 	
-	
+	public Turno(String dni) {
+		this.dni = dni;
+		hrRegistro=	LocalTime.now();
+	}
 
+	public LocalTime getHrRegistro() {
+		return hrRegistro;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+	
+	
 }
