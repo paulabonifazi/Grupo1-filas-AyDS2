@@ -1,26 +1,24 @@
 package back;
 
 public class TvLlamado implements IConexion{
-	private String IPCliente;
-	private int PuertoServidor;
+	private TCPServidor conexion;
 	private String ID ;
 	private Thread hilo;
 	
-	public TvLlamado(String IPCliente, int puertoServidor, Thread hilo) {
-		this.IPCliente=IPCliente;
-		this.PuertoServidor=puertoServidor;
+	public TvLlamado(TCPServidor conexion, Thread hilo) {
+		this.conexion=conexion;
 		this.ID="L";
 		this.hilo=hilo;
 	}
 
 	@Override
 	public int getPuerto() {
-		return PuertoServidor;
+		return conexion.getPuerto();
 	}
 
 	@Override
 	public String getIP() {
-		return IPCliente;
+		return conexion.getIPCliente();
 	}
 	
 	@Override
@@ -33,8 +31,8 @@ public class TvLlamado implements IConexion{
 	}
 
 	@Override
-	public void cerrarConexion() {
-		this.hilo.interrupt();
+	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+		this.conexion.cerrarPuertoServidor();
 	}
 	
 }

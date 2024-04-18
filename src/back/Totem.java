@@ -1,27 +1,25 @@
 package back;
 
 public class Totem implements IConexion{
-	private String IPCliente;
-	private int PuertoServidor;
+	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
 	private static int siguienteID=0;
 	
-	public Totem(String IPCliente, int puertoServidor,Thread hilo) {
-		this.IPCliente=IPCliente;
-		this.PuertoServidor=puertoServidor;
+	public Totem(TCPServidor conexion,Thread hilo) {
+		this.conexion=conexion;
 		this.ID="T"+siguienteID++;
 		this.hilo=hilo;
 	}
 
 	@Override
 	public int getPuerto() {
-		return PuertoServidor;
+		return conexion.getPuerto();
 	}
 
 	@Override
 	public String getIP() {
-		return IPCliente;
+		return conexion.getIPCliente();
 	}
 	
 	@Override
@@ -34,8 +32,8 @@ public class Totem implements IConexion{
 	}
 	
 	@Override
-	public void cerrarConexion() {
-		this.hilo.interrupt();
+	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+		this.conexion.cerrarPuertoServidor();
 	}
 	
 	

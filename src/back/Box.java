@@ -1,26 +1,24 @@
 package back;
 
 public class Box implements IConexion{
-	private String IPCliente;
-	private int PuertoServidor;
+	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
 	
-	public Box(String IPCliente, int puertoServidor, Thread hilo,String ID) {
-		this.IPCliente=IPCliente;
-		this.PuertoServidor=puertoServidor;
+	public Box(TCPServidor conexion, Thread hilo,String ID) {
+		this.conexion=conexion;
 		this.ID=ID;
 		this.hilo= hilo;
 	}
 
 	@Override
 	public int getPuerto() {
-		return PuertoServidor;
+		return conexion.getPuerto();
 	}
 
 	@Override
 	public String getIP() {
-		return IPCliente;
+		return conexion.getIPCliente();
 	}
 	
 	@Override
@@ -33,8 +31,8 @@ public class Box implements IConexion{
 	}
 	
 	@Override
-	public void cerrarConexion() {
-		this.hilo.interrupt();
+	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+		this.conexion.cerrarPuertoServidor();
 	}
 	
 }

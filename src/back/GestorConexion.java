@@ -11,17 +11,18 @@ public class GestorConexion extends Thread {
 		private MonitorDeCola cola;
 		private MonitorNotificacion bufferSalida;
 		private Atenciones historico;
-		private TCPServidor puertoEntrada;
+		private TCPServidor puertoEntrada ;
 		private ParametrosDeConexion parametros;
 		private HashMap<String, IConexion> conexiones;
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion bufferSalida, Atenciones historico,ParametrosDeConexion parametros,String contraseña) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion bufferSalida, Atenciones historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
 			super();
 			this.cola = cola;
 			this.bufferSalida = bufferSalida;
 			this.historico = historico;
 			this.parametros=parametros;
 			this.conexiones=new HashMap<String, IConexion>();
+			this.puertoEntrada=puertoEntrada;
 		}
 		
 		 @Override
@@ -35,7 +36,7 @@ public class GestorConexion extends Thread {
 			 		String ID;
 			 		String[] elementos;
 			 		
-					this.puertoEntrada=new TCPServidor();
+					
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
 					this.parametros.setIP(puertoEntrada.getIPServidor());
 					while(true) {
@@ -45,7 +46,11 @@ public class GestorConexion extends Thread {
 							nuevaEjecucion=null;
 							nuevaConexion=null;
 							ID=null;
-							this.puertoEntrada.aceptarConexion();
+							try {
+								this.puertoEntrada.aceptarConexion(0);
+							} catch (ExcepcionFinTimeoutAceptar e) {
+								//no deberia ocurrir, porque no hay timeout
+							}
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
@@ -56,7 +61,7 @@ public class GestorConexion extends Thread {
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 						            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
 						            		
-						            		nuevaConexion=new Totem(puertoEntrada.getIPCliente(),puertonuevaconexion.getPuerto(), nuevaEjecucion);
+						            		nuevaConexion=new Totem(puertonuevaconexion, nuevaEjecucion);
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 						            		
 						            		nuevaEjecucion.start();
@@ -69,7 +74,7 @@ public class GestorConexion extends Thread {
 							            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 							            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
 							            		
-							            		this.conexiones.put(ID, new Box(puertoEntrada.getIPCliente(),puertonuevaconexion.getPuerto(), nuevaEjecucion, ID));
+							            		this.conexiones.put(ID, new Box(puertonuevaconexion, nuevaEjecucion, ID));
 							            		
 							            		nuevaEjecucion.start();
 							            		Respuesta="Exito";
@@ -82,7 +87,7 @@ public class GestorConexion extends Thread {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 							                	nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
 							                	
-							                	this.conexiones.put("L", new TvLlamado(puertoEntrada.getIPCliente(), puertonuevaconexion.getPuerto(),nuevaEjecucion));
+							                	this.conexiones.put("L", new TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
 							                	nuevaEjecucion.start();
 							                	Respuesta="Exito";
@@ -111,7 +116,7 @@ public class GestorConexion extends Thread {
 							//si no se puede cerrar se supone que no hay nada abierto y no hay nada mas que hacer que volver a esperar una conexion
 						}
 					}
-				} catch(InterruptedException a) {
+				} catch(ExcepcionDeInterrupcion a) {
 			 		cierraConexiones();
 			 	}
 			 	catch (ExcepcionNoHayPuertos e) {
@@ -150,7 +155,12 @@ public class GestorConexion extends Thread {
 		        while (iterator.hasNext()) {
 		            IConexion conexion = iterator.next();
 		            if (!conexion.isConectado()) {
-		            	conexion.cerrarConexion();
+		            	try {
+							conexion.cerrarConexion();
+						} catch (ExcecionErrorAlCerrar e) {
+		            		System.out.println("Error critico: no fue posible cerrar las conexiones");
+							e.printStackTrace();
+						}
 		            }
 		        }
 		 }
