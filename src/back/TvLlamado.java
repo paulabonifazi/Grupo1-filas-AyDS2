@@ -4,11 +4,13 @@ public class TvLlamado implements IConexion{
 	private String IPCliente;
 	private int PuertoServidor;
 	private String ID ;
+	private Thread hilo;
 	
-	public TvLlamado(String IPCliente, int puertoServidor) {
+	public TvLlamado(String IPCliente, int puertoServidor, Thread hilo) {
 		this.IPCliente=IPCliente;
 		this.PuertoServidor=puertoServidor;
 		this.ID="L";
+		this.hilo=hilo;
 	}
 
 	@Override
@@ -25,4 +27,9 @@ public class TvLlamado implements IConexion{
 	public String getID() {
 		return ID;
 	}
+
+	public Thread getHilo() {
+		return hilo;
+	}
+	
 }

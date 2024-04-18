@@ -76,7 +76,7 @@ public class TCPServidor {
 	        try {
 	            clienteSocket.setSoTimeout(0);
 	        } catch (SocketException e) {
-	            // Manejar el error si es necesario
+	            // Manejar el error no es necesario
 	        }
 		}
 		return mensaje;

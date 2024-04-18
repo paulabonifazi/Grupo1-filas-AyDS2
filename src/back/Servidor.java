@@ -11,28 +11,35 @@ public class Servidor extends Thread implements ILlamado, IRegistro{
 		MonitorDeCola cola = new MonitorDeCola();
 		MonitorNotificacion bufferSalida=new MonitorNotificacion();
 		Atenciones historico= new Atenciones();
-		System.out.println("Ingresar contraseña de conexion");
+		
 		try(Scanner scanner = new Scanner(System.in)){
-			String contraseña = scanner.nextLine();
-			Conexiones conexiones= new Conexiones(contraseña); //ingresar contraseña al empezar el servidor 
-			GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,conexiones);
+			System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");
+			boolean valida=false;
+			String contraseña=null;
+			do {
+				contraseña = scanner.nextLine();
+				if(!contraseña.isEmpty() && contraseña!=null && !contraseña.isBlank())
+					valida=true;
+				else
+					System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
+			}while(valida);
+			ParametrosDeConexion parametros= new ParametrosDeConexion(contraseña); //ingresar contraseña al empezar el servidor 
+			GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,contraseña);
 			gestorConexion.start();
 			while (true) {
-				System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada)\n 2)Mostrar contraseña de conexión \n 3)Cambiar contraseña de conexión");
+				System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada)\n 2)Mostrar contraseña de conexión \n 3)Cambiar contraseña de conexión\n");
 				int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1:
-                        // Implementa la lógica para mostrar el puerto de entrada
+                        System.out.println("El número de puerto de entrada es: "+ conexiones.getPuertoLibre()+"\n");
                         break;
                     case 2:
-                        // Implementa la lógica para mostrar la contraseña de conexión
+                    	System.out.println("El número de puerto de entrada es: "+ conexiones.getContraseña()+"\n");
                         break;
                     case 3:
-                        // Implementa la lógica para cambiar la contraseña de conexión
+                        System.out.println("Ingrese la nueva contraseña:");
                         break;
                     case 4:
-                        // Detener el servidor y salir del programa
-                        // (Implementa la lógica para detener el servidor si es necesario)
                         System.out.println("Saliendo del programa...");
                         return;
                     default:

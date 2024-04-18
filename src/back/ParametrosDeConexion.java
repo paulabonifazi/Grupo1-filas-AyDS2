@@ -3,13 +3,12 @@ package back;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Conexiones {
-	private ConcurrentHashMap<String, IConexion> arregloConexiones;
-	private int PuertoLibre;
+public class ParametrosDeConexion {
+	private int PuertoLibre; //este atributo lo completa el gestor de conexiones (no el main)
 	private String contraseña;
+	private boolean finalizar=false;
 
-	public Conexiones(String contraseña) {
-		this.arregloConexiones= new ConcurrentHashMap<String, IConexion>();
+	public ParametrosDeConexion(String contraseña) {
 		this.contraseña=contraseña;
 	}
 	
@@ -47,5 +46,14 @@ public class Conexiones {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
+
+	public boolean isFinalizar() {
+		return finalizar;
+	}
+
+	public void setFinalizar(boolean finalizar) {
+		this.finalizar = finalizar;
+	}
+	
 	
 }
