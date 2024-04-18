@@ -33,6 +33,7 @@ public class Box implements IConexion{
 	@Override
 	public void cerrarConexion() throws ExcecionErrorAlCerrar {
 		this.conexion.cerrarPuertoServidor();
+		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	
 }

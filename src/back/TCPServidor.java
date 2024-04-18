@@ -138,7 +138,8 @@ public class TCPServidor {
 	
 	public void cerrarPuertoServidor() throws ExcecionErrorAlCerrar {
 		try {
-			this.socket.close();
+			if(socket!=null)
+				this.socket.close();
 		} catch (IOException e) {
 			throw new ExcecionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}

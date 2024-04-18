@@ -47,7 +47,8 @@ public class GestorTotem  extends Thread implements IRegistro{
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar | ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
 			try {
-				conexion.cerrarPuertoServidor();
+				conexion.cerrarConexion();
+				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
 			} catch (ExcecionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
 			}
