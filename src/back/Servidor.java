@@ -31,10 +31,10 @@ public class Servidor extends Thread implements ILlamado, IRegistro{
 				int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1:
-                        System.out.println("El número de puerto de entrada es: "+ conexiones.getPuertoLibre()+"\n");
+                        System.out.println("El número de puerto de entrada es: "+ parametros.getPuertoLibre()+"\n");
                         break;
                     case 2:
-                    	System.out.println("El número de puerto de entrada es: "+ conexiones.getContraseña()+"\n");
+                    	System.out.println("El número de puerto de entrada es: "+ parametros.getContraseña()+"\n");
                         break;
                     case 3:
                         System.out.println("Ingrese la nueva contraseña:");
