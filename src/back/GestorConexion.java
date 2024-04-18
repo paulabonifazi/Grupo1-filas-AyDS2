@@ -95,6 +95,16 @@ public class GestorConexion extends Thread {
 							                else
 							                	Respuesta="YaExistente";
 							            	break;
+							            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
+							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
+							                	nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+							                	
+							                	nuevaConexion=new Estadistico(puertonuevaconexion,nuevaEjecucion);
+							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+							                	
+							                	nuevaEjecucion.start();
+							                	Respuesta="Exito";
+							            	break;	
 							            default:
 							                Respuesta= "TipoDeConexionInexistente";
 							                break;
