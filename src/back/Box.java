@@ -5,12 +5,11 @@ public class Box implements IConexion{
 	private int PuertoServidor;
 	private String ID;
 	private Thread hilo;
-	private static int siguienteID=0;
 	
-	public Box(String IPCliente, int puertoServidor, Thread hilo) {
+	public Box(String IPCliente, int puertoServidor, Thread hilo,String ID) {
 		this.IPCliente=IPCliente;
 		this.PuertoServidor=puertoServidor;
-		this.ID="B"+siguienteID++;
+		this.ID=ID;
 		this.hilo= hilo;
 	}
 
@@ -32,4 +31,10 @@ public class Box implements IConexion{
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
+	
+	@Override
+	public void cerrarConexion() {
+		this.hilo.interrupt();
+	}
+	
 }

@@ -5,4 +5,5 @@ public interface IConexion {
 	public String getIP();
 	public String getID();
 	public boolean isConectado();
+	public void cerrarConexion();
 }

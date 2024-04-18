@@ -33,4 +33,10 @@ public class Totem implements IConexion{
 		return this.hilo.isAlive();
 	}
 	
+	@Override
+	public void cerrarConexion() {
+		this.hilo.interrupt();
+	}
+	
+	
 }

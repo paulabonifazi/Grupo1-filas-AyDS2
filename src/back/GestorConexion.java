@@ -1,6 +1,9 @@
 package back;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.Icon;
 
@@ -24,52 +27,129 @@ public class GestorConexion extends Thread {
 		 @Override
 		    public void run() {
 			 	try {
+			 		TCPServidor puertonuevaconexion;
+			 		String Respuesta;
+			 		String mensaje;
+			 		Thread nuevaEjecucion;
+			 		IConexion nuevaConexion;
+			 		String ID;
+			 		
 					this.puertoEntrada=new TCPServidor();
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
+					this.parametros.setIP(puertoEntrada.getIPServidor());
 					while(!parametros.isFinalizar()) {
 						try {
+							puertonuevaconexion=null;
+							Respuesta=null;
+							nuevaEjecucion=null;
+							nuevaConexion=null;
+							ID=null;
 							this.puertoEntrada.aceptarConexion();
-							String mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
+							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
+								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
 								String[] elementos = mensaje.split(";");	
-								 if(elementos[0].equals(parametros.getContraseña()) && (elementos[1].equals("Totem")||elementos[1].equals("Box")||elementos[1].equals("TvLlamado"))){
-									 switch (elementos[1]) {
-							            case "Totem":
-							            	//se busca puerto libre (crear conexion y pasarlo por parametro)
-							                //implementar crear thread(lanzar thread (con ref a conexion, IPcliente y parametros, ademas del resto) e ingresarlo en conexiones)
+								 if(elementos[0].equals(parametros.getContraseña())){
+									 switch (elementos[1]) { 
+							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
+							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
+						            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+						            		
+						            		nuevaConexion=new Totem(puertoEntrada.getIPCliente(),puertonuevaconexion.getPuerto(), nuevaEjecucion);
+						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+						            		
+						            		nuevaEjecucion.start();
+						            		Respuesta="Exito";
+						            		
 							                break;
-							            case "Box":
-							                //implementar crear thread (verificar nro box no repetido, si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente y parametros, ademas del resto) e ingresarlo en conexiones)
+							            case "Box": //Mensaje de box: "<contraseña>;Box;<NroDeBox>"
+							            	ID="B"+elementos[2];
+							            	if(isInt(elementos[2])&&!conexiones.containsKey(ID)) {
+							            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
+							            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+							            		
+							            		this.conexiones.put(ID, new Box(puertoEntrada.getIPCliente(),puertonuevaconexion.getPuerto(), nuevaEjecucion, ID));
+							            		
+							            		nuevaEjecucion.start();
+							            		Respuesta="Exito";
+							            	}
+							            	else
+							            		Respuesta="NroBoxRepetido";
 							                break;
-							            case "TvLlamado":
-							                //implementar crear thread (verificar que sea unico,si cumple se busca puesto libre,mensaje de exito,lanzar thread (con ref a conexion e IPcliente y parametros, ademas del resto), e ingresarlo en conexiones) e ingresarlo en conexiones
-							                break;
+							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
+							                if(!conexiones.containsKey("L")) {
+							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
+							                	nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+							                	
+							                	this.conexiones.put("L", new TvLlamado(puertoEntrada.getIPCliente(), puertonuevaconexion.getPuerto(),nuevaEjecucion));
+							                	
+							                	nuevaEjecucion.start();
+							                	Respuesta="Exito";
+							                }
+							                else
+							                	Respuesta="YaExistente";
+							            	break;
 							            default:
-							                System.out.println("Opción no válida");
+							                Respuesta= "TipoDeConexionInexistente";
 							                break;
 									 }
-									//implementar ejecutar el thread,
-									//Respuesta a cliente= "exito... nro de puerto" (debe estar más arriba cuando se sigue evaluando)
 				                }
 								 else {
-									 //Respuesta a cliente="error"
+									 Respuesta="ContraseñaErronea";
 								 }
-								 //enviar respuesta a cliente
-							}
-							else {
-								//Respuesta a cliente= error
+									try {
+										puertoEntrada.enviarMensajeACliente(Respuesta, false); //no hace falta verificar, si el cliente no recibe el mensaje, se desconecto y no sabra en que puerto conectarse (el thread que se creo se cerrara en 7 seg al ver que nadie se conecta)
+									} catch (ExcepcionLecturaErronea e) {
+										//no puede ocurrir xq esta el parametro en false
+									}
 							}
 							puertoEntrada.cerrarConexion();
 						} catch (ExcepcionErrorAlAceptar | ExcepcionFinConexion | ExcepcionFinTimeoutLectura e) {
 							//como se corta por un error del cliente la ejecución no se sigue con el codigo y se vuelve a empezar el ciclo
 						} catch (ExcecionErrorAlCerrar e) {
-							//si no se puede cerrar se supone que no hay nada abierto
+							//si no se puede cerrar se supone que no hay nada abierto y no hay nada mas que hacer que volver a esperar una conexion
 						}
 					}
-					//IMPLEMENTAR LA LOGICA PARA CERRAR LOS THREADS (deberia despertarlos, y que cada thread administre lo que hace)!!!
+					cierraConexiones();
+					//cierra las conexiones de los threads y termina el codigo de su run... por lo tanto muere
 				} catch (ExcepcionNoHayPuertos e) {
 					e.printStackTrace(); //ERROR DE NO HAY PUERTOS ES IRRECUPERABLE
 				}
 		    }
+		 
+		 
+		 private void actualizaConexiones() {
+			 	Set<String> keysToRemove = new HashSet<String>();
+			 	Iterator<IConexion> iterator = conexiones.values().iterator();
+		        while (iterator.hasNext()) {
+		            IConexion conexion = iterator.next();
+		            if (!conexion.isConectado()) {
+		            	keysToRemove.add(conexion.getID());
+		            }
+		        }
+		        for (String key : keysToRemove) {
+		            conexiones.remove(key);
+		        }
+		     
+		 }
+		 
+		 private boolean isInt(String cadena) {
+			 try {
+     	        Integer.parseInt(cadena);
+     	        return true;
+     	    } catch (NumberFormatException e) {
+     	        return false;
+     	    }
+		 }
 
+		 private void cierraConexiones() {
+			 Iterator<IConexion> iterator = conexiones.values().iterator();
+		        while (iterator.hasNext()) {
+		            IConexion conexion = iterator.next();
+		            if (!conexion.isConectado()) {
+		            	conexion.cerrarConexion();
+		            }
+		        }
+		 }
+		        
 }

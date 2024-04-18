@@ -31,5 +31,10 @@ public class TvLlamado implements IConexion{
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
+
+	@Override
+	public void cerrarConexion() {
+		this.hilo.interrupt();
+	}
 	
 }

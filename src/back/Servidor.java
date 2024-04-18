@@ -26,8 +26,8 @@ public class Servidor extends Thread implements ILlamado, IRegistro{
 			}while(!valida);
 			ParametrosDeConexion parametros= new ParametrosDeConexion(contraseña); //ingresar contraseña al empezar el servidor 
 			GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,contraseña);
-			//gestorConexion.start();
-			while (true) {
+			gestorConexion.start();
+			while (!parametros.isFinalizar()) {
 				System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Cerrar servidor");
 				int opcion=0;
 				valida=false;

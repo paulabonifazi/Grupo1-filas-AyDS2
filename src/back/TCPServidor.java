@@ -25,7 +25,28 @@ public class TCPServidor {
 	}
 
 	public int getPuerto() {
-		return socket.getLocalPort();
+		int puerto=0;
+		if (socket!=null){
+			socket.getLocalPort();
+		}
+		return puerto;
+		
+	}
+	
+	public String getIPServidor() {
+		String IP=null;
+		if (socket!=null){
+			IP=socket.getInetAddress().getHostAddress();
+		}
+		return IP;
+	}
+	
+	public String getIPCliente() {
+		String IP=null;
+		if (clienteSocket!=null){
+			IP=clienteSocket.getInetAddress().getHostAddress();
+		}
+		return IP;
 	}
 	
 	public void aceptarConexion() throws ExcepcionErrorAlAceptar {
@@ -97,5 +118,6 @@ public class TCPServidor {
 			} 
 		}
 	}
+	
 	
 }

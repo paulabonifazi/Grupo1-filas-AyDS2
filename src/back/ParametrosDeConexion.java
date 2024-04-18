@@ -37,5 +37,9 @@ public class ParametrosDeConexion {
 	public String getIP() {
 		return IP;
 	}
+
+	public void setIP(String iP) {
+		IP = iP;
+	}
 	
 }
