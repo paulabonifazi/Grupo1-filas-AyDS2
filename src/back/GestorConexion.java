@@ -38,7 +38,7 @@ public class GestorConexion extends Thread {
 					this.puertoEntrada=new TCPServidor();
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
 					this.parametros.setIP(puertoEntrada.getIPServidor());
-					while(!parametros.isFinalizar()) {
+					while(true) {
 						try {
 							puertonuevaconexion=null;
 							Respuesta=null;
@@ -111,11 +111,13 @@ public class GestorConexion extends Thread {
 							//si no se puede cerrar se supone que no hay nada abierto y no hay nada mas que hacer que volver a esperar una conexion
 						}
 					}
-					cierraConexiones();
-					//cierra las conexiones de los threads y termina el codigo de su run... por lo tanto muere
-				} catch (ExcepcionNoHayPuertos e) {
+				} catch(InterruptedException a) {
+			 		cierraConexiones();
+			 	}
+			 	catch (ExcepcionNoHayPuertos e) {
 					e.printStackTrace(); //ERROR DE NO HAY PUERTOS ES IRRECUPERABLE
 				}
+			 	
 		    }
 		 
 		 

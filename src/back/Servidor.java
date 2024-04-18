@@ -68,6 +68,7 @@ public class Servidor extends Thread implements ILlamado, IRegistro{
                     case 5:
                         parametros.setFinalizar(true); //cuando se quiera terminar con el programa, hay que matar todos los threads de conexion
 						try {
+							this.
 							Thread.sleep(3000);
 							System.out.println("El servidor se ha cerrado correctamente, puede cerrar el programa\n");
 						} catch (InterruptedException e) {
