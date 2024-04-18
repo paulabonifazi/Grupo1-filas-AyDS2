@@ -33,6 +33,7 @@ public class GestorConexion extends Thread {
 			 		Thread nuevaEjecucion;
 			 		IConexion nuevaConexion;
 			 		String ID;
+			 		String[] elementos;
 			 		
 					this.puertoEntrada=new TCPServidor();
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
@@ -48,7 +49,7 @@ public class GestorConexion extends Thread {
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
-								String[] elementos = mensaje.split(";");	
+								elementos = mensaje.split(";");	
 								 if(elementos[0].equals(parametros.getContraseña())){
 									 switch (elementos[1]) { 
 							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
