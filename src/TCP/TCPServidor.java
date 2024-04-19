@@ -77,25 +77,23 @@ public class TCPServidor {
 		finally {
 	        // Restablecer el timeout a 0
 	        try {
-	        	try {
-					socket.setSoTimeout(0);
+	        	if(!socket.isClosed()) //se debe verificar, porque cuando se cierra el servidor, lo que se hace es Serversocket.close
+						socket.setSoTimeout(0);
 				} catch (SocketException e) {
 					e.printStackTrace();
 				}
-	        }
-	        finally {}
 		}
 	}
 	
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
-				if (clienteSocket != null) {
+				if (!clienteSocket.isClosed()) {
 		            clienteSocket.close();
 		        }
-		        if (out != null) {
+		        if (out!= null&& !out.checkError()) {
 		            out.close();
 		        }
-		        if (in != null) {
+		        if (in != null&& !in.ready()) {
 		            in.close();
 		        }
 		} catch (IOException e) {
@@ -123,6 +121,7 @@ public class TCPServidor {
 		finally {
 	        // Restablecer el timeout a 0
 	            try {
+	            	if(!clienteSocket.isClosed())
 					clienteSocket.setSoTimeout(0);
 				} catch (SocketException e) {
 					e.printStackTrace();
@@ -147,7 +146,7 @@ public class TCPServidor {
 	
 	public void cerrarPuertoServidor() throws ExcepcionErrorAlCerrar {
 		try {
-			if(socket!=null)
+			if(!socket.isClosed())
 				this.socket.close();
 		} catch (IOException e) {
 			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket

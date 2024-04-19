@@ -106,7 +106,7 @@ public class GestorBox extends Thread implements IAtencion{
         buscaSolicitud=new GestorSolicitud(turno,cola); //va y espera en la cola por una asignacion de turno, mientras que el gestor de box espera por un mensaje del operario (revisando cuando está el turno solicitado)
         solicitud=new Solicitud(IDBox); //se crea la solicitud para registrar la hora de solicitud del turno
         buscaSolicitud.start(); //se ejecuta el thread que busca el turno
-        Thread.sleep(500); //espera 0,5 segundos por el resultado del turno
+		Thread.sleep(500);//espera 0,5 segundos por el resultado del turno
         if(turno.getDni()==null) { // si todavia no lo consiguio, avisa al cliente que puede activar el boton cancelar
         	enviarMensaje(conexion, "ActCancelar");
         	//una vez que activa el boton cancelar vuelve a la espera de un mensaje pero por un determinado tiempo

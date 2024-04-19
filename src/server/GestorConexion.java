@@ -127,8 +127,10 @@ public class GestorConexion extends Thread {
 						}
 					}
 				} catch(ExcepcionDeInterrupcion a) {
-					if(parametros.isFinalizar())
+					if(parametros.isFinalizar()) {
 			 			cierraConexiones();
+						System.out.println("Se cerró el gestor de conexiones");
+					}
 					else
 						System.out.println("Error critico: se interrumpió el gestor de conexiones");
 			 	}
