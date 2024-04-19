@@ -26,7 +26,7 @@ public class GestorNotificacion extends Thread{
 		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
 		 			respuesta=llamado.getDNI()+";"+llamado.getBox(); //arma el mensaje. "<dni>,<IDbox>"(el id de box es "B<nrobox>"
 		 			try {
-		 				serverNotificacion.enviarMensajeACliente(respuesta, false);
+		 				serverNotificacion.enviarMensajeACliente(respuesta, false); //!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
 					} catch (ExcepcionLecturaErronea e) {
 						//nunca ocurre porque no se habilita la comprobacion
 					}
