@@ -65,7 +65,7 @@ public class GestorConexion extends Thread {
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 						            		
 						            		nuevaEjecucion.start();
-						            		Respuesta="Exito";
+						            		Respuesta="Exito,"+puertonuevaconexion.getPuerto();
 						            		
 							                break;
 							            case "Box": //Mensaje de box: "<contraseña>;Box;<NroDeBox>"
@@ -77,7 +77,7 @@ public class GestorConexion extends Thread {
 							            		this.conexiones.put(ID, new Box(puertonuevaconexion, nuevaEjecucion, ID));
 							            		
 							            		nuevaEjecucion.start();
-							            		Respuesta="Exito";
+							            		Respuesta="Exito,"+puertonuevaconexion.getPuerto();
 							            	}
 							            	else
 							            		Respuesta="NroBoxRepetido";
@@ -90,7 +90,7 @@ public class GestorConexion extends Thread {
 							                	this.conexiones.put("L", new TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
 							                	nuevaEjecucion.start();
-							                	Respuesta="Exito";
+							                	Respuesta="Exito,"+puertonuevaconexion.getPuerto();
 							                }
 							                else
 							                	Respuesta="YaExistente";
@@ -103,7 +103,7 @@ public class GestorConexion extends Thread {
 							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 							                	
 							                	nuevaEjecucion.start();
-							                	Respuesta="Exito";
+							                	Respuesta="Exito,"+puertonuevaconexion.getPuerto();
 							            	break;	
 							            default:
 							                Respuesta= "TipoDeConexionInexistente";
