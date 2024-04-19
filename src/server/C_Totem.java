@@ -1,6 +1,7 @@
 package server;
 import Excepciones.*;
 import TCP.TCPServidor;
+
 public class C_Totem implements IConexion{
 	private TCPServidor conexion;
 	private String ID;

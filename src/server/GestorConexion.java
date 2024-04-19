@@ -85,7 +85,8 @@ public class GestorConexion extends Thread {
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente());						                	
+							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente());	
+							                	
 							                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
 							                	nuevaEjecucion.start();

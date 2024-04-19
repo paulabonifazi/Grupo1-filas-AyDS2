@@ -22,7 +22,7 @@ public class Turno {
 		return dni;
 	}
 	
-	public void setTurno(String dni,LocalTime hrRegistro) {
+	public void setTurno(String dni,LocalTime hrRegistro) { //le permite al subthread de solicitud de turno asignarle un turno al thread de gestorBox
 		this.dni = dni;
 		this.hrRegistro= hrRegistro;
 	}

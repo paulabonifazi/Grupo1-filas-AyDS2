@@ -21,7 +21,7 @@ public class MonitorDeCola {
     
  // Método para retirar un elemento de la cola
     public Turno take() throws InterruptedException {
-    	semaforodeSolicitud.acquire();
+    	semaforodeSolicitud.acquire(); //garantiza que la toma de turnos es de a 1 box y que es por orden de llegada
         Turno turno= coladeTurnos.take();
         semaforodeSolicitud.release();
         return turno;

@@ -17,12 +17,12 @@ public class Historico {
     }
 	
     public String estado() {
-    	String rta=atenciones.size()+"/";
+    	String rta=atenciones.size()+"/"; //cantidad de atenciones
 		
 		 Iterator<Atencion> iterator=atenciones.values().iterator();
 	        while (iterator.hasNext()) {
 	            Atencion sig = iterator.next();
-	            rta+=sig.getTiempoDeEspera()+","+sig.getTiempoDeSolicitud()+","+sig.getTiempoDeAtencion();
+	            rta+=sig.getTiempoDeEspera()+","+sig.getTiempoDeSolicitud()+","+sig.getTiempoDeAtencion(); //para obtener los tiempos promedio
 	            if(iterator.hasNext()){
 	            	rta+=";";
 	            }
