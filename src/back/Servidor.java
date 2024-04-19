@@ -11,7 +11,7 @@ public class Servidor{
 	public static void main(String[] args) {
 		MonitorDeCola cola = new MonitorDeCola();
 		MonitorNotificacion bufferSalida=new MonitorNotificacion();
-		Atenciones historico= new Atenciones();
+		Historico historico= new Historico();
 		
 		try(Scanner scanner = new Scanner(System.in)){
 			System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");

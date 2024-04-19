@@ -1,5 +1,6 @@
 package back;
 
+import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
@@ -29,5 +30,18 @@ public class MonitorDeCola {
  // Método para obtener el tamaño de la cola
     public int size() {
         return coladeTurnos.size();
+    }
+    
+    public boolean contiene(String DNI) {
+    	Iterator<Turno> iterator = coladeTurnos.iterator();
+    	Boolean encuentra=false;
+        while (iterator.hasNext()&& !encuentra) {
+            Turno elem = iterator.next();
+            if (elem.getDni().equals(DNI)) {
+                encuentra=true;
+            }
+        }
+        
+        return encuentra;
     }
 }

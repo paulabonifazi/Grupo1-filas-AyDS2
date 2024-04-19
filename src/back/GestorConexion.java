@@ -10,12 +10,12 @@ import javax.swing.Icon;
 public class GestorConexion extends Thread {
 		private MonitorDeCola cola;
 		private MonitorNotificacion bufferSalida;
-		private Atenciones historico;
+		private Historico historico;
 		private TCPServidor puertoEntrada ;
 		private ParametrosDeConexion parametros;
 		private HashMap<String, IConexion> conexiones;
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion bufferSalida, Atenciones historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion bufferSalida, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
 			super();
 			this.cola = cola;
 			this.bufferSalida = bufferSalida;
@@ -59,7 +59,7 @@ public class GestorConexion extends Thread {
 									 switch (elementos[1]) { 
 							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, ID);
+						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, puertoEntrada.getIPCliente());
 						            		
 						            		nuevaConexion=new Totem(puertonuevaconexion, nuevaEjecucion);
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
@@ -97,7 +97,7 @@ public class GestorConexion extends Thread {
 							            	break;
 							            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+							                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, puertoEntrada.getIPCliente());
 							                	
 							                	nuevaConexion=new Estadistico(puertonuevaconexion,nuevaEjecucion);
 							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);

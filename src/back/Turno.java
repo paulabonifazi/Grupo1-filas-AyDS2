@@ -4,8 +4,8 @@ import java.time.LocalTime;
 
 
 public class Turno {
-	LocalTime hrRegistro;
-	String dni;
+	private LocalTime hrRegistro;
+	private String dni;
 	
 	public Turno(String dni) {
 		this.dni = dni;

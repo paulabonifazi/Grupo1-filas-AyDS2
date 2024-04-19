@@ -29,11 +29,9 @@ public class GestorTotem  extends Thread implements IRegistro{
 					}
 		 			//No se hace verificacion, la precondicion de registrar es que se recibe un DNI!!! (numerico y con su formato)
 		 			if (elementos[0].equals("Registro")) {
-		 				if(this.registrar(elementos[1])) 
-		 					respuesta="Exito";
-		 				else {
+		 				respuesta=this.registrar(elementos[1]);
+		 				if(respuesta.equals("Interrumpido"))
 		 					throw new ExcepcionDeInterrupcion(); //no se pudo cargar el elemento en la cola porque se interrumpio al thread, hay que cortar la conexion
-		 				}
 		 			}
 		 			else
 		 				respuesta="InstruccionInexistente";
@@ -57,13 +55,16 @@ public class GestorTotem  extends Thread implements IRegistro{
 	
 	
 	@Override
-	public Boolean registrar(String DNI){
-		Turno turno=new Turno(DNI);
+	public String registrar(String DNI){
 		try {
-			cola.put(turno);
-			return true;
+			if(!cola.contiene(DNI)) {
+				Turno turno=new Turno(DNI); //al crear el turno se registra la hora
+				cola.put(turno);
+				return "Exito";
+			}
+			return "DniRepetido";
 		} catch (InterruptedException e) {
-			return false;
+			return "Interrumpido";
 		}
 	}
 
