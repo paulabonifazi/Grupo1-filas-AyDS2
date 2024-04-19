@@ -1,8 +1,8 @@
 package interfaces;
 
+import Excepciones.ExcepcionDeInterrupcion;
+import Excepciones.ExcepcionFinConexion;
+
 public interface IAtencion {
-	public String solicitudTurno();
-	public String cancelarSolicitud();
-	public String finalizarAtencion();
-	public String ausencia();
+	public void solicitudTurno() throws ExcepcionFinConexion, ExcepcionDeInterrupcion, InterruptedException; //la idea es que en el box este metodo modifique la ventana segun los mensajes que recibe
 }

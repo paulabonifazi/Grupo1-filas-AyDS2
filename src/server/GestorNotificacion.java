@@ -25,11 +25,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	 			this.llamados.setActivado(true);
 	 			while(true) { //No recibe datos, solo envia.
 		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
-		 			try {
-		 				serverNotificacion.enviarMensajeACliente(mostrar(llamado.getDNI(), llamado.getBox()), false);//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
-					} catch (ExcepcionLecturaErronea e) {
-						//nunca ocurre porque no se habilita la comprobacion
-					}
+		 			mostrar(llamado.getDNI(),llamado.getBox());
 	 			}
 	 		}
 		} 
@@ -55,7 +51,11 @@ public class GestorNotificacion extends Thread implements INotificacion{
 
 
 	@Override
-	public String mostrar(String dni, String IDBox) {
-			return dni+";"+IDBox;
+	public void mostrar(String dni, String IDBox) throws ExcepcionFinConexion, ExcepcionDeInterrupcion {
+			try {
+ 				serverNotificacion.enviarMensajeACliente(dni+";"+IDBox, false);//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
+			} catch (ExcepcionLecturaErronea e) {
+				//nunca ocurre porque no se habilita la comprobacion
+			}
 	}
 }
