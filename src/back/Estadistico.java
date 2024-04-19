@@ -1,5 +1,7 @@
 package back;
 
+import Excepciones.ExcecionErrorAlCerrar;
+
 public class Estadistico implements IConexion{
 	private TCPServidor conexion;
 	private String ID;

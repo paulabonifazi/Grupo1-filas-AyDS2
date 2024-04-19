@@ -9,6 +9,15 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
+import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionDeInterrupcion;
+import Excepciones.ExcepcionErrorAlAceptar;
+import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionFinTimeoutAceptar;
+import Excepciones.ExcepcionFinTimeoutLectura;
+import Excepciones.ExcepcionLecturaErronea;
+import Excepciones.ExcepcionNoHayPuertos;
+
 public class TCPServidor {
 	private ServerSocket socket;
 	private Socket clienteSocket;

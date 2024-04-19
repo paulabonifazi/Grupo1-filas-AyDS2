@@ -1,4 +1,4 @@
-package back;
+package Excepciones;
 
 public class ExcepcionFinConexion extends Exception {
 

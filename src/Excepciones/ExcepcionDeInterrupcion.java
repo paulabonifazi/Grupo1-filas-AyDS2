@@ -1,4 +1,4 @@
-package back;
+package Excepciones;
 
 public class ExcepcionDeInterrupcion extends Exception{
 	private static final long serialVersionUID = 1L;

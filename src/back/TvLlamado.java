@@ -1,5 +1,7 @@
 package back;
 
+import Excepciones.ExcecionErrorAlCerrar;
+
 public class TvLlamado implements IConexion{
 	private TCPServidor conexion;
 	private String ID ;

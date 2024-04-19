@@ -1,5 +1,12 @@
 package back;
 
+import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionDeInterrupcion;
+import Excepciones.ExcepcionErrorAlAceptar;
+import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionFinTimeoutAceptar;
+import Excepciones.ExcepcionFinTimeoutLectura;
+import Excepciones.ExcepcionLecturaErronea;
 import interfaces.IRegistro;
 
 public class GestorTotem  extends Thread implements IRegistro{

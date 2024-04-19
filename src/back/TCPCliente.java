@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionErrorConexion;
+import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionLecturaErronea;
+
 public class TCPCliente {
 	private Socket socket;
 	private PrintWriter out;

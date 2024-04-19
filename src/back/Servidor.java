@@ -3,6 +3,8 @@ package back;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionNoHayPuertos;
 import interfaces.ILlamado;
 import interfaces.IRegistro;
 

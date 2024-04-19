@@ -7,6 +7,15 @@ import java.util.Set;
 
 import javax.swing.Icon;
 
+import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionDeInterrupcion;
+import Excepciones.ExcepcionErrorAlAceptar;
+import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionFinTimeoutAceptar;
+import Excepciones.ExcepcionFinTimeoutLectura;
+import Excepciones.ExcepcionLecturaErronea;
+import Excepciones.ExcepcionNoHayPuertos;
+
 public class GestorConexion extends Thread {
 		private MonitorDeCola cola;
 		private MonitorNotificacion bufferSalida;

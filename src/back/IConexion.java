@@ -1,5 +1,7 @@
 package back;
 
+import Excepciones.ExcecionErrorAlCerrar;
+
 public interface IConexion {
 	public int getPuerto();
 	public String getIP();
