@@ -1,4 +1,4 @@
-package controladores;
+package SistNotificacion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

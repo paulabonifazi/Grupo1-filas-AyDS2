@@ -1,6 +1,4 @@
-package Servidor;
-
-import Excepciones.ExcecionErrorAlCerrar;
+package server;
 
 public interface IConexion {
 	public int getPuerto();

@@ -1,4 +1,4 @@
-package SistNotificacion;
+package server;
 
 public class MonitorNotificacion {
 }

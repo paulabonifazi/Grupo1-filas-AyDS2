@@ -1,4 +1,4 @@
-package Servidor;
+package server;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,21 +6,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.Icon;
-
-import Box.Box;
-import Estadistico.Estadistico;
-import Estadistico.Historico;
-import Excepciones.ExcecionErrorAlCerrar;
-import Excepciones.ExcepcionDeInterrupcion;
-import Excepciones.ExcepcionErrorAlAceptar;
-import Excepciones.ExcepcionFinConexion;
-import Excepciones.ExcepcionFinTimeoutAceptar;
-import Excepciones.ExcepcionFinTimeoutLectura;
-import Excepciones.ExcepcionLecturaErronea;
-import Excepciones.ExcepcionNoHayPuertos;
-import SistNotificacion.MonitorNotificacion;
-import TCP.TCPServidor;
-import Totem.Totem;
 
 public class GestorConexion extends Thread {
 		private MonitorDeCola cola;

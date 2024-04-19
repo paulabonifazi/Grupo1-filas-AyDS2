@@ -1,18 +1,13 @@
-package Estadistico;
+package server;
 
-import Excepciones.ExcecionErrorAlCerrar;
-import Servidor.IConexion;
-import TCP.TCPServidor;
-
-public class Estadistico implements IConexion{
+public class TvLlamado implements IConexion{
 	private TCPServidor conexion;
-	private String ID;
+	private String ID ;
 	private Thread hilo;
-	private static int siguienteID=0;
 	
-	public Estadistico(TCPServidor conexion,Thread hilo) {
+	public TvLlamado(TCPServidor conexion, Thread hilo) {
 		this.conexion=conexion;
-		this.ID="D"+siguienteID++;
+		this.ID="L";
 		this.hilo=hilo;
 	}
 
@@ -34,12 +29,11 @@ public class Estadistico implements IConexion{
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
-	
+
 	@Override
 	public void cerrarConexion() throws ExcecionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
+		this.conexion.cerrarPuertoServidor();
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
-	
 	
 }

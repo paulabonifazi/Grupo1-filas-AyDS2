@@ -1,4 +1,4 @@
-package Servidor;
+package server;
 
 public class ParametrosDeConexion {
 	private int PuertoLibre; //este atributo lo completa el gestor de conexiones (no el main)

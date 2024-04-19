@@ -1,18 +1,15 @@
-package Box;
+package server;
 
-import Excepciones.ExcecionErrorAlCerrar;
-import Servidor.IConexion;
-import TCP.TCPServidor;
-
-public class Box implements IConexion{
+public class Estadistico implements IConexion{
 	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
+	private static int siguienteID=0;
 	
-	public Box(TCPServidor conexion, Thread hilo,String ID) {
+	public Estadistico(TCPServidor conexion,Thread hilo) {
 		this.conexion=conexion;
-		this.ID=ID;
-		this.hilo= hilo;
+		this.ID="D"+siguienteID++;
+		this.hilo=hilo;
 	}
 
 	@Override
@@ -29,15 +26,16 @@ public class Box implements IConexion{
 	public String getID() {
 		return ID;
 	}
-	
+
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
 	
 	@Override
 	public void cerrarConexion() throws ExcecionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor();
+		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
+	
 	
 }

@@ -1,16 +1,14 @@
-package Servidor;
+package server;
 
-import Excepciones.ExcecionErrorAlCerrar;
-import TCP.TCPServidor;
-
-public class TvLlamado implements IConexion{
+public class Totem implements IConexion{
 	private TCPServidor conexion;
-	private String ID ;
+	private String ID;
 	private Thread hilo;
+	private static int siguienteID=0;
 	
-	public TvLlamado(TCPServidor conexion, Thread hilo) {
+	public Totem(TCPServidor conexion,Thread hilo) {
 		this.conexion=conexion;
-		this.ID="L";
+		this.ID="T"+siguienteID++;
 		this.hilo=hilo;
 	}
 
@@ -32,11 +30,12 @@ public class TvLlamado implements IConexion{
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
-
+	
 	@Override
 	public void cerrarConexion() throws ExcecionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor();
+		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
+	
 	
 }

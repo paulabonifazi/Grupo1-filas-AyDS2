@@ -1,4 +1,4 @@
-package Servidor;
+package server;
 
 import java.time.LocalTime;
 

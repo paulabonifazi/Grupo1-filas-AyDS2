@@ -1,4 +1,4 @@
-package Servidor;
+package server;
 
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;

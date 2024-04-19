@@ -1,13 +1,8 @@
-package Servidor;
+package server;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import Estadistico.Historico;
-import Excepciones.ExcecionErrorAlCerrar;
-import Excepciones.ExcepcionNoHayPuertos;
-import SistNotificacion.MonitorNotificacion;
-import TCP.TCPServidor;
 import interfaces.ILlamado;
 import interfaces.IRegistro;
 
