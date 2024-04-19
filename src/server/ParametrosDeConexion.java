@@ -37,5 +37,9 @@ public class ParametrosDeConexion {
 	public String getIP() {//lo utiliza el controlador del servidor (main) para mostrarlo por pantalla
 		return IP;
 	}
+
+	public void setIP(String iP) {//lo utiliza el gestor de conexiones para setear la IP del servidor
+		IP = iP;
+	}
 	
 }
