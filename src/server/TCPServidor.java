@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-
+import Excepciones.*;
 public class TCPServidor {
 	private ServerSocket socket;
 	private Socket clienteSocket;
@@ -78,7 +78,7 @@ public class TCPServidor {
 		}
 	}
 	
-	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
 				if (clienteSocket != null) {
 		            clienteSocket.close();
@@ -90,7 +90,7 @@ public class TCPServidor {
 		            in.close();
 		        }
 		} catch (IOException e) {
-			throw new ExcecionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
+			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}
 	}
 	
@@ -136,12 +136,12 @@ public class TCPServidor {
 		}
 	}
 	
-	public void cerrarPuertoServidor() throws ExcecionErrorAlCerrar {
+	public void cerrarPuertoServidor() throws ExcepcionErrorAlCerrar {
 		try {
 			if(socket!=null)
 				this.socket.close();
 		} catch (IOException e) {
-			throw new ExcecionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
+			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}
 	}
 	

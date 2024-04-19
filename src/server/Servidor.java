@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import interfaces.ILlamado;
 import interfaces.IRegistro;
-
+import Excepciones.*;
 public class Servidor{
 
 	public static void main(String[] args) {
@@ -75,7 +75,7 @@ public class Servidor{
 								try {
 									puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
 									System.out.println("El servidor se ha cerrado correctamente, puede cerrar el programa\n");
-								} catch (ExcecionErrorAlCerrar e) {
+								} catch (ExcepcionErrorAlCerrar e) {
 									System.out.println("Error critico: no se ha cerrado correctamente el sistema");
 									e.printStackTrace();
 								} 

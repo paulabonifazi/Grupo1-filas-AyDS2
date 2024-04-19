@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.Icon;
-
+import Excepciones.*;
 public class GestorConexion extends Thread {
 		private MonitorDeCola cola;
 		private MonitorNotificacion bufferSalida;
@@ -122,7 +122,7 @@ public class GestorConexion extends Thread {
 							puertoEntrada.cerrarConexion();
 						} catch (ExcepcionErrorAlAceptar | ExcepcionFinConexion | ExcepcionFinTimeoutLectura e) {
 							//como se corta por un error del cliente la ejecución no se sigue con el codigo y se vuelve a empezar el ciclo
-						} catch (ExcecionErrorAlCerrar e) {
+						} catch (ExcepcionErrorAlCerrar e) {
 							//si no se puede cerrar se supone que no hay nada abierto y no hay nada mas que hacer que volver a esperar una conexion
 						}
 					}
@@ -170,7 +170,7 @@ public class GestorConexion extends Thread {
 		            if (!conexion.isConectado()) {
 		            	try {
 							conexion.cerrarConexion();
-						} catch (ExcecionErrorAlCerrar e) {
+						} catch (ExcepcionErrorAlCerrar e) {
 		            		System.out.println("Error critico: no fue posible cerrar las conexiones");
 							e.printStackTrace();
 						}

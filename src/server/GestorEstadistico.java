@@ -1,7 +1,7 @@
 package server;
 
 import interfaces.IEstado;
-
+import Excepciones.*;
 public class GestorEstadistico extends Thread implements IEstado{
 			MonitorDeCola cola;
 			String IPClienteEsperado;
@@ -45,7 +45,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 					try {
 						conexion.cerrarConexion();
 						conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
-					} catch (ExcecionErrorAlCerrar e1) {
+					} catch (ExcepcionErrorAlCerrar e1) {
 						// no puede hacerse nada más que terminar el thread
 					}
 				}

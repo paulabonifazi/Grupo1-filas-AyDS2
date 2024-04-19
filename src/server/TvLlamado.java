@@ -1,5 +1,5 @@
 package server;
-
+import Excepciones.*;
 public class TvLlamado implements IConexion{
 	private TCPServidor conexion;
 	private String ID ;
@@ -31,7 +31,7 @@ public class TvLlamado implements IConexion{
 	}
 
 	@Override
-	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		this.conexion.cerrarPuertoServidor();
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}

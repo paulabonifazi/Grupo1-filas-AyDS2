@@ -1,5 +1,5 @@
 package server;
-
+import Excepciones.*;
 public class Totem implements IConexion{
 	private TCPServidor conexion;
 	private String ID;
@@ -32,7 +32,7 @@ public class Totem implements IConexion{
 	}
 	
 	@Override
-	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}

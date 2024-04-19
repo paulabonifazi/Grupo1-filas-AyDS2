@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import Excepciones.ExcecionErrorAlCerrar;
+import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
@@ -26,7 +26,7 @@ public class TCPCliente {
 			}
 	}
 
-	public void cerrarConexion() throws ExcecionErrorAlCerrar {
+	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
 				if ( socket != null) {
 		            socket.close();
@@ -38,7 +38,7 @@ public class TCPCliente {
 		            in.close();
 		        }
 		} catch (IOException e) {
-			throw new ExcecionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
+			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}
 	}
 	
