@@ -2,6 +2,7 @@ package server;
 
 import interfaces.IRegistro;
 import Excepciones.*;
+import TCP.TCPServidor;
 public class GestorTotem  extends Thread implements IRegistro{
 	MonitorDeCola cola;
 	String IPClienteEsperado;
@@ -43,7 +44,14 @@ public class GestorTotem  extends Thread implements IRegistro{
 	 			}
 	 		}
 		} 
-	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar | ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
+	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {
+			try {
+				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
+			} catch (ExcepcionErrorAlCerrar e1) {
+				// no puede hacerse nada más que terminar el thread
+			}
+		}
+	 	catch (ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
 			try {
 				conexion.cerrarConexion();
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)

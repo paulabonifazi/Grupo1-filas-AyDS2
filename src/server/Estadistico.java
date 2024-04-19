@@ -1,5 +1,6 @@
 package server;
 import Excepciones.*;
+import TCP.TCPServidor;
 
 public class Estadistico implements IConexion{
 	private TCPServidor conexion;

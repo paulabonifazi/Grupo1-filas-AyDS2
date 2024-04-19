@@ -1,6 +1,7 @@
 package server;
 
 import Excepciones.*;
+import TCP.TCPServidor;
 
 public class Box implements IConexion{
 	private TCPServidor conexion;

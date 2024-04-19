@@ -2,6 +2,7 @@ package server;
 
 import interfaces.IEstado;
 import Excepciones.*;
+import TCP.TCPServidor;
 public class GestorEstadistico extends Thread implements IEstado{
 			MonitorDeCola cola;
 			String IPClienteEsperado;
@@ -41,7 +42,14 @@ public class GestorEstadistico extends Thread implements IEstado{
 			 			}
 			 		}
 				} 
-			 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar | ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
+			 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {
+					try {
+						conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
+					} catch (ExcepcionErrorAlCerrar e1) {
+						// no puede hacerse nada más que terminar el thread
+					}
+				}
+			 	catch (ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
 					try {
 						conexion.cerrarConexion();
 						conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
@@ -53,7 +61,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 
 			@Override
 			public String MostrarEstado() {
-				return this.historico.estado()+"/"+cola.size(); //estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>/ClientesEnEspera"
+				return this.historico.estado()+"/"+cola.size(); //estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
 			}
 
 		}

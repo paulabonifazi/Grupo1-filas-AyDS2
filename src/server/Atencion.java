@@ -38,4 +38,8 @@ public class Atencion extends Thread implements ILlamado{
 	public long getTiempoDeSolicitud() {
 		return Duration.between(solicitud.getHrSolicitud(), hrinicio).getSeconds();
 	}
+	
+	public String getBox(){
+		return solicitud.getIdBox();
+	}
 }

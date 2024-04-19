@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import javax.swing.Icon;
 import Excepciones.*;
+import TCP.TCPServidor;
+
 public class GestorConexion extends Thread {
 		private MonitorDeCola cola;
-		private MonitorNotificacion bufferSalida;
+		private MonitorNotificacion llamados;
 		private Historico historico;
 		private TCPServidor puertoEntrada ;
 		private ParametrosDeConexion parametros;
 		private HashMap<String, IConexion> conexiones;
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion bufferSalida, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
 			super();
 			this.cola = cola;
-			this.bufferSalida = bufferSalida;
+			this.llamados = llamados;
 			this.historico = historico;
 			this.parametros=parametros;
 			this.conexiones=new HashMap<String, IConexion>();
@@ -77,7 +77,7 @@ public class GestorConexion extends Thread {
 							            		this.conexiones.put(ID, new Box(puertonuevaconexion, nuevaEjecucion, ID));
 							            		
 							            		nuevaEjecucion.start();
-							            		Respuesta="Exito,"+puertonuevaconexion.getPuerto();
+							            		Respuesta="Exito;"+puertonuevaconexion.getPuerto();
 							            	}
 							            	else
 							            		Respuesta="NroBoxRepetido";
@@ -85,12 +85,11 @@ public class GestorConexion extends Thread {
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
-							                	
+							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente());						                	
 							                	this.conexiones.put("L", new TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
 							                	nuevaEjecucion.start();
-							                	Respuesta="Exito,"+puertonuevaconexion.getPuerto();
+							                	Respuesta="Exito;"+puertonuevaconexion.getPuerto();
 							                }
 							                else
 							                	Respuesta="YaExistente";
@@ -103,7 +102,7 @@ public class GestorConexion extends Thread {
 							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 							                	
 							                	nuevaEjecucion.start();
-							                	Respuesta="Exito,"+puertonuevaconexion.getPuerto();
+							                	Respuesta="Exito;"+puertonuevaconexion.getPuerto();
 							            	break;	
 							            default:
 							                Respuesta= "TipoDeConexionInexistente";

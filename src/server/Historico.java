@@ -1,7 +1,6 @@
 package server;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -25,7 +24,7 @@ public class Historico {
 	            Atencion sig = iterator.next();
 	            rta+=sig.getTiempoDeEspera()+","+sig.getTiempoDeSolicitud()+","+sig.getTiempoDeAtencion();
 	            if(iterator.hasNext()){
-	            	rta+=",";
+	            	rta+=";";
 	            }
 	            
 	        }

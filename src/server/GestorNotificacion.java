@@ -4,31 +4,27 @@ import TCP.*;
 
 public class GestorNotificacion extends Thread{
 	TCPServidor serverNotificacion;
-	MonitorDeCola cola;
+	MonitorNotificacion llamados;
 	String ipClienteEsperado;
 	
-	public GestorNotificacion(MonitorDeCola cola,TCPServidor serverNotificacion,String ipClienteEsperado) {
+	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado) {
 		super();
 		this.serverNotificacion = serverNotificacion;
-		this.cola = cola;
+		this.llamados = llamados;
 		this.ipClienteEsperado = ipClienteEsperado;
 	}
 
 
 	@Override
     public void run() {
-		String mensaje = null;
-		String[] elementos = null;
 		String respuesta=null;
+		Atencion llamado;
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
 	 			while(true) { //No recibe datos, solo envia.
-		 			/**
-		 			 * Quedo a la espera de qué envia el gestor de atencion
-		 			 * 
-		 			 * 
-		 			 */
+		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
+		 			respuesta=llamado.getDNI()+";"+llamado.getBox(); //arma el mensaje. "<dni>,<IDbox>"(el id de box es "B<nrobox>"
 		 			try {
 		 				serverNotificacion.enviarMensajeACliente(respuesta, false);
 					} catch (ExcepcionLecturaErronea e) {
@@ -37,13 +33,21 @@ public class GestorNotificacion extends Thread{
 	 			}
 	 		}
 		} 
-	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar | ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
+	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) { 
 			try {
-				serverNotificacion.cerrarConexion();
-				serverNotificacion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
+				serverNotificacion.cerrarPuertoServidor(); 
 			} catch (ExcepcionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
 			}
 		}
+	 	catch(ExcepcionDeInterrupcion|ExcepcionFinConexion | InterruptedException e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, además del serversocket
+	 		try {
+	 			serverNotificacion.cerrarConexion();
+				serverNotificacion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar) 
+			} catch (ExcepcionErrorAlCerrar e1) {
+				// no puede hacerse nada más que terminar el thread
+			}
+	 		
+	 	}
 	}
 }
