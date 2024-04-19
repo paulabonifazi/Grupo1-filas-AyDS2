@@ -1,13 +1,13 @@
 package server;
 import Excepciones.*;
 import TCP.TCPServidor;
-public class Totem implements IConexion{
+public class C_Totem implements IConexion{
 	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
 	private static int siguienteID=0;
 	
-	public Totem(TCPServidor conexion,Thread hilo) {
+	public C_Totem(TCPServidor conexion,Thread hilo) {
 		this.conexion=conexion;
 		this.ID="T"+siguienteID++;
 		this.hilo=hilo;

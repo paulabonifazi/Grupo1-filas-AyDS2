@@ -1,16 +1,14 @@
 package server;
 import Excepciones.*;
 import TCP.TCPServidor;
-
-public class Estadistico implements IConexion{
+public class C_TvLlamado implements IConexion{
 	private TCPServidor conexion;
-	private String ID;
+	private String ID ;
 	private Thread hilo;
-	private static int siguienteID=0;
 	
-	public Estadistico(TCPServidor conexion,Thread hilo) {
+	public C_TvLlamado(TCPServidor conexion, Thread hilo) {
 		this.conexion=conexion;
-		this.ID="D"+siguienteID++;
+		this.ID="L";
 		this.hilo=hilo;
 	}
 
@@ -32,12 +30,11 @@ public class Estadistico implements IConexion{
 	public boolean isConectado() {
 		return this.hilo.isAlive();
 	}
-	
+
 	@Override
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
+		this.conexion.cerrarPuertoServidor();
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
-	
 	
 }

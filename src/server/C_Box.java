@@ -3,12 +3,12 @@ package server;
 import Excepciones.*;
 import TCP.TCPServidor;
 
-public class Box implements IConexion{
+public class C_Box implements IConexion{
 	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
 	
-	public Box(TCPServidor conexion, Thread hilo,String ID) {
+	public C_Box(TCPServidor conexion, Thread hilo,String ID) {
 		this.conexion=conexion;
 		this.ID=ID;
 		this.hilo= hilo;

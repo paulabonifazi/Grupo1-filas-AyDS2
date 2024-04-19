@@ -3,9 +3,7 @@ package server;
 import java.time.Duration;
 import java.time.LocalTime;
 
-import interfaces.ILlamado;
-
-public class Atencion extends Thread implements ILlamado{
+public class Atencion {
 	private Turno turno;
 	private Solicitud solicitud;
 	private LocalTime hrinicio,hrfin;

@@ -17,7 +17,6 @@ public class GestorEstadistico extends Thread implements IEstado{
 			@Override
 		    public void run() {
 				String mensaje = null;
-				String[] elementos = null;
 				String respuesta=null;
 			 	try {
 			 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
@@ -25,11 +24,10 @@ public class GestorEstadistico extends Thread implements IEstado{
 			 			while(true) {
 				 			try {
 								mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "MostrarEstado"
-								elementos=mensaje.split(";");
 							} catch (ExcepcionFinTimeoutLectura e) {
 								//no hay timeOut por lo que no puede ocurrir
 							}
-				 			if (elementos[0].equals("MostrarEstado")) {
+				 			if (mensaje.equals("MostrarEstado")) {
 				 				respuesta=this.MostrarEstado();
 				 			}
 				 			else

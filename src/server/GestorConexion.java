@@ -61,7 +61,7 @@ public class GestorConexion extends Thread {
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, puertoEntrada.getIPCliente());
 						            		
-						            		nuevaConexion=new Totem(puertonuevaconexion, nuevaEjecucion);
+						            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 						            		
 						            		nuevaEjecucion.start();
@@ -72,9 +72,9 @@ public class GestorConexion extends Thread {
 							            	ID="B"+elementos[2];
 							            	if(isInt(elementos[2])&&!conexiones.containsKey(ID)) {
 							            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							            		nuevaEjecucion=new Thread(); //Falta poner el tipo de thread!!!
+							            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID);
 							            		
-							            		this.conexiones.put(ID, new Box(puertonuevaconexion, nuevaEjecucion, ID));
+							            		this.conexiones.put(ID, new C_Box(puertonuevaconexion, nuevaEjecucion, ID));
 							            		
 							            		nuevaEjecucion.start();
 							            		Respuesta="Exito;"+puertonuevaconexion.getPuerto();
@@ -86,7 +86,7 @@ public class GestorConexion extends Thread {
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente());						                	
-							                	this.conexiones.put("L", new TvLlamado(puertonuevaconexion,nuevaEjecucion));
+							                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
 							                	nuevaEjecucion.start();
 							                	Respuesta="Exito;"+puertonuevaconexion.getPuerto();
@@ -98,7 +98,7 @@ public class GestorConexion extends Thread {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 							                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, puertoEntrada.getIPCliente());
 							                	
-							                	nuevaConexion=new Estadistico(puertonuevaconexion,nuevaEjecucion);
+							                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
 							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 							                	
 							                	nuevaEjecucion.start();

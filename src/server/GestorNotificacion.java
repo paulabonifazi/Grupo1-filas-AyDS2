@@ -22,6 +22,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
+	 			this.llamados.setActivado(true);
 	 			while(true) { //No recibe datos, solo envia.
 		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
 		 			try {
@@ -34,6 +35,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) { 
 			try {
+				this.llamados.setActivado(false);
 				serverNotificacion.cerrarPuertoServidor(); 
 			} catch (ExcepcionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
@@ -41,6 +43,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		}
 	 	catch(ExcepcionDeInterrupcion|ExcepcionFinConexion | InterruptedException e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, además del serversocket
 	 		try {
+	 			this.llamados.setActivado(false);
 	 			serverNotificacion.cerrarConexion();
 				serverNotificacion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar) 
 			} catch (ExcepcionErrorAlCerrar e1) {
