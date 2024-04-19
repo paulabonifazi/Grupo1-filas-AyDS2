@@ -1,8 +1,9 @@
 package server;
 import Excepciones.*;
 import TCP.*;
+import interfaces.INotificacion;
 
-public class GestorNotificacion extends Thread{
+public class GestorNotificacion extends Thread implements INotificacion{
 	TCPServidor serverNotificacion;
 	MonitorNotificacion llamados;
 	String ipClienteEsperado;
@@ -17,16 +18,14 @@ public class GestorNotificacion extends Thread{
 
 	@Override
     public void run() {
-		String respuesta=null;
 		Atencion llamado;
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
 	 			while(true) { //No recibe datos, solo envia.
 		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
-		 			respuesta=llamado.getDNI()+";"+llamado.getBox(); //arma el mensaje. "<dni>,<IDbox>"(el id de box es "B<nrobox>"
 		 			try {
-		 				serverNotificacion.enviarMensajeACliente(respuesta, false); //!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
+		 				serverNotificacion.enviarMensajeACliente(mostrar(llamado.getDNI(), llamado.getBox()), false);//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
 					} catch (ExcepcionLecturaErronea e) {
 						//nunca ocurre porque no se habilita la comprobacion
 					}
@@ -49,5 +48,11 @@ public class GestorNotificacion extends Thread{
 			}
 	 		
 	 	}
+	}
+
+
+	@Override
+	public String mostrar(String dni, String IDBox) {
+			return dni+";"+IDBox;
 	}
 }
