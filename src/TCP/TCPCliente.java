@@ -28,15 +28,16 @@ public class TCPCliente {
 
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
-				if ( socket != null) {
+				if ( !socket.isClosed()) {
 		            socket.close();
 		        }
-		        if (out != null) {
+		        if (out!= null&& !out.checkError()) {
 		            out.close();
 		        }
-		        if (in != null) {
+		        if (in != null&& !in.ready()) {
 		            in.close();
 		        }
+		        
 		} catch (IOException e) {
 			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}

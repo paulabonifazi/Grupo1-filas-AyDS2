@@ -122,7 +122,7 @@ public class TCPServidor {
 	        // Restablecer el timeout a 0
 	            try {
 	            	if(!clienteSocket.isClosed())
-					clienteSocket.setSoTimeout(0);
+	            		clienteSocket.setSoTimeout(0);
 				} catch (SocketException e) {
 					e.printStackTrace();
 				}
