@@ -55,7 +55,7 @@ public class GestorConexion extends Thread {
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
 								elementos = mensaje.split(";");	
-								 if(elementos[0].equals(parametros.getContraseña())){
+								 if(elementos[0].equals(parametros.getContraseña())&& elementos.length >= 2){
 									 switch (elementos[1]) { 
 							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
@@ -69,18 +69,22 @@ public class GestorConexion extends Thread {
 						            		
 							                break;
 							            case "Box": //Mensaje de box: "<contraseña>;Box;<NroDeBox>"
-							            	ID="B"+elementos[2];
-							            	if(isInt(elementos[2])&&!conexiones.containsKey(ID)) {
-							            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID);
-							            		
-							            		this.conexiones.put(ID, new C_Box(puertonuevaconexion, nuevaEjecucion, ID));
-							            		
-							            		nuevaEjecucion.start();
-							            		Respuesta="Exito;"+puertonuevaconexion.getPuerto();
+							            	if(elementos.length == 3) {
+								            	ID="B"+elementos[2];
+								            	if(isInt(elementos[2])&&!conexiones.containsKey(ID)) {
+								            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
+								            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID);
+								            		
+								            		this.conexiones.put(ID, new C_Box(puertonuevaconexion, nuevaEjecucion, ID));
+								            		
+								            		nuevaEjecucion.start();
+								            		Respuesta="Exito;"+puertonuevaconexion.getPuerto();
+								            	}
+								            	else
+								            		Respuesta="NroBoxRepetido";
 							            	}
 							            	else
-							            		Respuesta="NroBoxRepetido";
+							            		Respuesta="IngreseNroBox";
 							                break;
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {

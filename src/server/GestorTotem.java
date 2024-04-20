@@ -29,7 +29,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 						//no hay timeOut por lo que no puede ocurrir
 					}
 		 			//No se hace verificacion, la precondicion de registrar es que se recibe un DNI!!! (numerico y con su formato)
-		 			if (elementos[0].equals("Registro")) {
+		 			if (elementos[0].equals("Registro") && elementos.length >= 2 && !elementos[1].isBlank() && !elementos[1].isEmpty() && elementos[1].matches("\\d{8}")) {
 		 				respuesta=this.registrar(elementos[1]);
 		 				if(respuesta.equals("Interrumpido"))
 		 					throw new ExcepcionDeInterrupcion(); //no se pudo cargar el elemento en la cola porque se interrumpio al thread, hay que cortar la conexion

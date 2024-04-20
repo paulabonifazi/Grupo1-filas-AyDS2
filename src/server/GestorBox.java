@@ -44,7 +44,7 @@ public class GestorBox extends Thread implements IAtencion{
 	 				mensaje = null;
 	 				turno=new Turno(null); //crea un nuevo turno (por si se corta la comunicacion verificar que no se retiro dni)
 		 			try {
-						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "<Operacion>"+
+						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "<Operacion>"
 					} catch (ExcepcionFinTimeoutLectura e) {
 						//no hay timeOut por lo que no puede ocurrir
 					}

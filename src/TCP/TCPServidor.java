@@ -111,6 +111,8 @@ public class TCPServidor {
 		try {
 			clienteSocket.setSoTimeout(timeout);
 			mensaje=in.readLine();		
+			if (mensaje==null)
+				throw new ExcepcionFinConexion();
 			if(confirmacion)
 				out.println("Recibido");
 		}
