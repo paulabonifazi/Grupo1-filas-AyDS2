@@ -13,7 +13,8 @@ public class MonitorNotificacion {
 		
 		// Método para colocar un elemento en la cola
 	    public void put(Atencion elemento) throws InterruptedException {
-	    	notificaciones.put(elemento);
+	    	if(activado)
+	    		notificaciones.put(elemento);
 	    }
 	    
 	 // Método para retirar un elemento de la cola

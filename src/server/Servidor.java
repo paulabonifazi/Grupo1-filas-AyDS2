@@ -25,7 +25,7 @@ public class Servidor{
 			ParametrosDeConexion parametros= new ParametrosDeConexion(contraseña); //ingresar contraseña al empezar el servidor 
 			TCPServidor puertoLibre;
 			try {
-				puertoLibre = new TCPServidor();//EMPIEZA EN EL PUERTO 1234 PARA Q LOS CLIENTES SEPAN A DONDE IR
+				puertoLibre = new TCPServidor();
 				GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre);
 				gestorConexion.start();
 				while (!parametros.isFinalizar()) {

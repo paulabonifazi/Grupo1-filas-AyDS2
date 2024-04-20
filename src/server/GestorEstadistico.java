@@ -12,6 +12,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 				this.cola=cola;
 				this.conexion=conexion;
 				this.IPClienteEsperado=IPClienteEsperado;
+				this.historico=historico;
 			}
 			
 			@Override

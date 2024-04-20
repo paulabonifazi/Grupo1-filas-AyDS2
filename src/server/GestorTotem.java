@@ -22,14 +22,10 @@ public class GestorTotem  extends Thread implements IRegistro{
 	 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(conexion.validarIPCliente(IPClienteEsperado)) {
 	 			while(true) {
-		 			try {
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "Registrar;<DNI>"
 						elementos=mensaje.split(";");
-					} catch (ExcepcionFinTimeoutLectura e) {
-						//no hay timeOut por lo que no puede ocurrir
-					}
 		 			//No se hace verificacion, la precondicion de registrar es que se recibe un DNI!!! (numerico y con su formato)
-		 			if (elementos[0].equals("Registro")) {
+		 			if (elementos[0].equals("Registro") && elementos.length >= 2 && !elementos[1].isBlank() && !elementos[1].isEmpty() && elementos[1].matches("\\d{8}")) {
 		 				respuesta=this.registrar(elementos[1]);
 		 				if(respuesta.equals("Interrumpido"))
 		 					throw new ExcepcionDeInterrupcion(); //no se pudo cargar el elemento en la cola porque se interrumpio al thread, hay que cortar la conexion
@@ -51,7 +47,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 				// no puede hacerse nada más que terminar el thread
 			}
 		}
-	 	catch (ExcepcionDeInterrupcion|ExcepcionFinConexion e) {
+	 	catch (ExcepcionDeInterrupcion|ExcepcionFinConexion|ExcepcionFinTimeoutLectura e) {
 			try {
 				conexion.cerrarConexion();
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
