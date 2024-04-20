@@ -12,11 +12,13 @@ import TCP.TCPCliente;
 public class GestorCliente extends Thread{
 	TCPCliente cliente;
 	BlockingQueue<String> blockingQueue;
+	ControladorVistaOperador controlador;
 	
-	public GestorCliente(TCPCliente cliente) {
+	public GestorCliente(TCPCliente cliente,ControladorVistaOperador controlador) {
 		super();
 		this.cliente = cliente;
 		blockingQueue = new LinkedBlockingDeque<>();
+		this.controlador=controlador
 	}
 
 

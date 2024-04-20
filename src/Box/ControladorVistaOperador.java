@@ -62,5 +62,12 @@ public class ControladorVistaOperador implements ActionListener {
 			 * 
 			 */
 	}
-
+	
+	
+	
+	public void recibirMensajesTCP() {
+		
+		
+		
+	}
 }
