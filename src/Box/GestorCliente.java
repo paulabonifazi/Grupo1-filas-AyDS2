@@ -13,7 +13,7 @@ public class GestorCliente extends Thread{
 	TCPCliente cliente;
 	BlockingQueue<String> blockingQueue;
 	ControladorVistaOperador controlador;
-	IState estado;
+	StateAbstracta estado;
 	
 	public GestorCliente(TCPCliente cliente,ControladorVistaOperador controlador) {
 		super();
@@ -42,14 +42,20 @@ public class GestorCliente extends Thread{
 				//Mensaje recibido
 				elementos = mensaje.split(";");	
 				switch (elementos[0]) {
-	                case 2: //Actualizar personas en pantalla
-	                	controlador.actualizarEstadoCola(cadena);
+	                case "Estado": //Actualizar personas en pantalla
+	                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
 	                    break;
-	                case 3: //Asignar cliente
-	                	controlador.asignarCliente();
+	                case "Atencion": //Asignar cliente
+	                	controlador.asignarCliente(elementos[1]);
 	                    break;
-	     
+	                case "ActCancelar":
+	                	controlador.habilitarBotonCancelar();
+	                	break;
+	                case "Cancelado":
+	                	controlador.solicitudCancelada();
+	                	break;
 	                default:
+	                	controlador.mostrarError(mensaje);
 	                   
 	            }
 			} else {

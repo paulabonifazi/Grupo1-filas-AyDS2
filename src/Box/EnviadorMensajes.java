@@ -31,6 +31,7 @@ public class EnviadorMensajes extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 			
 }

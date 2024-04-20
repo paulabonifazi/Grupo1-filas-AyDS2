@@ -8,9 +8,33 @@ public class InactivoState extends StateAbstracta{
 	}
 
 	@Override
-	public void asignarCliente() {
-		controlador.clienteAsignadoVentana();
-		controlador.cambiarEstado(new AtendiendoState(controlador));
+	public void solicitarCliente() {
+		controlador.cambiarEstado(new EsperaState(controlador));
+		controlador.solicitarCliente();
+	}
+
+	@Override
+	public void solicitudCancelada() {
+	}
+
+	@Override
+	public void asignarCliente(String dni) {
+	}
+
+	@Override
+	public void activarBotonCancelar() {
+	}
+
+	@Override
+	public void finalizarAtencionAusente() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finalizarAtencionAtendido() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -8,16 +8,35 @@ public class EsperaState extends StateAbstracta {
 	}
 
 	@Override
-	public void asignarCliente() {
-		controlador.clienteAsignadoVentana();
-		controlador.cambiarEstado(new AtendiendoState(controlador));
-
+	public void solicitarCliente() {	
 	}
 
 	@Override
 	public void activarBotonCancelar() {
 		controlador.habilitarBotonCancelar();
-		
 	}
+
+	@Override
+	public void solicitudCancelada() {
+		controlador.cambiarEstado(new InactivoState(controlador));
+	}
+
+	@Override
+	public void asignarCliente(String dni) {
+		controlador.cambiarEstado(new AtendiendoState(controlador));
+		controlador.clienteAsignado(dni);
+	}
+
+	@Override
+	public void finalizarAtencionAusente() {	
+	}
+
+	@Override
+	public void finalizarAtencionAtendido() {
+	}
+
+
+	
+	
 	
 }

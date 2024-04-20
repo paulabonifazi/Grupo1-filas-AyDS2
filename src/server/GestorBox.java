@@ -144,41 +144,41 @@ public class GestorBox extends Thread implements IAtencion{
 				}
         	}
 		}
-        	if(turno.getDni()==null) {
-        		enviarMensaje(conexion,"Cancelado");
-        	}
-        	else {
-        		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
-        		enviarMensaje(conexion,"Atencion;"+turno.getDni());
-        		llamados.put(atencion); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
-        		//se debe esperar por la ausencia o por el fin de atencion
-        		mensaje=null;
-        		fin=false;
-        		while(!fin) {
-	        		try {
-						mensaje=this.conexion.recibirmensajeDeCliente(0, false);//Se espera por mensaje y se recibe como mensaje: "<Operacion>"
-					} catch (ExcepcionFinTimeoutLectura e) {
-						//no puede ocurrir, porque no hay timeout
-					} 
-					if(mensaje.equals("Fin")) {
+        if(turno.getDni()==null) { //Si salio por cancelar envia confirmacion
+        	enviarMensaje(conexion,"Cancelado");
+        }
+       	else {
+       		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
+       		enviarMensaje(conexion,"Atencion;"+turno.getDni());
+       		llamados.put(atencion); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
+       		//se debe esperar por la ausencia o por el fin de atencion
+       		mensaje=null;
+       		fin=false;
+       		while(!fin) {
+	       		try {
+					mensaje=this.conexion.recibirmensajeDeCliente(0, false);//Se espera por mensaje y se recibe como mensaje: "<Operacion>"
+				} catch (ExcepcionFinTimeoutLectura e) {
+					//no puede ocurrir, porque no hay timeout
+				} 
+				if(mensaje.equals("Fin")) {
+					fin=true;
+					atencion.registrarFin(); //se registra la hora del fin de la atencion
+					historico.agregarAtencion(atencion); //se agrega la atencion al historico
+				}
+				else {
+					if(mensaje.equals("Ausente")) {
 						fin=true;
-						atencion.registrarFin(); //se registra la hora del fin de la atencion
-						historico.agregarAtencion(atencion); //se agrega la atencion al historico
-					}
-					else {
-						if(mensaje.equals("Ausente")) {
-							fin=true;
-							if(turno.getAusenias()<1) {
-								turno.addAusencia();
-								cola.put(turno);
-							}
-							//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
+						if(turno.getAusenias()==0) {
+							turno.addAusencia();
+							cola.put(turno);
 						}
-						else
-							if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado
-								enviarMensaje(conexion,"ErrorOperacion");
+						//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
 					}
-        		}
-        	}
+					else
+						if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado
+							enviarMensaje(conexion,"ErrorOperacion");
+				}
+       		}
+       	}
 	}
 }

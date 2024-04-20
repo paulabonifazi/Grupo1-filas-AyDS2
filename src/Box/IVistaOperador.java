@@ -26,4 +26,5 @@ public interface IVistaOperador {
 	void setNumeroPuesto(int numero);
 	void setControlador(ControladorVistaOperador c);
 	void abrir();
+	
 }

@@ -13,7 +13,8 @@ public class ControladorVistaOperador implements ActionListener {
 	private GestorCliente gcliente;
 	private StateAbstracta ventanaState;
 	private int numeroBox;
-	private String estadoCola;
+	private int tamCola;
+	private String dni;
 	
 	public ControladorVistaOperador() {
 		super();
@@ -25,6 +26,8 @@ public class ControladorVistaOperador implements ActionListener {
 		this.vista = vista;
 	}
 
+
+	
 	public void setEnviadorMensajes(EnviadorMensajes enviadorMensajes) {
 		this.enviadorMensajes = enviadorMensajes;
 	}
@@ -41,6 +44,11 @@ public class ControladorVistaOperador implements ActionListener {
 		this.numeroBox=numeroBox;
 	}
 	
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+
 	public void cambiarEstado(StateAbstracta estadonuevo) {
 		this.ventanaState=estadonuevo;
 		
@@ -48,36 +56,33 @@ public class ControladorVistaOperador implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evento) {
 		if (evento.getActionCommand().equals(IVistaOperador.SOLICITARCLIENTE)) {
-			colamensajes.add(IVistaOperador.SOLICITARCLIENTE);
-			enviadorMensajes.start();
-			
+			this.ventanaState.solicitarCliente();
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.CANCELAR)) {
-			
+			this.ventanaState.solicitudCancelada();
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.AUSENTE)) {
-			
+			this.vista.confirmacionAusenteVentana()
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.SIAUSENTE)) {
-			
-			
+			this.ventanaState.finalizarAtencionAusente();
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.NOAUSENTE)) {
-			
+			this.vista.clienteAsignadoVentana(dni);
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.ATENDIDO)) {
-			
+			this.vista.confirmacionAtendidoVentana();
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.SIATENDIDO)) {
-			
+			this.ventanaState.finalizarAtencionAtendido();
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.NOATENDIDO)) {
-			
+			this.vista.clienteAsignadoVentana(dni);
 			
 		}
 		else {}
@@ -87,27 +92,44 @@ public class ControladorVistaOperador implements ActionListener {
 			 */
 	}
 	
-	public void asignarCliente() {
+	public void solicitarCliente() {
+		colamensajes.add("solicitudTurno");
+		enviadorMensajes.start();
+		vista.esperandoVentana();
+		vista.deshabilitarBotonCancelar(); // podria estar por defecto en esperandoVentana()
+	}
+	
+	public void asignarCliente(String elementos) {
 		ventanaState.asignarCliente();
 	}
 	
-	public void clienteAsignadoVentana() {
-		
-		
-		
+	public void clienteAsignado(String dni) {
+		vista.clienteAsignadoVentana(dni);
 	}
 	
-	
-	
-	public void recibirMensajesTCP() {
-		
-		
-		
-	}
-
-
 	public void habilitarBotonCancelar() {
-		vista.
-		
+		ventanaState.activarBotonCancelar();
 	}
+
+	public void habilitarBotonCancelarVentana() {
+		vista.habilitarBotonCancelar();
+	}
+	
+	public void actualizarEstadoCola(int tamCola) { //ACA HAY Q AVISARLE A LA VENTANA
+		this.tamCola=tamCola;
+	}
+
+	public void solicitudCancelada() {
+		ventanaState.solicitudCancelada();
+	}
+	
+	public void solicitudCanceladaVentana
+
+
+	
+
+	
+	
+	
+	
 }

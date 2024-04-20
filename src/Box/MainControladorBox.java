@@ -50,6 +50,8 @@ public class MainControladorBox {
 		controlador.setColamensajes(cola);
 		controlador.setGcliente(gcliente);
 		
+		//public void iniciarvista();
+		
 		
 		
 		

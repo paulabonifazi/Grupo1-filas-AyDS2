@@ -130,5 +130,6 @@ public class VistaOperador extends JFrame implements IVistaOperador, ActionListe
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
 	}
 }
