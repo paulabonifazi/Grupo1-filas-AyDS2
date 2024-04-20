@@ -36,9 +36,9 @@ public class GestorConexion extends Thread {
 			 		String ID;
 			 		String[] elementos;
 			 		
-					
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
 					this.parametros.setIP(puertoEntrada.getIPServidor());
+					
 					while(true) {
 						try {
 							puertonuevaconexion=null;

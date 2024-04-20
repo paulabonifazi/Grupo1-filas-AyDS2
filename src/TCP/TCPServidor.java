@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionDeInterrupcion;
@@ -36,18 +38,21 @@ public class TCPServidor {
 	public int getPuerto() {
 		int puerto=0;
 		if (socket!=null){
-			socket.getLocalPort();
+			puerto=socket.getLocalPort();
 		}
 		return puerto;
 		
 	}
 	
 	public String getIPServidor() {
-		String IP=null;
-		if (socket!=null){
-			IP=socket.getInetAddress().getHostAddress();
+		InetAddress direccionIP;
+		String ip=null;
+		try {
+			direccionIP = InetAddress.getLocalHost();
+			ip= direccionIP.getHostAddress();
+		} catch (UnknownHostException e) {
 		}
-		return IP;
+		return ip;
 	}
 	
 	public String getIPCliente() {
