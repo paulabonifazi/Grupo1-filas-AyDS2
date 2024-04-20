@@ -61,17 +61,17 @@ public class GestorConexion extends Thread {
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, puertoEntrada.getIPCliente());
 						            		
+						            		nuevaEjecucion.start();
 						            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
 						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 						            		
-						            		nuevaEjecucion.start();
-						            		Respuesta="Exito,"+puertonuevaconexion.getPuerto();
+						            		Respuesta="Exito;"+puertonuevaconexion.getPuerto();
 						            		
 							                break;
 							            case "Box": //Mensaje de box: "<contraseña>;Box;<NroDeBox>"
-							            	if(elementos.length == 3) {
+							            	if(elementos.length == 3 && isInt(elementos[2])) {
 								            	ID="B"+elementos[2];
-								            	if(isInt(elementos[2])&&!conexiones.containsKey(ID)) {
+								            	if(!conexiones.containsKey(ID)) {
 								            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
 								            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID);
 								            		
@@ -83,8 +83,9 @@ public class GestorConexion extends Thread {
 								            	else
 								            		Respuesta="NroBoxRepetido";
 							            	}
-							            	else
+							            	else {
 							            		Respuesta="IngreseNroBox";
+							            	}
 							                break;
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
@@ -146,10 +147,11 @@ public class GestorConexion extends Thread {
 		 
 		 
 		 private void actualizaConexiones() {
+			 	IConexion conexion;
 			 	Set<String> keysToRemove = new HashSet<String>();
 			 	Iterator<IConexion> iterator = conexiones.values().iterator();
 		        while (iterator.hasNext()) {
-		            IConexion conexion = iterator.next();
+		            conexion = iterator.next();
 		            if (!conexion.isConectado()) {
 		            	keysToRemove.add(conexion.getID());
 		            }
@@ -173,11 +175,12 @@ public class GestorConexion extends Thread {
 			 Iterator<IConexion> iterator = conexiones.values().iterator();
 		        while (iterator.hasNext()) {
 		            IConexion conexion = iterator.next();
-		            if (!conexion.isConectado()) {
+		            if (conexion.isConectado()) {
 		            	try {
 							conexion.cerrarConexion();
+							System.out.println("Se cerró: "+ conexion.getID());
 						} catch (ExcepcionErrorAlCerrar e) {
-		            		System.out.println("Error critico: no fue posible cerrar las conexiones");
+		            		System.out.println("Error critico: no fue posible cerrar la conexion de: "+conexion.getID());
 							e.printStackTrace();
 						}
 		            }

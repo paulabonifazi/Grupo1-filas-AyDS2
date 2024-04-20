@@ -8,6 +8,11 @@ public class Turno {
 	private LocalTime hrRegistro;
 	private String dni;
 	
+	public Turno() {
+		dni=null;
+		ausencias=0;
+	}
+	
 	public Turno(String dni) {
 		this.dni = dni;
 		hrRegistro=	LocalTime.now();
