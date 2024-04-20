@@ -3,6 +3,7 @@ package estadistico;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
+import TCP.TCPCliente;
 
 public class GestorConexionEstadistico implements IEstado{
 	private TCPCliente conexion;
@@ -16,10 +17,10 @@ public class GestorConexionEstadistico implements IEstado{
 		return null;
 	}
 	
-	public void loginSV(String contraseña,String IP,int puerto) {
+	public void loginSV(String contrasenia,String IP,int puerto) {
 		try {
 			conexion=new TCPCliente(IP, puerto);
-			conexion.enviarMensajeAlSerivor(contraseña+";Estadisticos", false);
+			conexion.enviarMensajeAlSerivor(contrasenia+";Estadisticos", false);
 			String respuesta=conexion.recibirmensajeDeServidor(null);
 			if(respuesta!=null) {
 				String[] elementos = respuesta.split(";");	
