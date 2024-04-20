@@ -122,7 +122,6 @@ public class GestorBox extends Thread implements IAtencion{
         	fin=false;
         	while(!fin) {
         		mensaje=null;
-        		System.out.println(turno.getDni());
         		try {
 					mensaje=this.conexion.recibirmensajeDeCliente(5000, false); //Se espera por 5 segundos el cancelar y se recibe como mensaje: "<Operacion>"
 					
