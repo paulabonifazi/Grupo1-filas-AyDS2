@@ -4,17 +4,24 @@ import java.awt.event.ActionListener;
 
 public interface IVistaOperador {
 	
-	static final String LLAMAR = "Llamar";
-	static final String ELIMINAR = "Eliminar";
-	
-	void setDisplay(String clienteActual);
-	int getNumeroPuesto();
-	void habilitarBotonEliminar();
-	void deshabilitarBotonEliminar();
+	static final String SOLICITARCLIENTE = "Solicitar Cliente";
+	static final String CANCELAR = "Cancelar";
+	static final String AUSENTE = "Ausente";
+	static final String SIAUSENTE = "SiAusente";
+	static final String NOAUSENTE = "NoAusente";
+	static final String ATENDIDO = "Atendido";
+	static final String SIATENDIDO = "SiAtendido";
+	static final String NOATENDIDO = "NoAtendido";
+
+	void setClienteActual(String clienteActual);
+	void habilitarBotonAtendido();
+	void deshabilitarBotonAtendido();
+	void habilitarBotonLlamar();
+	void deshabilitarBotonLlamar(); 
+	void habilitarBotonAusente();
+	void deshabilitarBotonAusente(); 
 	void dispose();
 	void setNumeroPuesto(int numero);
-	void setActionListener(ActionListener c);
+	void setControlador(ControladorVistaOperador c);
 	void abrir();
-	
-
 }
