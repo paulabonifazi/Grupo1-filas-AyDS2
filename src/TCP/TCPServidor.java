@@ -32,6 +32,14 @@ public class TCPServidor {
 			throw new ExcepcionNoHayPuertos(); //no deberia ocurrir nunca, pero por si a caso
 		}
 	}
+	
+	public TCPServidor(int puerto) throws ExcepcionNoHayPuertos { 
+		try {
+			this.socket= new ServerSocket(puerto); //puerto automatico
+		} catch (IOException e) {
+			throw new ExcepcionNoHayPuertos(); //no deberia ocurrir nunca, pero por si a caso
+		}									   //EN ESTE CASO NO SE SI IRIA ESTA EXCEPCION
+	}
 
 	public int getPuerto() {
 		int puerto=0;
