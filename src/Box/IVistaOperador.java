@@ -20,6 +20,8 @@ public interface IVistaOperador {
 	void deshabilitarBotonLlamar(); 
 	void habilitarBotonAusente();
 	void deshabilitarBotonAusente(); 
+	public void habilitarBotonCancelar();
+	public void deshabilitarBotonCancelar();
 	void dispose();
 	void setNumeroPuesto(int numero);
 	void setControlador(ControladorVistaOperador c);

@@ -18,7 +18,7 @@ public class EnviadorMensajes extends Thread{
 	}
 	
 	public void run() {
-		String mensaje;
+		String mensaje=null;
 		try {
 			mensaje=blockingQueue.take();
 		} catch (InterruptedException e) {

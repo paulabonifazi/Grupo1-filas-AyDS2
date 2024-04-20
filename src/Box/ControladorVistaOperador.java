@@ -7,20 +7,44 @@ import java.util.concurrent.BlockingQueue;
 import TCP.TCPCliente;
 
 public class ControladorVistaOperador implements ActionListener {
-	IVistaOperador vista;
-	EnviadorMensajes enviadorMensajes;
-	BlockingQueue<String> colamensajes;
-	GestorCliente gcliente;
+	private IVistaOperador vista;
+	private EnviadorMensajes enviadorMensajes;
+	private BlockingQueue<String> colamensajes;
+	private GestorCliente gcliente;
+	private StateAbstracta ventanaState;
+	private int numeroBox;
+	private String estadoCola;
 	
-	public ControladorVistaOperador(IVistaOperador vista, EnviadorMensajes enviadorMensajes, BlockingQueue<String> colamensajes,GestorCliente gcliente) {
+	public ControladorVistaOperador() {
 		super();
+		ventanaState=new InactivoState(this);
+	}
+	
+
+	public void setVista(IVistaOperador vista) {
 		this.vista = vista;
-		this.enviadorMensajes = enviadorMensajes;
-		this.colamensajes=colamensajes;
-		this.gcliente=gcliente;
-		gcliente.start();
 	}
 
+	public void setEnviadorMensajes(EnviadorMensajes enviadorMensajes) {
+		this.enviadorMensajes = enviadorMensajes;
+	}
+
+	public void setColamensajes(BlockingQueue<String> colamensajes) {
+		this.colamensajes = colamensajes;
+	}
+
+	public void setGcliente(GestorCliente gcliente) {
+		this.gcliente = gcliente;
+	}
+
+	public void setNumeroBox(int numeroBox) {
+		this.numeroBox=numeroBox;
+	}
+	
+	public void cambiarEstado(StateAbstracta estadonuevo) {
+		this.ventanaState=estadonuevo;
+		
+	}
 	@Override
 	public void actionPerformed(ActionEvent evento) {
 		if (evento.getActionCommand().equals(IVistaOperador.SOLICITARCLIENTE)) {
@@ -63,11 +87,27 @@ public class ControladorVistaOperador implements ActionListener {
 			 */
 	}
 	
+	public void asignarCliente() {
+		ventanaState.asignarCliente();
+	}
+	
+	public void clienteAsignadoVentana() {
+		
+		
+		
+	}
+	
 	
 	
 	public void recibirMensajesTCP() {
 		
 		
+		
+	}
+
+
+	public void habilitarBotonCancelar() {
+		vista.
 		
 	}
 }
