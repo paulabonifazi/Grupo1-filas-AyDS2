@@ -17,7 +17,7 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 
 	public void MostrarEstado() {
 		try {
-			conexion.enviarMensajeAlSerivor("MostrarEstado", false);
+			conexion.enviarMensajeAlServidor("MostrarEstado", false);
 			String estado=conexion.recibirmensajeDeServidor(false);
 			// Patrón para extraer los valores
 			 String[]elementos= estado.split("/");
@@ -57,7 +57,7 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 	public void loginSV(String contrasenia,String IP,int puerto) {
 		try {
 			conexion=new TCPCliente(IP, puerto);
-			conexion.enviarMensajeAlSerivor(contrasenia+";Estadisticos", false);
+			conexion.enviarMensajeAlServidor(contrasenia+";Estadisticos", false);
 			String respuesta=conexion.recibirmensajeDeServidor(false);
 			if(respuesta!=null) {
 				String[] elementos = respuesta.split(";");	

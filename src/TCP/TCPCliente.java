@@ -16,9 +16,9 @@ public class TCPCliente {
 	private PrintWriter out;
 	private BufferedReader in;
 
-	public TCPCliente(String IP, int puerto) throws ExcepcionErrorConexion { 
+	public TCPCliente(String ip, int puerto) throws ExcepcionErrorConexion { 
 			try {
-				socket= new Socket(IP,puerto);
+				socket= new Socket(ip,puerto);
 				out = new PrintWriter(socket.getOutputStream(), true);
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			} catch (IOException e) {
@@ -43,6 +43,10 @@ public class TCPCliente {
 		}
 	}
 	
+	public boolean estaCerrado() {
+		return socket.isClosed();
+	}
+	
 	public String recibirmensajeDeServidor(Boolean confirmacion) throws ExcepcionFinConexion { //precondicion el socket no tiene que estar cerrado y el timeout es positivo
 		String mensaje = null;
 		try {
@@ -56,7 +60,7 @@ public class TCPCliente {
 		return mensaje;
 	}
 
-	public void enviarMensajeAlSerivor(String mensaje, Boolean confirmacion ) throws ExcepcionLecturaErronea, ExcepcionFinConexion { ////confirmacion supone que se tiene liberado el inputSteam
+	public void enviarMensajeAlServidor(String mensaje, Boolean confirmacion ) throws ExcepcionLecturaErronea, ExcepcionFinConexion { ////confirmacion supone que se tiene liberado el inputSteam
 		out.println(mensaje); //NO detecta si se corto la comunicacion
 		if(confirmacion) {
 			try {
