@@ -9,7 +9,7 @@ public interface IVista {
 	void errorIngreso(String motivo);
 	void actualiza(int tamCola,int cantAtendidos, long TPromEsp,long TPromAtn,long TPromLlam);
 	String getIP();
-	String getPuerto();
+	int getPuerto();
 	String getContrasenia();
 	
 }

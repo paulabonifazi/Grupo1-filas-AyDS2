@@ -3,14 +3,25 @@ package estadistico;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
 
-public class Ventana extends JFrame {
+public class Ventana extends JFrame implements KeyListener,IVista {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private JPanel Ventana;
     private JTextField IPTxt;
     private JTextField PuertoTxt;
     private JTextField ContraTxt;
+    private JButton RegistroBtn;
+    private JTextArea TpromEspTxt;
+    private JTextArea ClientesTxt;
+    private JTextArea TpromSoliTxt;
+    private JTextArea TpromAtnTxt;
+    private JTextArea AtencionesTxt;
+    private CardLayout Cartas;
+    private JButton ActualizaBtn;
 
     public Ventana() {
         initComponents();
@@ -19,14 +30,15 @@ public class Ventana extends JFrame {
     private void initComponents() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20)); // Añadido margen
-        setContentPane(contentPane);
-        contentPane.setLayout(new CardLayout(0, 0));
+        Ventana = new JPanel();
+        Ventana.setBorder(new EmptyBorder(20, 20, 20, 20)); // Añadido margen
+        setContentPane(Ventana);
+        this.Cartas=new CardLayout();
+        Ventana.setLayout(this.Cartas);
 
         JPanel Login = new JPanel();
         Login.setLayout(new GridLayout(0, 1, 0, 10)); // Espaciado vertical
-        contentPane.add(Login, "name_115909304371000");
+        Ventana.add(Login, "Login");
 
         // Panel para IP
         JPanel PanelIP = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alineación izquierda
@@ -36,6 +48,7 @@ public class Ventana extends JFrame {
         PanelIP.add(IpLb);
 
         IPTxt = new JTextField();
+        IPTxt.addKeyListener(this);
         IPTxt.setPreferredSize(new Dimension(300, 20)); // Tamaño constante
         PanelIP.add(IPTxt);
         IPTxt.setColumns(30);
@@ -48,6 +61,7 @@ public class Ventana extends JFrame {
         PanelPuerto.add(PuertoLb);
 
         PuertoTxt = new JTextField();
+        PuertoTxt.addKeyListener(this);
         PuertoTxt.setPreferredSize(new Dimension(300, 20)); // Tamaño constante
         PanelPuerto.add(PuertoTxt);
         PuertoTxt.setColumns(30);
@@ -60,6 +74,7 @@ public class Ventana extends JFrame {
         PanelContra.add(ContraLb);
 
         ContraTxt = new JTextField();
+        ContraTxt.addKeyListener(this);
         ContraTxt.setPreferredSize(new Dimension(300, 20)); // Tamaño constante
         PanelContra.add(ContraTxt);
         ContraTxt.setColumns(30);
@@ -68,18 +83,21 @@ public class Ventana extends JFrame {
         JPanel PanelReg = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alineación central
         Login.add(PanelReg);
 
-        JButton RegistroBtn = new JButton("Registrarse");
+        RegistroBtn = new JButton("Registrarse");
         RegistroBtn.setPreferredSize(new Dimension(120, 30)); // Tamaño fijo
+        RegistroBtn.setEnabled(false);
+        RegistroBtn.setActionCommand("REGISTRAR");
         PanelReg.add(RegistroBtn);
         
         JPanel Estadisticas = new JPanel();
-        contentPane.add(Estadisticas, "name_120102293624800");
+        Ventana.add(Estadisticas, "Estadisticas");
         Estadisticas.setLayout(new BorderLayout(0, 0));
         
         JPanel PanelActualizar = new JPanel();
         Estadisticas.add(PanelActualizar, BorderLayout.SOUTH);
         
-        JButton ActualizaBtn = new JButton("Actualizar");
+        ActualizaBtn = new JButton("Actualizar");
+        ActualizaBtn.setActionCommand("ACTUALIZAR");
         PanelActualizar.add(ActualizaBtn);
         
         JPanel PanelEstadisticos = new JPanel();
@@ -90,36 +108,36 @@ public class Ventana extends JFrame {
         PanelEstadisticos.add(panelTiempos);
         panelTiempos.setLayout(new GridLayout(0, 1, 0, 0));
         
-        JPanel panel_2 = new JPanel();
-        panelTiempos.add(panel_2);
-        panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        JPanel panelTEsp = new JPanel();
+        panelTiempos.add(panelTEsp);
+        panelTEsp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JLabel lblNewLabel = new JLabel("T. Espera Prom:            ");
-        panel_2.add(lblNewLabel);
+        JLabel TpromEspLbl = new JLabel("T. Espera Prom:            ");
+        panelTEsp.add(TpromEspLbl);
         
-        JTextArea textArea = new JTextArea();
-        textArea.setColumns(11);
-        panel_2.add(textArea);
+        TpromEspTxt = new JTextArea();
+        TpromEspTxt.setColumns(11);
+        panelTEsp.add(TpromEspTxt);
         
-        JPanel panel_3 = new JPanel();
-        panelTiempos.add(panel_3);
+        JPanel panelTSoli = new JPanel();
+        panelTiempos.add(panelTSoli);
         
-        JLabel lblNewLabel_1 = new JLabel("T. Solicitud Prom:          ");
-        panel_3.add(lblNewLabel_1);
+        JLabel TpromSoliLbl = new JLabel("T. Solicitud Prom:          ");
+        panelTSoli.add(TpromSoliLbl);
         
-        JTextArea textArea_1 = new JTextArea();
-        textArea_1.setColumns(11);
-        panel_3.add(textArea_1);
+        TpromSoliTxt = new JTextArea();
+        TpromSoliTxt.setColumns(11);
+        panelTSoli.add(TpromSoliTxt);
         
-        JPanel panel_4 = new JPanel();
-        panelTiempos.add(panel_4);
+        JPanel panelTAtn = new JPanel();
+        panelTiempos.add(panelTAtn);
         
-        JLabel lblNewLabel_2 = new JLabel("T. Atencion Promedio:    ");
-        panel_4.add(lblNewLabel_2);
+        JLabel TpromAtnLbl = new JLabel("T. Atencion Promedio:    ");
+        panelTAtn.add(TpromAtnLbl);
         
-        JTextArea textArea_2 = new JTextArea();
-        textArea_2.setColumns(11);
-        panel_4.add(textArea_2);
+        TpromAtnTxt = new JTextArea();
+        TpromAtnTxt.setColumns(11);
+        panelTAtn.add(TpromAtnTxt);
         
         JPanel PanelCant = new JPanel();
         PanelEstadisticos.add(PanelCant);
@@ -131,22 +149,22 @@ public class Ventana extends JFrame {
         JPanel PanelCantAtenciones = new JPanel();
         PanelCant.add(PanelCantAtenciones);
         
-        JLabel CantAtencionesLbl = new JLabel("Cant. Atenciones:          ");
-        PanelCantAtenciones.add(CantAtencionesLbl);
+        JLabel AtencionesLbl = new JLabel("Cant. Atenciones:          ");
+        PanelCantAtenciones.add(AtencionesLbl);
         
-        JTextArea textArea_3 = new JTextArea();
-        textArea_3.setColumns(11);
-        PanelCantAtenciones.add(textArea_3);
+        AtencionesTxt = new JTextArea();
+        AtencionesTxt.setColumns(11);
+        PanelCantAtenciones.add(AtencionesTxt);
         
         JPanel panel_8 = new JPanel();
         PanelCant.add(panel_8);
         
-        JLabel lblNewLabel_5 = new JLabel("Cant. clientes en espera:");
-        panel_8.add(lblNewLabel_5);
+        JLabel ClientesLbl = new JLabel("Cant. clientes en espera:");
+        panel_8.add(ClientesLbl);
         
-        JTextArea textArea_4 = new JTextArea();
-        textArea_4.setColumns(11);
-        panel_8.add(textArea_4);
+        ClientesTxt = new JTextArea();
+        ClientesTxt.setColumns(11);
+        panel_8.add(ClientesTxt);
     }
 
     public static void main(String[] args) {
@@ -157,4 +175,64 @@ public class Ventana extends JFrame {
             }
         });
     }
+	public void keyPressed(KeyEvent e) {
+	}
+	public void keyReleased(KeyEvent e) {
+		int puerto=0;
+		try {
+			puerto=Integer.parseInt(this.PuertoTxt.getText());
+		}
+		catch(NumberFormatException a){
+			//nada
+		}
+		if(puerto>0 && !this.ContraTxt.getText().isBlank()&&!this.ContraTxt.getText().isEmpty() &&!this.IPTxt.getText().isBlank()&&!this.IPTxt.getText().isEmpty()) {
+			this.RegistroBtn.setEnabled(true);
+		}
+		else
+			this.RegistroBtn.setEnabled(false);
+	}
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		this.RegistroBtn.addActionListener(actionListener);
+		this.ActualizaBtn.addActionListener(actionListener);
+	}
+
+	@Override
+	public void entraSV() {
+		this.Cartas.show(Ventana, "Estadisticas");
+	}
+
+	@Override
+	public void salirSV() {
+		this.Cartas.show(Ventana, "Estadisticas");
+	}
+
+	@Override
+	public void errorIngreso(String motivo) {
+		JOptionPane.showMessageDialog(this, motivo, "Error", JOptionPane.ERROR_MESSAGE); 
+	}
+
+	@Override
+	public void actualiza(int tamCola, int cantAtendidos, long TPromEsp, long TPromAtn, long TPromLlam) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getIP() {
+		return this.IPTxt.getText();
+	}
+
+	@Override
+	public int getPuerto() {
+		return Integer.parseInt(this.PuertoTxt.getText());
+	}
+
+	@Override
+	public String getContrasenia() {
+		return this.ContraTxt.getText();
+	}
 }

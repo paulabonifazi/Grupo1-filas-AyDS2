@@ -1,18 +1,19 @@
 package estadistico;
 
+import java.util.Observable;
+
 import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
 import TCP.TCPCliente;
-
-public class GestorConexionEstadistico implements IEstado{
+@SuppressWarnings("deprecation")
+public class GestorConexionEstadistico extends Observable implements IEstado{
 	private TCPCliente conexion;
 	public GestorConexionEstadistico() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public String MostrarEstado() {
 		// TODO Auto-generated method stub
 		return null;
@@ -32,21 +33,23 @@ public class GestorConexionEstadistico implements IEstado{
 						//si ocurre no se puede hacer nada
 					}
 					conexion=new TCPCliente(IP, Integer.parseInt(elementos[1]));
+					setChanged();
+					notifyObservers("Exito");
 				}
 				else {
-					//error de contraseña
+					setChanged();
+					notifyObservers("Contrasenia");
 				}
 			}
 			else {
-				//notify. error login por error de conexion (Ip o puerto erroneo)
+				setChanged();
+				notifyObservers("Conexion");
 			}
-		} 
-		catch (ExcepcionErrorConexion|ExcepcionFinConexion e) {
-			//notify. error login por error de conexion (Ip o puerto erroneo)
-		} catch (ExcepcionLecturaErronea e) {
-			// No puede ocurrir xq no se valida (false)
 		}
+		catch (ExcepcionErrorConexion|ExcepcionFinConexion|ExcepcionLecturaErronea e) {
+			setChanged();
+			notifyObservers("Conexion");
+		}
+		
 	}
-	
-	
 }

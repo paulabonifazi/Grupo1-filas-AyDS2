@@ -9,11 +9,6 @@ public class Estadistico {
 	}
 
 	public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Ventana ventana = new Ventana();
-                ventana.setVisible(true);
-            }
-        });
+                Controlador controlador=new Controlador();
     }
-	}
+}
