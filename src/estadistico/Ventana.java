@@ -217,6 +217,7 @@ public class Ventana extends JFrame implements KeyListener,IVista {
 
 	@Override
 	public void actualiza(String cantAtendidos,String TPromEsp,String TPromLlam,String TPromAtn,String tamCola) {
+		System.out.println("lol");
 		this.TpromAtnTxt.setText(""+TPromAtn);
 		this.TpromEspTxt.setText(""+TPromEsp);
 		this.TpromSoliTxt.setText(""+TPromLlam);

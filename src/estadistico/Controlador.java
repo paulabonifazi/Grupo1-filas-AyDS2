@@ -30,6 +30,7 @@ public class Controlador implements ActionListener,Observer {
                 this.modelo.loginSV(contra, ip, puerto);
             break;
             case "ACTUALIZAR":
+            	this.modelo.MostrarEstado();
             	break;
         }
     }
@@ -44,10 +45,15 @@ public class Controlador implements ActionListener,Observer {
     	}
     	else if(arg1.toString().contentEquals("Conexion")) {
     		this.vista.errorIngreso("Error: se produjo un problema en la conexión.\nVerifique la IP o el puerto e intentelo de nuevo");
+    		this.vista.salirSV();
     	}
     	else {
     		String mensaje=arg1.toString();
     		String[]elementos=mensaje.split(";");
+    		System.out.println(elementos.length);
+    		System.out.println(elementos[0]);
+    		System.out.println(elementos[1]);
+    		System.out.println(elementos[2]);
     		if(elementos.length==5) {
     			vista.actualiza(elementos[0], elementos[1], elementos[2], elementos[3], elementos[4]);
     		}

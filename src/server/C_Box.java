@@ -35,8 +35,9 @@ public class C_Box implements IConexion{
 	
 	@Override
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor();
 		this.conexion.cerrarConexion();
+		this.conexion.cerrarPuertoServidor();
+		
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	

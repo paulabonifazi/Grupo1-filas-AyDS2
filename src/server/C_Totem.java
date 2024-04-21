@@ -35,8 +35,9 @@ public class C_Totem implements IConexion{
 	
 	@Override
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
-		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
 		this.conexion.cerrarConexion();
+		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
+		
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	
