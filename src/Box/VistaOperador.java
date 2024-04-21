@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 
-public class VistaOperador extends JFrame implements IVistaOperador, ActionListener {
+public class VistaOperador extends JFrame implements IVistaOperador {
 	
 	private JPanel mainPanel;
 	private int numeroPuesto;
@@ -44,7 +44,6 @@ public class VistaOperador extends JFrame implements IVistaOperador, ActionListe
 		panelBotones.add(btnEliminar);
 
 		btnLlamar = new JButton("Siguiente atenci\u00F3n");
-		this.btnLlamar.addActionListener(this);
 		btnLlamar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelBotones.add(btnLlamar);
 
@@ -65,23 +64,11 @@ public class VistaOperador extends JFrame implements IVistaOperador, ActionListe
 		});
 		
 	}
-	
-	@Override
-	public int getNumeroPuesto() {
-		return this.numeroPuesto;
-	}
 
 	
 	private void setActionCommands() {
-		this.btnEliminar.setActionCommand(IVistaOperador.ELIMINAR);
-		this.btnLlamar.setActionCommand(IVistaOperador.LLAMAR);
-	}
-
-	
-	@Override
-	public void setActionListener(ActionListener c) {
-		this.btnLlamar.addActionListener(c);
-		this.btnEliminar.addActionListener(c);
+		this.btnEliminar.setActionCommand(IVistaOperador.AUSENTE);
+		this.btnLlamar.setActionCommand(IVistaOperador.ATENDIDO);
 	}
 
 	
@@ -101,34 +88,73 @@ public class VistaOperador extends JFrame implements IVistaOperador, ActionListe
 
 	
 	@Override
-	public void setDisplay(String clienteActual) {
-		this.lblDisplay.setText(clienteActual);
-	}
-
-	
-	@Override
 	public void dispose() {
 		super.dispose();
 	}
-
 	
-	@Override
-	public void habilitarBotonEliminar() {
-		this.btnEliminar.setEnabled(true);
-	}
-
-	
-	@Override
-	public void deshabilitarBotonEliminar() {
-		this.btnEliminar.setEnabled(false);
-	}
-
 	@Override
 	public void setNumeroPuesto(int numero) {
 		this.numeroPuesto = numero;
 		this.setTitle("Puesto de trabajo numero " + String.valueOf(this.numeroPuesto));
 	}
 
-	public void actionPerformed(ActionEvent e) {
+
+	@Override
+	public void setControlador(ActionListener c) {
+		this.btnLlamar.addActionListener(c);
+		this.btnEliminar.addActionListener(c);
+	}
+	@Override
+	public void solicitarClienteVentana() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void esperandoVentana() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deshabilitarBotonCancelar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void habilitarBotonCancelar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clienteAsignadoVentana(String clienteActual) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void confirmacionAusenteVentana() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void confirmacionAtendidoVentana() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEstadoDeLaCola(int cant) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarError(String e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
