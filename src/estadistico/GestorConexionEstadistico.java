@@ -1,5 +1,6 @@
 package estadistico;
 
+import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
@@ -24,19 +25,24 @@ public class GestorConexionEstadistico implements IEstado{
 			String respuesta=conexion.recibirmensajeDeServidor(null);
 			if(respuesta!=null) {
 				String[] elementos = respuesta.split(";");	
-				if(elementos.length >= 2) {
-					
+				if(elementos.length >= 2 && elementos[0].equals("Exito")) {
+					try {
+						conexion.cerrarConexion();
+					} catch (ExcepcionErrorAlCerrar e) {
+						//si ocurre no se puede hacer nada
+					}
+					conexion=new TCPCliente(IP, Integer.parseInt(elementos[1]));
 				}
 				else {
-					
+					//error de contraseña
 				}
 			}
 			else {
-				
+				//notify. error login por error de conexion (Ip o puerto erroneo)
 			}
 		} 
 		catch (ExcepcionErrorConexion|ExcepcionFinConexion e) {
-			//notify. error login por error de conexion
+			//notify. error login por error de conexion (Ip o puerto erroneo)
 		} catch (ExcepcionLecturaErronea e) {
 			// No puede ocurrir xq no se valida (false)
 		}
