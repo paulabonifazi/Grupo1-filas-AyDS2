@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,11 +24,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class Vista extends JFrame implements IVistaRegistro,KeyListener {
+public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseListener {
 
     private static final long serialVersionUID = 1L;
     private JPanel cardPanel;
-    private CardLayout cardLayout;
+    private CardLayout cartas;
     private JPanel panelPrincipal;
     private JButton btn0;
     private JButton btn1;
@@ -40,27 +42,19 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
     private JButton btn9;
     private JButton btnAceptar;
     private JButton btnEliminar;
-    private JLabel lblDisplay;
     
-    private JPanel Ventana;
     private JTextField IPTxt;
     private JTextField PuertoTxt;
     private JTextField ContraTxt;
     private JButton RegistroBtn;
-    private JTextArea TpromEspTxt;
-    private JTextArea ClientesTxt;
-    private JTextArea TpromSoliTxt;
-    private JTextArea TpromAtnTxt;
-    private JTextArea AtencionesTxt;
-    private CardLayout Cartas;
-    private JButton ActualizaBtn;
-    private JTextArea textArea;
+    private JTextArea txtrIngreseSuDni;
+    private String DNI="";
 
     public Vista() {
         setTitle("Tótem");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
+        cartas = new CardLayout();
+        cardPanel = new JPanel(cartas);
         setContentPane(cardPanel);
 
         panelPrincipal = new JPanel();
@@ -126,26 +120,21 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
         RegistroBtn.setActionCommand("REGISTRAR");
         PanelReg.add(RegistroBtn);
         
-        this.salirSV();
+        this.entraSV();
 
-        setActionCommands();
     }
 
     private void configurarPanelPrincipal() {
         JPanel panelTitulo = new JPanel();
-        panelTitulo.setBorder(new TitledBorder(
-                new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-                "Ingrese su DNI", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panelTitulo.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Solicite su turno:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panelTitulo.setLayout(new GridLayout(1, 1, 0, 0));
         
-        textArea = new JTextArea();
-        textArea.setRows(4);
-        textArea.setColumns(100);
-        panelTitulo.add(textArea);
-
-        lblDisplay = new JLabel("");
-        lblDisplay.setFont(new Font("Tahoma", Font.PLAIN, 28));
-        lblDisplay.setHorizontalAlignment(SwingConstants.CENTER);
-        panelTitulo.add(lblDisplay);
+        txtrIngreseSuDni = new JTextArea();
+        txtrIngreseSuDni.setText("Ingrese su DNI");
+        txtrIngreseSuDni.setFont(new Font("Arial Black", Font.PLAIN, 50));
+        txtrIngreseSuDni.setRows(4);
+        txtrIngreseSuDni.setColumns(90);
+        panelTitulo.add(txtrIngreseSuDni);
 
         panelPrincipal.add(panelTitulo);
 
@@ -194,7 +183,7 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
         btn0.setFont(new Font("Tahoma", Font.PLAIN, 20));
         panelN4.add(btn0);
         panelPrincipal.add(panelN4);
-
+        
         JPanel panelInferior = new JPanel();
         panelInferior.setLayout(new GridLayout(1, 2, 0, 0));
         btnEliminar = new JButton("<-");
@@ -203,8 +192,25 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
         btnAceptar = new JButton("Aceptar");
         btnAceptar.setEnabled(false);
         btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        btnAceptar.setActionCommand("ENVIAR");
+        btnAceptar.setEnabled(false);
         panelInferior.add(btnAceptar);
         panelPrincipal.add(panelInferior);
+        
+        
+        btn0.addMouseListener(this);
+        btn1.addMouseListener(this);
+        btn2.addMouseListener(this);
+        btn3.addMouseListener(this);
+        btn4.addMouseListener(this);
+        btn5.addMouseListener(this);
+        btn6.addMouseListener(this);
+        btn7.addMouseListener(this);
+        btn8.addMouseListener(this);
+        btn9.addMouseListener(this);
+        btnEliminar.addMouseListener(this);
+        
+        
     }
 
     private void configurarPanelActual() {
@@ -217,33 +223,8 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
 
     @Override
     public void setActionListener(ActionListener c) {
-        btn0.addActionListener(c);
-        btn1.addActionListener(c);
-        btn2.addActionListener(c);
-        btn3.addActionListener(c);
-        btn4.addActionListener(c);
-        btn5.addActionListener(c);
-        btn6.addActionListener(c);
-        btn7.addActionListener(c);
-        btn8.addActionListener(c);
-        btn9.addActionListener(c);
-        btnAceptar.addActionListener(c);
-        btnEliminar.addActionListener(c);
-    }
-
-    public void setActionCommands() {
-        btn0.setActionCommand(IVistaRegistro.CERO);
-        btn1.setActionCommand(IVistaRegistro.UNO);
-        btn2.setActionCommand(IVistaRegistro.DOS);
-        btn3.setActionCommand(IVistaRegistro.TRES);
-        btn4.setActionCommand(IVistaRegistro.CUATRO);
-        btn5.setActionCommand(IVistaRegistro.CINCO);
-        btn6.setActionCommand(IVistaRegistro.SEIS);
-        btn7.setActionCommand(IVistaRegistro.SIETE);
-        btn8.setActionCommand(IVistaRegistro.OCHO);
-        btn9.setActionCommand(IVistaRegistro.NUEVE);
-        btnAceptar.setActionCommand(IVistaRegistro.ENVIAR);
-        btnEliminar.setActionCommand(IVistaRegistro.BACKSPACE);
+        this.btnAceptar.addActionListener(c);
+        this.RegistroBtn.addActionListener(c);
     }
 
 	@Override
@@ -276,18 +257,19 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
 
 	public void entraSV() {
 		setBounds(100, 100, 800, 600);
-		this.Cartas.show(this.cardPanel, "Principal");
+		this.cartas.show(this.cardPanel, "Principal");
 		
 	}
 
 	@Override
 	public void salirSV() {
 		setBounds(100, 100, 450, 300);
-		this.Cartas.show(this.cardPanel, "Login");
+		this.cartas.show(this.cardPanel, "Login");
 		
 	}
 	
 
+	@SuppressWarnings("unused")
 	private void confirmaDNI() {
 	    int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de continuar con este DNI?", "Confirmación de DNI", JOptionPane.YES_NO_OPTION);
 
@@ -304,7 +286,102 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener {
 	}
 
 	@Override
+	public void errorIngreso(String motivo) {
+		JOptionPane.showMessageDialog(this, motivo, "Error", JOptionPane.ERROR_MESSAGE); 
+	}
+	
+	@Override
 	public void muestraRtado() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getIP() {
+		return this.IPTxt.getText();
+	}
+
+	@Override
+	public int getPuerto() {
+		return Integer.parseInt(this.PuertoTxt.getText());
+	}
+
+	@Override
+	public String getContrasenia() {
+		return this.ContraTxt.getText();
+	}
+
+	@Override
+	public String getDNI() {
+		return this.DNI;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		Object objt=e.getSource();
+		 if (objt == this.btn0) {
+			 this.DNI+="0";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn1) {
+			 this.DNI+="1";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn2) {
+			 this.DNI+="2";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn3) {
+			 this.DNI+="3";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn4) {
+			 this.DNI+="4";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn5) {
+			 this.DNI+="5";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn6) {
+			 this.DNI+="6";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn7) {
+			 this.DNI+="7";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn8) {
+			 this.DNI+="8";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btn9) {
+			 this.DNI+="9";
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }else if(objt==this.btnEliminar) {
+			 if (DNI!=null && DNI.length() > 0) {
+			        DNI= DNI.substring(0, DNI.length() - 1);
+			    }
+			 this.txtrIngreseSuDni.setText(DNI);
+		 }
+		 if(!DNI.isBlank()  && DNI.length()==8) {
+			 this.btnAceptar.setEnabled(true);
+		 }
+		 else
+			 this.btnAceptar.setEnabled(false);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
