@@ -7,7 +7,9 @@ import Excepciones.ExcepcionErrorConexion;
 import TCP.*;
 
 public class MainControladorBox {
-
+	
+	TCPCliente cliente=null;
+	
 	public static void main(String[] args) {
 		
 		
@@ -24,37 +26,16 @@ public class MainControladorBox {
 		 *  
 		 * mensaje cancelado 
 		 */
-		TCPCliente cliente=null;
-		try {
-			cliente=new TCPCliente("localhost",1234);
-		} catch (ExcepcionErrorConexion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		recibirmensaje
-		try {
-			cliente=new TCPCliente(ipRecibida,puertoRecibido);
-		} catch (ExcepcionErrorConexion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ControladorVistaOperador controlador=new ControladorVistaOperador();
-		EnviadorMensajes enviadorMensajes=new EnviadorMensajes(cliente);
-		IVistaOperador vista=new VistaOperador();
-		vista.setControlador(controlador);
-		BlockingQueue cola=new LinkedBlockingDeque<String>();
-		GestorCliente gcliente=new GestorCliente(cliente,controlador);
-		
-		controlador.setVista(vista);
-		controlador.setEnviadorMensajes(enviadorMensajes);
-		controlador.setColamensajes(cola);
-		controlador.setGcliente(gcliente);
-		
-		//public void iniciarvista();
-		
-		
-		
-		
+		VentanaLogin ventana=new VentanaLogin();
+		ControladorLogin controladorLogin= new ControladorLogin(ventana);
+		ventana.setControlador(controladorLogin);
+		ControladorVistaOperador controladorOperador=new ControladorVistaOperador();
+		controladorOperador.setLogin(controladorLogin);
+		controladorLogin.mostrarVentana();
+		controladorOperador.solicitarNumeroBox();
+		controladorOperador.intentarConexion();
 	}
+	
+	
 
 }

@@ -15,7 +15,7 @@ public interface IVistaOperador {
 	
 	public void abrir();
 	public void setNumeroPuesto(int numero);
-	public void setControlador(ControladorVistaOperador c); //Ejecutan 1 vez
+	public void setControlador(ActionListener c); //Ejecutan 1 vez
 
 	public void solicitarClienteVentana(); // xxxVentana -> cambiar a la ventana xxx
 	public void esperandoVentana();
