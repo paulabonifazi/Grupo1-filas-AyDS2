@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import TCP.TCPCliente;
 
 public class ControladorVistaOperador implements ActionListener {
+	
 	private IVistaOperador vista;
 	private EnviadorMensajes enviadorMensajes;
 	private BlockingQueue<String> colamensajes;
@@ -64,7 +65,7 @@ public class ControladorVistaOperador implements ActionListener {
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.AUSENTE)) {
-			this.vista.confirmacionAusenteVentana()
+			this.vista.confirmacionAusenteVentana();
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.SIAUSENTE)) {
@@ -108,6 +109,7 @@ public class ControladorVistaOperador implements ActionListener {
 		vista.clienteAsignadoVentana(dni);
 	}
 	
+	
 	public void habilitarBotonCancelar() {
 		ventanaState.activarBotonCancelar();
 	}
@@ -115,6 +117,7 @@ public class ControladorVistaOperador implements ActionListener {
 	public void habilitarBotonCancelarVentana() {
 		vista.habilitarBotonCancelar();
 	}
+	
 	
 	public void actualizarEstadoCola(int tamCola) { //ACA HAY Q AVISARLE A LA VENTANA
 		this.tamCola=tamCola;
@@ -125,9 +128,11 @@ public class ControladorVistaOperador implements ActionListener {
 	}
 	
 	public void solicitudCanceladaVentana
-
-
 	
+	controlador.solicitarClienteVentana();
+
+
+	public void mostrarError(String e) {}
 
 	
 	

@@ -12,19 +12,21 @@ public interface IVistaOperador {
 	static final String ATENDIDO = "Atendido";
 	static final String SIATENDIDO = "SiAtendido";
 	static final String NOATENDIDO = "NoAtendido";
+	
+	public void abrir();
+	public void setNumeroPuesto(int numero);
+	public void setControlador(ControladorVistaOperador c); //Ejecutan 1 vez
 
-	void setClienteActual(String clienteActual);
-	void habilitarBotonAtendido();
-	void deshabilitarBotonAtendido();
-	void habilitarBotonLlamar();
-	void deshabilitarBotonLlamar(); 
-	void habilitarBotonAusente();
-	void deshabilitarBotonAusente(); 
-	public void habilitarBotonCancelar();
+	public void solicitarClienteVentana(); // xxxVentana -> cambiar a la ventana xxx
+	public void esperandoVentana();
 	public void deshabilitarBotonCancelar();
-	void dispose();
-	void setNumeroPuesto(int numero);
-	void setControlador(ControladorVistaOperador c);
-	void abrir();
+	public void habilitarBotonCancelar();
+	public void clienteAsignadoVentana(String clienteActual);
+	public void confirmacionAusenteVentana();
+	public void confirmacionAtendidoVentana();
+	public void setEstadoDeLaCola(int cant);
+	public void mostrarError(String e); //Ejecutan n veces
+	
+
 	
 }
