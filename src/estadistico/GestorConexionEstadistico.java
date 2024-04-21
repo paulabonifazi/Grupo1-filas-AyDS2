@@ -7,6 +7,7 @@ import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
 import TCP.TCPCliente;
+import interfaces.IEstado;
 @SuppressWarnings("deprecation")
 public class GestorConexionEstadistico extends Observable implements IEstado{
 	private TCPCliente conexion;

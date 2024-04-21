@@ -17,18 +17,14 @@ public interface IVistaRegistro {
 	static final String BACKSPACE = "eliminar";
 	static final String ENVIAR = "enviar";
 
-	String getLabelDisplay();
-
-	void setLabelDisplay(String texto);
-
-	void habilitarEnvio();
-
-	void deshabilitarEnvio();
-
-	void setActionCommands();
-	
-	void setActionListener(ActionListener c);
-
-	void abrir();
+	public void setActionListener(ActionListener c);
+	public void salirSV();
+	public void entraSV();
+	public void muestraRtado();
+	String getIP();
+	int getPuerto();
+	String getContrasenia();
+	String getDNI();
+	public void errorIngreso(String motivo);
 
 }

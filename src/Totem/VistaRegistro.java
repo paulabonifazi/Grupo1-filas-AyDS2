@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class VistaRegistro extends JFrame implements IVistaRegistro, ActionListener {
+public class VistaRegistro extends JFrame implements IVistaRegistro {
  
 	private JPanel panelPrincipal;
 	private JButton btn0;
@@ -197,10 +197,5 @@ public class VistaRegistro extends JFrame implements IVistaRegistro, ActionListe
 	}
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
