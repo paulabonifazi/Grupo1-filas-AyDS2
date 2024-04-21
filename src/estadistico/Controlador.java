@@ -50,10 +50,6 @@ public class Controlador implements ActionListener,Observer {
     	else {
     		String mensaje=arg1.toString();
     		String[]elementos=mensaje.split(";");
-    		System.out.println(elementos.length);
-    		System.out.println(elementos[0]);
-    		System.out.println(elementos[1]);
-    		System.out.println(elementos[2]);
     		if(elementos.length==5) {
     			vista.actualiza(elementos[0], elementos[1], elementos[2], elementos[3], elementos[4]);
     		}

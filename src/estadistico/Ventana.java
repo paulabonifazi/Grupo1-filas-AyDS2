@@ -207,7 +207,7 @@ public class Ventana extends JFrame implements KeyListener,IVista {
 
 	@Override
 	public void salirSV() {
-		this.Cartas.show(Ventana, "Estadisticas");
+		this.Cartas.show(Ventana, "Login");
 	}
 
 	@Override
@@ -217,7 +217,6 @@ public class Ventana extends JFrame implements KeyListener,IVista {
 
 	@Override
 	public void actualiza(String cantAtendidos,String TPromEsp,String TPromLlam,String TPromAtn,String tamCola) {
-		System.out.println("lol");
 		this.TpromAtnTxt.setText(""+TPromAtn);
 		this.TpromEspTxt.setText(""+TPromEsp);
 		this.TpromSoliTxt.setText(""+TPromLlam);

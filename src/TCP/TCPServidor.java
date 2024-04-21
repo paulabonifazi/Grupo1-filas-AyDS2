@@ -92,16 +92,18 @@ public class TCPServidor {
 	
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
+				if (out!= null) {
+		            out.close();
+		        }
+		        if (in != null) {
+		            in.close();
+		        }
 				if (!clienteSocket.isClosed()) {
 		            clienteSocket.close();
 		        }
-		        if (out!= null&& !out.checkError()) {
-		            out.close();
-		        }
-		        if (in != null&& !in.ready()) {
-		            in.close();
-		        }
+		        
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket
 		}
 	}
