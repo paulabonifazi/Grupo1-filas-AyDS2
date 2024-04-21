@@ -18,7 +18,6 @@ public class GestorEstadistico extends Thread implements IEstado{
 			@Override
 		    public void run() {
 				String mensaje = null;
-				String respuesta=null;
 			 	try {
 			 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
 			 		if(conexion.validarIPCliente(IPClienteEsperado)) {
@@ -29,15 +28,15 @@ public class GestorEstadistico extends Thread implements IEstado{
 								//no hay timeOut por lo que no puede ocurrir
 							}
 				 			if (mensaje.equals("MostrarEstado")) {
-				 				respuesta=this.MostrarEstado();
+				 				this.MostrarEstado();
 				 			}
-				 			else
-				 				respuesta="InstruccionInexistente";
-				 			try {
-								conexion.enviarMensajeACliente(respuesta, false);
-							} catch (ExcepcionLecturaErronea e) {
-								//nunca ocurre porque no se habilita la comprobacion
-							}
+				 			else {
+					 			try {
+									conexion.enviarMensajeACliente("InstruccionInexistente", false);
+								} catch (ExcepcionLecturaErronea e) {
+									//nunca ocurre porque no se habilita la comprobacion
+								}
+				 			}
 			 			}
 			 		}
 				} 
@@ -59,8 +58,12 @@ public class GestorEstadistico extends Thread implements IEstado{
 			}
 
 			@Override
-			public String MostrarEstado() {
-				return this.historico.estado()+"/"+cola.size(); //estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
+			public void MostrarEstado() throws ExcepcionFinConexion, ExcepcionDeInterrupcion {
+				try {
+					conexion.enviarMensajeACliente(this.historico.estado()+"/"+cola.size(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
+				} catch (ExcepcionLecturaErronea e) {
+					//nunca ocurre porque no se habilita la comprobacion
+				}
 			}
 
 		}

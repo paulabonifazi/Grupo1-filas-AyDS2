@@ -216,9 +216,12 @@ public class Ventana extends JFrame implements KeyListener,IVista {
 	}
 
 	@Override
-	public void actualiza(int tamCola, int cantAtendidos, long TPromEsp, long TPromAtn, long TPromLlam) {
-		// TODO Auto-generated method stub
-		
+	public void actualiza(String cantAtendidos,String TPromEsp,String TPromLlam,String TPromAtn,String tamCola) {
+		this.TpromAtnTxt.setText(""+TPromAtn);
+		this.TpromEspTxt.setText(""+TPromEsp);
+		this.TpromSoliTxt.setText(""+TPromLlam);
+		this.ClientesTxt.setText(""+tamCola);
+		this.AtencionesTxt.setText(""+cantAtendidos);
 	}
 
 	@Override

@@ -14,9 +14,38 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 		// TODO Auto-generated constructor stub
 	}
 
-	public String MostrarEstado() {
-		// TODO Auto-generated method stub
-		return null;
+	public void MostrarEstado() {
+		try {
+			conexion.enviarMensajeAlSerivor("MostrarEstado", null);
+			String estado=conexion.recibirmensajeDeServidor(null);
+			// Patrón para extraer los valores
+			 String[]elementos= estado.split("/");
+             int clientesAtendidos=Integer.parseInt(elementos[0]);
+             int clientesEnEspera=Integer.parseInt(elementos[2]);
+             String[] Ctiempos= elementos[1].split(";");
+             Long[] tEsperaArray = new Long[Ctiempos.length];
+             Long[] tSolicitudArray = new Long[Ctiempos.length];
+             Long[] tAtencionArray = new Long[Ctiempos.length];
+            String[]tiempos=null;
+            for (int i = 0; i < Ctiempos.length; i++) {
+         	   tiempos=Ctiempos[i].split(",");
+         	   tEsperaArray[i]=Long.parseLong(tiempos[0]);
+         	   tSolicitudArray[i]=Long.parseLong(tiempos[1]);
+         	   tAtencionArray[i]=Long.parseLong(tiempos[2]);
+            }
+            Double tPromEsp=CalculosEstadisticos.calcularPromedio(tEsperaArray);
+            Double tPromSoli=CalculosEstadisticos.calcularPromedio(tSolicitudArray);
+            Double tPromAtc=CalculosEstadisticos.calcularPromedio(tAtencionArray);
+            
+            setChanged();
+			notifyObservers(clientesAtendidos+";"+tPromEsp+";"+tPromSoli+"/"+tPromAtc+"/"+clientesEnEspera); //problema de conexion vuelve al login
+		} catch (ExcepcionLecturaErronea e) {
+			//no puede ocurrir
+		} catch (ExcepcionFinConexion e) {
+			setChanged();
+			notifyObservers("Conexion"); //problema de conexion vuelve al login
+		}
+		
 	}
 	
 	public void loginSV(String contrasenia,String IP,int puerto) {

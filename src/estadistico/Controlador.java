@@ -45,6 +45,13 @@ public class Controlador implements ActionListener,Observer {
     	else if(arg1.toString().contentEquals("Conexion")) {
     		this.vista.errorIngreso("Error: se produjo un problema en la conexión.\nVerifique la IP o el puerto e intentelo de nuevo");
     	}
+    	else {
+    		String mensaje=arg1.toString();
+    		String[]elementos=mensaje.split(";");
+    		if(elementos.length==5) {
+    			vista.actualiza(elementos[0], elementos[1], elementos[2], elementos[3], elementos[4]);
+    		}
+    	}
     	
     }
 

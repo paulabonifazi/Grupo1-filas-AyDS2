@@ -1,6 +1,5 @@
 package estadistico;
 
-import javax.swing.SwingUtilities;
 
 public class Estadistico {
 
@@ -9,6 +8,7 @@ public class Estadistico {
 	}
 
 	public static void main(String[] args) {
-                Controlador controlador=new Controlador();
+                @SuppressWarnings("unused")
+				Controlador controlador=new Controlador();
     }
 }
