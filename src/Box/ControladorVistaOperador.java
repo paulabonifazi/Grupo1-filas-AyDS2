@@ -79,7 +79,7 @@ public class ControladorVistaOperador implements ActionListener {
 			this.ventanaState.solicitarCliente();
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.CANCELAR)) {
-			this.ventanaState.solicitudCancelada();
+			this.ventanaState.cancelarSolicitud();
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.AUSENTE)) {
@@ -119,8 +119,8 @@ public class ControladorVistaOperador implements ActionListener {
 		vista.deshabilitarBotonCancelar(); // podria estar por defecto en esperandoVentana()
 	}
 	
-	public void asignarCliente(String elementos) {
-		//ventanaState.asignarCliente();
+	public void asignarCliente(String dni) {
+		ventanaState.asignarCliente(dni);
 	}
 	
 	public void clienteAsignado(String dni) {
@@ -141,17 +141,36 @@ public class ControladorVistaOperador implements ActionListener {
 		this.tamCola=tamCola;
 	}
 
+
+	
+	public void finalizarAtencionClienteAusente() {
+		colamensajes.add("Fin");
+		enviadorMensajes.start();
+		vista.solicitarClienteVentana();
+	}
+
+	public void finalizarAtencionClienteAtendido() {
+		colamensajes.add("Ausente");
+		enviadorMensajes.start();
+		vista.solicitarClienteVentana();
+	}
+	
+	public void solicitarCancelacion() {
+		colamensajes.add("Cancelar");
+		enviadorMensajes.start();
+	}
+	
 	public void solicitudCancelada() {
 		ventanaState.solicitudCancelada();
 	}
 	
-	public void solicitudCanceladaVentana() {}
+	public void solicitudCanceladaVentana() {
+		vista.solicitarClienteVentana();
+	}
 	
-	//controlador.solicitarClienteVentana();
-
-
-	public void mostrarError(String e) {}
-
+	public void mostrarError(String e) {
+		vista.mostrarError(e);
+	}
 
 	public void setLogin(ControladorLogin controladorLogin) {
 		this.controladorLogin=controladorLogin;

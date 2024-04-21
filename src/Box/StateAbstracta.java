@@ -10,6 +10,8 @@ public abstract class StateAbstracta {
 
 	public abstract void solicitarCliente();
 	
+	public abstract void cancelarSolicitud();
+	
 	public abstract void solicitudCancelada();
 	
 	public abstract void asignarCliente(String dni);

@@ -19,8 +19,13 @@ public class EsperaState extends StateAbstracta {
 	@Override
 	public void solicitudCancelada() {
 		controlador.cambiarEstado(new InactivoState(controlador));
+		controlador.solicitudCanceladaVentana();
 	}
 
+	public void cancelarSolicitud() {
+		controlador.solicitarCancelacion();
+	}
+	
 	@Override
 	public void asignarCliente(String dni) {
 		controlador.cambiarEstado(new AtendiendoState(controlador));

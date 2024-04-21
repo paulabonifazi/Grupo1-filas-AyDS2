@@ -37,4 +37,10 @@ public class InactivoState extends StateAbstracta{
 		
 	}
 
+	@Override
+	public void cancelarSolicitud() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
