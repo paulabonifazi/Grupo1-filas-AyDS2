@@ -269,7 +269,7 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
 	}
 
 	public void entraSV() {
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 800, 800);
 		this.cartas.show(this.cardPanel, "Principal");
 		
 	}
