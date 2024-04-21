@@ -24,6 +24,7 @@ public class ControladorVistaOperador implements ActionListener {
 
 	public void setVista(IVistaOperador vista) {
 		this.vista = vista;
+		vista.
 	}
 
 
