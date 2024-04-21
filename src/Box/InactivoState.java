@@ -4,7 +4,6 @@ public class InactivoState extends StateAbstracta{
 
 	public InactivoState(ControladorVistaOperador controlador) {
 		super(controlador);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -16,9 +16,9 @@ public class TCPCliente {
 	private PrintWriter out;
 	private BufferedReader in;
 
-	public TCPCliente(String IP, int puerto) throws ExcepcionErrorConexion { 
+	public TCPCliente(String ip, int puerto) throws ExcepcionErrorConexion { 
 			try {
-				socket= new Socket(IP,puerto);
+				socket= new Socket(ip,puerto);
 				out = new PrintWriter(socket.getOutputStream(), true);
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			} catch (IOException e) {
