@@ -4,16 +4,16 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 @SuppressWarnings("deprecation")
-public class Controlador implements ActionListener,Observer {
+public class ControladorEstadistico implements ActionListener,Observer {
 
-    private IVista vista;
+    private IVistaEstadistico vista;
     private GestorConexionEstadistico modelo;
 
    
-	public Controlador() {
+	public ControladorEstadistico() {
 		this.modelo=new GestorConexionEstadistico();
 		this.modelo.addObserver(this);
-        Ventana ventana = new Ventana();
+        VentanaEstadistico ventana = new VentanaEstadistico();
 		this.vista = ventana;
         this.vista.setActionListener(this);
         ventana.setVisible(true);

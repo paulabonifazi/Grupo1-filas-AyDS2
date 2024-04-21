@@ -6,12 +6,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,11 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseListener {
+public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,MouseListener {
 
     private static final long serialVersionUID = 1L;
     private JPanel cardPanel;
@@ -49,8 +50,14 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
     private JButton RegistroBtn;
     private JTextArea txtrIngreseSuDni;
     private String DNI="";
+    private ActionListener actionlistener;
+    private JPanel panel_1;
+    private JPanel panel_2;
+    private JPanel panel_3;
+    private JPanel panel_4;
+    private JPanel panel_5;
 
-    public Vista() {
+    public VistaTotem() {
         setTitle("Tótem");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cartas = new CardLayout();
@@ -61,7 +68,6 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
         panelPrincipal.setLayout(new GridLayout(6, 0, 0, 0));
         configurarPanelPrincipal();
-        configurarPanelActual();
 
         cardPanel.add(panelPrincipal, "Principal");
 
@@ -120,8 +126,7 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         RegistroBtn.setActionCommand("REGISTRAR");
         PanelReg.add(RegistroBtn);
         
-        this.entraSV();
-
+        this.salirSV();
     }
 
     private void configurarPanelPrincipal() {
@@ -133,13 +138,16 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         txtrIngreseSuDni.setText("Ingrese su DNI");
         txtrIngreseSuDni.setFont(new Font("Arial Black", Font.PLAIN, 50));
         txtrIngreseSuDni.setRows(4);
-        txtrIngreseSuDni.setColumns(90);
+        txtrIngreseSuDni.setColumns(70);
         panelTitulo.add(txtrIngreseSuDni);
 
         panelPrincipal.add(panelTitulo);
 
         JPanel panelN1 = new JPanel();
-        panelN1.setLayout(new GridLayout(1, 3, 0, 0));
+        panelN1.setLayout(new GridLayout(0, 5, 0, 0));
+        
+        panel_1 = new JPanel();
+        panelN1.add(panel_1);
         btn1 = new JButton("1");
         btn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
         panelN1.add(btn1);
@@ -152,7 +160,10 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         panelPrincipal.add(panelN1);
 
         JPanel panelN2 = new JPanel();
-        panelN2.setLayout(new GridLayout(1, 3, 0, 0));
+        panelN2.setLayout(new GridLayout(0, 5, 0, 0));
+        
+        panel_2 = new JPanel();
+        panelN2.add(panel_2);
         btn4 = new JButton("4");
         btn4.setFont(new Font("Tahoma", Font.PLAIN, 20));
         panelN2.add(btn4);
@@ -165,7 +176,10 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         panelPrincipal.add(panelN2);
 
         JPanel panelN3 = new JPanel();
-        panelN3.setLayout(new GridLayout(1, 3, 0, 0));
+        panelN3.setLayout(new GridLayout(0, 5, 0, 0));
+        
+        panel_3 = new JPanel();
+        panelN3.add(panel_3);
         btn7 = new JButton("7");
         btn7.setFont(new Font("Tahoma", Font.PLAIN, 20));
         panelN3.add(btn7);
@@ -178,23 +192,31 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         panelPrincipal.add(panelN3);
 
         JPanel panelN4 = new JPanel();
-        panelN4.setLayout(new GridLayout(0, 3, 0, 0));
+        panelN4.setLayout(new GridLayout(0, 5, 0, 0));
+        
+        panel_4 = new JPanel();
+        panelN4.add(panel_4);
         btn0 = new JButton("0");
         btn0.setFont(new Font("Tahoma", Font.PLAIN, 20));
         panelN4.add(btn0);
         panelPrincipal.add(panelN4);
-        
-        JPanel panelInferior = new JPanel();
-        panelInferior.setLayout(new GridLayout(1, 2, 0, 0));
         btnEliminar = new JButton("<-");
+        panelN4.add(btnEliminar);
         btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        panelInferior.add(btnEliminar);
         btnAceptar = new JButton("Aceptar");
+        panelN4.add(btnAceptar);
         btnAceptar.setEnabled(false);
         btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
         btnAceptar.setActionCommand("ENVIAR");
         btnAceptar.setEnabled(false);
-        panelInferior.add(btnAceptar);
+        btnAceptar.addMouseListener(this);
+        btnEliminar.addMouseListener(this);
+        
+        JPanel panelInferior = new JPanel();
+        panelInferior.setLayout(new GridLayout(0, 5, 0, 0));
+        
+        panel_5 = new JPanel();
+        panelInferior.add(panel_5);
         panelPrincipal.add(panelInferior);
         
         
@@ -208,22 +230,13 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
         btn7.addMouseListener(this);
         btn8.addMouseListener(this);
         btn9.addMouseListener(this);
-        btnEliminar.addMouseListener(this);
         
         
-    }
-
-    private void configurarPanelActual() {
-        // Aquí puedes agregar los componentes de tu ventana actual
-        // Por ejemplo:
-        // JLabel labelActual = new JLabel("Esta es la ventana actual");
-        // panelActual.add(labelActual);
-        // Añade los componentes que necesites para tu ventana actual
     }
 
     @Override
     public void setActionListener(ActionListener c) {
-        this.btnAceptar.addActionListener(c);
+        this.actionlistener=c;
         this.RegistroBtn.addActionListener(c);
     }
 
@@ -269,31 +282,97 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
 	}
 	
 
-	@SuppressWarnings("unused")
 	private void confirmaDNI() {
-	    int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de continuar con este DNI?", "Confirmación de DNI", JOptionPane.YES_NO_OPTION);
+        
+        // Establecer el tamaño de fuente para el mensaje y los botones
+        Font font = new Font("Arial", Font.PLAIN, 70);
+        UIManager.put("OptionPane.messageFont", font);
+        
+        font = new Font("Arial", Font.PLAIN, 80);
+        // Establecer el tamaño de fuente y el espacio entre botones
+        UIManager.put("OptionPane.buttonFont", font);
 
-	    if (opcion == JOptionPane.YES_OPTION) {
-	        // Acción a realizar si se presiona "Sí" o "Aceptar"
-	        System.out.println("Se presionó 'Sí' para continuar con el DNI.");
-	        // Aquí puedes agregar el código que quieres ejecutar cuando se confirma la acción
-	        // Por ejemplo, puedes llamar a un método para procesar el DNI
-	    } else {
-	        // Acción a realizar si se presiona "No" o "Cancelar"
-	        System.out.println("Se presionó 'No'. Cancelando la operación.");
-	        // Aquí puedes agregar el código que quieres ejecutar cuando se cancela la acción
-	    }
-	}
+        int opcion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Estás seguro de continuar con este DNI?",
+            "Confirmación de DNI",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
 
+        if (opcion == JOptionPane.YES_OPTION) {
+            ActionEvent evento=new ActionEvent(opcion, 0, "ENVIAR");
+            this.actionlistener.actionPerformed(evento);
+        } else {
+        	
+        }
+    }
+
+
+	
+	public void muestraRtado(String mensaje) {
+        // Establecer la fuente para el mensaje principal
+        Font fontPrincipal = new Font("Arial", Font.PLAIN, 70);
+
+        // Crear JLabel para el mensaje principal
+        JLabel labelPrincipal = new JLabel(mensaje);
+        labelPrincipal.setFont(fontPrincipal);
+        labelPrincipal.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Establecer la fuente para el mensaje secundario
+        Font fontSecundario = new Font("Arial", Font.PLAIN, 40);
+
+        // Crear JLabel para el mensaje secundario
+        JLabel labelSecundario = new JLabel("Espere a ser atendido");
+        labelSecundario.setFont(fontSecundario);
+        labelSecundario.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Crear panel para contener ambos JLabels
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        panel.add(labelPrincipal);
+        panel.add(labelSecundario);
+
+        // Mostrar el JOptionPane con el panel personalizado
+        JOptionPane.showConfirmDialog(
+            null,
+            panel,
+            "Mensaje",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+        
+    }
 	@Override
 	public void errorIngreso(String motivo) {
-		JOptionPane.showMessageDialog(this, motivo, "Error", JOptionPane.ERROR_MESSAGE); 
-	}
-	
-	@Override
-	public void muestraRtado() {
-		// TODO Auto-generated method stub
-		
+	    // Establecer la fuente para el mensaje de error
+	    Font fontMensajeError = new Font("Arial", Font.PLAIN, 12);
+
+	    // Crear JLabel para el mensaje de error
+	    JLabel labelMensaje = new JLabel(motivo);
+	    labelMensaje.setFont(fontMensajeError);
+	    labelMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+
+	    // Crear panel para contener el JLabel
+	    JPanel panel = new JPanel(new GridLayout(1, 1));
+	    panel.add(labelMensaje);
+
+	    // Personalizar el tamaño del botón "Aceptar"
+	    UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.PLAIN, 12));
+	    UIManager.put("OptionPane.buttonPadding", 10); // Espacio alrededor del botón
+	    
+	    // Mostrar el JOptionPane con el panel personalizado y un botón "Aceptar"
+	    @SuppressWarnings("unused")
+		int option = JOptionPane.showOptionDialog(
+	        this,
+	        panel,
+	        "Error",
+	        JOptionPane.DEFAULT_OPTION,
+	        JOptionPane.ERROR_MESSAGE,
+	        null,
+	        new String[]{"Aceptar"},
+	        "Aceptar"
+	    );
+
 	}
 
 	@Override
@@ -316,6 +395,13 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
 		return this.DNI;
 	}
 
+	@Override
+	public void resetearDNI() {
+		this.DNI="";
+		this.txtrIngreseSuDni.setText("Ingrese su DNI");
+		this.btnAceptar.setEnabled(false);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -361,8 +447,13 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
 			    }
 			 this.txtrIngreseSuDni.setText(DNI);
 		 }
+		 else if(objt==this.btnAceptar && btnAceptar.isEnabled()) {
+			 confirmaDNI();
+		 }
 		 if(!DNI.isBlank()  && DNI.length()==8) {
 			 this.btnAceptar.setEnabled(true);
+		 }else if(DNI.isBlank()) {
+			 this.txtrIngreseSuDni.setText("Ingrese su DNI");
 		 }
 		 else
 			 this.btnAceptar.setEnabled(false);
@@ -385,4 +476,6 @@ public class Vista extends JFrame implements IVistaRegistro,KeyListener,MouseLis
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 }

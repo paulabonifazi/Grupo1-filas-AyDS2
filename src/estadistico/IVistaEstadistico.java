@@ -2,7 +2,7 @@ package estadistico;
 
 import java.awt.event.ActionListener;
 
-public interface IVista {
+public interface IVistaEstadistico {
 	void setActionListener(ActionListener actionListener);
 	void entraSV();
 	void salirSV();

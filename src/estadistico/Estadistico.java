@@ -9,6 +9,6 @@ public class Estadistico {
 
 	public static void main(String[] args) {
                 @SuppressWarnings("unused")
-				Controlador controlador=new Controlador();
+				ControladorEstadistico controlador=new ControladorEstadistico();
     }
 }

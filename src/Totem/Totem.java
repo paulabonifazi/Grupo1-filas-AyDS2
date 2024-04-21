@@ -8,8 +8,8 @@ public class Totem {
 	}
 
 	public static void main(String[] args) {
-		Vista ventana= new Vista();
-		ventana.setVisible(true);
+		@SuppressWarnings("unused")
+		ControladorVistaRegistro controlador= new ControladorVistaRegistro();
 	}
 
 }

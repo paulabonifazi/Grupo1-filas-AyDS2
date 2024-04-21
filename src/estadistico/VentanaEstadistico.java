@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 
-public class Ventana extends JFrame implements KeyListener,IVista {
+public class VentanaEstadistico extends JFrame implements KeyListener,IVistaEstadistico {
 
     private static final long serialVersionUID = 1L;
     private JPanel Ventana;
@@ -23,7 +23,7 @@ public class Ventana extends JFrame implements KeyListener,IVista {
     private CardLayout Cartas;
     private JButton ActualizaBtn;
 
-    public Ventana() {
+    public VentanaEstadistico() {
         initComponents();
     }
 
@@ -167,14 +167,6 @@ public class Ventana extends JFrame implements KeyListener,IVista {
         panel_8.add(ClientesTxt);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Ventana ventana = new Ventana();
-                ventana.setVisible(true);
-            }
-        });
-    }
 	public void keyPressed(KeyEvent e) {
 	}
 	public void keyReleased(KeyEvent e) {
