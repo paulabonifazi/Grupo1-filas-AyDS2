@@ -28,6 +28,7 @@ public class VentanaEstadistico extends JFrame implements KeyListener,IVistaEsta
     }
 
     private void initComponents() {
+    	setTitle("Estadistico");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         Ventana = new JPanel();
