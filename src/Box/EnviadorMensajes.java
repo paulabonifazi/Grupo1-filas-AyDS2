@@ -27,6 +27,7 @@ public class EnviadorMensajes extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();				
 			}
+			System.out.println(mensaje);
 			try {
 				cliente.enviarMensajeAlServidor(mensaje, false);
 			} catch (ExcepcionLecturaErronea | ExcepcionFinConexion e) {

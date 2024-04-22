@@ -33,10 +33,12 @@ public class Turno {
 	}
 	
 	public void addAusencia() {
-		ausencias++;
+		int aux;
+		aux=this.ausencias;
+		this.ausencias=aux+1;
 	}
 	
-	public int getAusenias() {
-		return ausencias;
+	public int getAusencias() {
+		return this.ausencias;
 	}
 }

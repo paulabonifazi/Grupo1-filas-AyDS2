@@ -147,14 +147,12 @@ public class ControladorVistaOperador implements ActionListener {
 
 	
 	public void finalizarAtencionClienteAusente() {
-		colamensajes.add("Fin");
-
+		colamensajes.add("Ausente");
 		vista.solicitarClienteVentana();
 	}
 
 	public void finalizarAtencionClienteAtendido() {
-		colamensajes.add("Ausente");
-	
+		colamensajes.add("Fin");
 		vista.solicitarClienteVentana();
 	}
 	
