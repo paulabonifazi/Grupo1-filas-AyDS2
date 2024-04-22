@@ -4,14 +4,14 @@ import java.awt.event.ActionListener;
 
 public interface IVistaOperador {
 	
-	static final String SOLICITARCLIENTE = "Solicitar Cliente";
+	static final String SOLICITARCLIENTE = "Solicitar cliente";
 	static final String CANCELAR = "Cancelar";
 	static final String AUSENTE = "Ausente";
-	static final String SIAUSENTE = "SiAusente";
-	static final String NOAUSENTE = "NoAusente";
+	static final String SIAUSENTE = "Siausente";
+	static final String NOAUSENTE = "Noausente";
 	static final String ATENDIDO = "Atendido";
-	static final String SIATENDIDO = "SiAtendido";
-	static final String NOATENDIDO = "NoAtendido";
+	static final String SIATENDIDO = "Siatendido";
+	static final String NOATENDIDO = "Noatendido";
 	
 	public void abrir();
 	public void setNumeroPuesto(int numero);
@@ -26,6 +26,7 @@ public interface IVistaOperador {
 	public void confirmacionAtendidoVentana();
 	public void setEstadoDeLaCola(int cant);
 	public void mostrarError(String e); //Ejecutan n veces
+
 	
 
 	

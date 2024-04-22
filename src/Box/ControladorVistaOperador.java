@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.swing.JOptionPane;
 
+import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
@@ -75,8 +76,10 @@ public class ControladorVistaOperador implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent evento) {
+		
 		if (evento.getActionCommand().equals(IVistaOperador.SOLICITARCLIENTE)) {
 			this.ventanaState.solicitarCliente();
+
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.CANCELAR)) {
 			this.ventanaState.cancelarSolicitud();
@@ -114,7 +117,7 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void solicitarCliente() {
 		colamensajes.add("solicitudTurno");
-		enviadorMensajes.start();
+	
 		vista.esperandoVentana();
 		vista.deshabilitarBotonCancelar(); // podria estar por defecto en esperandoVentana()
 	}
@@ -145,19 +148,19 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void finalizarAtencionClienteAusente() {
 		colamensajes.add("Fin");
-		enviadorMensajes.start();
+
 		vista.solicitarClienteVentana();
 	}
 
 	public void finalizarAtencionClienteAtendido() {
 		colamensajes.add("Ausente");
-		enviadorMensajes.start();
+	
 		vista.solicitarClienteVentana();
 	}
 	
 	public void solicitarCancelacion() {
 		colamensajes.add("Cancelar");
-		enviadorMensajes.start();
+		
 	}
 	
 	public void solicitudCancelada() {
@@ -217,7 +220,7 @@ public class ControladorVistaOperador implements ActionListener {
 		mensaje= datosConexion.get(2) + ";" + "Box" + ";" + Integer.toString(numeroBox);
 		
 		try {
-			cliente.enviarMensajeAlServidor(mensaje, null);
+			cliente.enviarMensajeAlServidor(mensaje, false);
 		} catch (ExcepcionLecturaErronea e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,9 +232,16 @@ public class ControladorVistaOperador implements ActionListener {
 			mensaje=cliente.recibirmensajeDeServidor(false);
 		while (mensaje==null);
 		
+		
 		elementos = mensaje.split(";"); // "Exito";(puerto)
 		
 		if (elementos[0].equals("Exito")){
+			try {
+				cliente.cerrarConexion();
+			} catch (ExcepcionErrorAlCerrar e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
 			cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
@@ -253,16 +263,21 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void iniciarPrograma() {
 		
-		EnviadorMensajes enviadorMensajes=new EnviadorMensajes(this.getTCPCliente());
+		
 		IVistaOperador vista=new VistaOperador();
-		vista.setControlador(this);
 		BlockingQueue cola=new LinkedBlockingDeque<String>();
 		GestorCliente gcliente=new GestorCliente(this.getTCPCliente(),this);
+		EnviadorMensajes enviadorMensajes=new EnviadorMensajes(this.getTCPCliente(),cola);
 		
 		setVista(vista);
 		setEnviadorMensajes(enviadorMensajes);
 		setColamensajes(cola);
 		setGcliente(gcliente);
+		gcliente.start();
+		enviadorMensajes.start();
+		vista.setControlador(this);
+		vista.setNumeroPuesto(numeroBox);
+		vista.abrir();
 		
 	}
 	

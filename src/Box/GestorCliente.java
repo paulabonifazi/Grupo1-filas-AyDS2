@@ -3,6 +3,8 @@ package Box;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import javax.swing.JOptionPane;
+
 import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionErrorConexion;
 import Excepciones.ExcepcionFinConexion;
@@ -29,14 +31,13 @@ public class GestorCliente extends Thread{
 		while(true) {
 			mensaje=null;
 			elementos=null;
-
 			if (!cliente.estaCerrado()){		
 				do
 					try {
 						mensaje=cliente.recibirmensajeDeServidor(false);
 					} catch (ExcepcionFinConexion e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.exit(0);
 					}
 				while (mensaje==null);
 				//Mensaje recibido

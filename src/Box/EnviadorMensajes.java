@@ -11,28 +11,29 @@ public class EnviadorMensajes extends Thread{
 	TCPCliente cliente;
 	BlockingQueue<String> blockingQueue;
 	
-	public EnviadorMensajes(TCPCliente cliente) {
+	public EnviadorMensajes(TCPCliente cliente,BlockingQueue blockingQueue) {
 		super();
 		this.cliente = cliente;
-		blockingQueue = new LinkedBlockingDeque<>();
+		this.blockingQueue = blockingQueue;
 	}
 	
 	public void run() {
-		String mensaje=null;
-		try {
-			mensaje=blockingQueue.take();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();				
+		String mensaje;
+		while(true) {
+			mensaje=null;
+			try {
+				mensaje=blockingQueue.take();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();				
+			}
+			try {
+				cliente.enviarMensajeAlServidor(mensaje, false);
+			} catch (ExcepcionLecturaErronea | ExcepcionFinConexion e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			cliente.enviarMensajeAlServidor(mensaje, false);
-		} catch (ExcepcionLecturaErronea | ExcepcionFinConexion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 			
 }
-

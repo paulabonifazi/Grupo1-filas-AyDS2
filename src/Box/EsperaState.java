@@ -1,5 +1,7 @@
 package Box;
 
+import javax.swing.JOptionPane;
+
 public class EsperaState extends StateAbstracta {
 
 	public EsperaState(ControladorVistaOperador controlador) {
@@ -13,7 +15,7 @@ public class EsperaState extends StateAbstracta {
 
 	@Override
 	public void activarBotonCancelar() {
-		controlador.habilitarBotonCancelar();
+		controlador.habilitarBotonCancelarVentana();
 	}
 
 	@Override

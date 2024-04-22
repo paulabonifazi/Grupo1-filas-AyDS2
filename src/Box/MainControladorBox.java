@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import Excepciones.ExcepcionErrorConexion;
-import TCP.*;
-
 public class MainControladorBox {
 	
 	public static void main(String[] args) {
@@ -19,7 +16,4 @@ public class MainControladorBox {
 		controladorOperador.solicitarNumeroBox();
 		controladorOperador.intentarConexion();
 	}
-	
-	
-
 }
