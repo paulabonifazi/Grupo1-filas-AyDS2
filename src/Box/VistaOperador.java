@@ -290,7 +290,7 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 
 	@Override
 	public void abrir() {
-		setVisible(true);
+		//setVisible(true);
 		this.Atencion.setVisible(false);
 		this.Ausencia.setVisible(false);
 		this.ClienteActual.setVisible(false);
