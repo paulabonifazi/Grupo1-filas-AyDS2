@@ -17,7 +17,7 @@ Abrir los archivos ejecutables Monitor.jar, Server.jar y luego Chat.jar incluido
 Esta interfaz está diseñada para iniciar el servidor de las listas.
 Para ejecutar este .jar es necesario tener instalado el entorno de ejecución java.
 Debe abrirse la terminal e ingresar:
-java -jar <direccion de Servidor.jar>
+java -jar <<direccion de Servidor.jar>>
 
 ## Totem.jar
 Esta interfaz está diseñada para ser operada por un cliente ingresando su DNI. 
