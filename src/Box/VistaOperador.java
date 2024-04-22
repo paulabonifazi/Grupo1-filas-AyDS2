@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,7 +25,6 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 	private ControladorVistaOperador controlador;
 	private int numeroPuesto;
 	private JPanel SolicitarCliente;
-	private JLabel lblEstadoCola;
 	private JButton btnSolicitarCliente;
 	private JLabel lblBoxSolicitarCliente;
 	private JPanel Esperar;
@@ -43,6 +43,7 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 	private JButton btnNoAtencion;
 	private JButton btnSiAtencion;
 	private JLabel lblconfirmaLaAtencin;
+	private JLabel lblEstadoCola;
 	
 	public VistaOperador() {
 		setTitle("BOX");
@@ -50,9 +51,7 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		
 		this.SolicitarCliente = new JPanel();
 		getContentPane().add(this.SolicitarCliente, "name_75960888418000");
-		this.setSize(new Dimension(700, 600)); 
-		this.lblEstadoCola = new JLabel("Estado cola:");
-		this.lblEstadoCola.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		this.setSize(new Dimension(700, 600));
 		
 		this.btnSolicitarCliente = new JButton("Solicitar cliente");
 		this.btnSolicitarCliente.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -63,31 +62,24 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		GroupLayout gl_solicitarCliente = new GroupLayout(this.SolicitarCliente);
 		gl_solicitarCliente.setHorizontalGroup(
 			gl_solicitarCliente.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 682, Short.MAX_VALUE)
 				.addGroup(gl_solicitarCliente.createSequentialGroup()
 					.addGroup(gl_solicitarCliente.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_solicitarCliente.createSequentialGroup()
-							.addGap(20)
-							.addComponent(this.lblEstadoCola, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_solicitarCliente.createSequentialGroup()
 							.addGap(178)
-							.addComponent(this.btnSolicitarCliente, GroupLayout.PREFERRED_SIZE, 347, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnSolicitarCliente, GroupLayout.PREFERRED_SIZE, 347, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_solicitarCliente.createSequentialGroup()
 							.addGap(575)
-							.addComponent(this.lblBoxSolicitarCliente, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(39, Short.MAX_VALUE))
+							.addComponent(lblBoxSolicitarCliente, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(43, Short.MAX_VALUE))
 		);
 		gl_solicitarCliente.setVerticalGroup(
 			gl_solicitarCliente.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 474, Short.MAX_VALUE)
 				.addGroup(gl_solicitarCliente.createSequentialGroup()
 					.addGap(30)
-					.addComponent(this.lblBoxSolicitarCliente, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblBoxSolicitarCliente, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 					.addGap(157)
-					.addComponent(this.btnSolicitarCliente, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addGap(175)
-					.addComponent(this.lblEstadoCola, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(14, Short.MAX_VALUE))
+					.addComponent(btnSolicitarCliente, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(304, Short.MAX_VALUE))
 		);
 		this.SolicitarCliente.setLayout(gl_solicitarCliente);
 		
@@ -100,26 +92,33 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		this.lblEspere = new JLabel("Espere...");
 		this.lblEspere.setHorizontalAlignment(SwingConstants.CENTER);
 		this.lblEspere.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		
+		this.lblEstadoCola = new JLabel("Estado de la cola: ");
+		this.lblEstadoCola.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		GroupLayout gl_esperar = new GroupLayout(this.Esperar);
 		gl_esperar.setHorizontalGroup(
 			gl_esperar.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 682, Short.MAX_VALUE)
 				.addGroup(gl_esperar.createSequentialGroup()
 					.addGap(164)
 					.addGroup(gl_esperar.createParallelGroup(Alignment.TRAILING)
-						.addComponent(this.btnCancelarEspere, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-						.addComponent(this.lblEspere, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 370, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(148, Short.MAX_VALUE))
+						.addComponent(btnCancelarEspere, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+						.addComponent(lblEspere, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 370, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(150, Short.MAX_VALUE))
+				.addGroup(gl_esperar.createSequentialGroup()
+					.addGap(22)
+					.addComponent(lblEstadoCola, GroupLayout.PREFERRED_SIZE, 449, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(215, Short.MAX_VALUE))
 		);
 		gl_esperar.setVerticalGroup(
 			gl_esperar.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 474, Short.MAX_VALUE)
 				.addGroup(gl_esperar.createSequentialGroup()
 					.addGap(191)
-					.addComponent(this.lblEspere, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblEspere, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(this.btnCancelarEspere, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(186, Short.MAX_VALUE))
+					.addComponent(btnCancelarEspere, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addGap(72)
+					.addComponent(lblEstadoCola, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(154, Short.MAX_VALUE))
 		);
 		this.Esperar.setLayout(gl_esperar);
 		
@@ -356,7 +355,11 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 
 	@Override
 	public void setEstadoDeLaCola(int cant) {
-		this.lblEstadoCola.setToolTipText("Estado cola: "+cant);
+		if (cant<=0) {
+			this.lblEstadoCola.setText("Estado cola: Vacia");
+		}
+		else
+			this.lblEstadoCola.setText("Estado cola: Clientes esperando");
 	}
 
 
