@@ -168,7 +168,7 @@ public class GestorBox extends Thread implements IAtencion{
 					else {
 						if(mensaje.equals("Ausente")) {
 							fin=true;
-							if(turno.getAusenias()<1) {
+							if(turno.getAusencias()<1) {
 								turno.addAusencia();
 								cola.put(turno);
 							}
