@@ -2,6 +2,7 @@ package SistNotificacion;
 
 import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionLecturaErronea;
 import TCP.TCPCliente;
 
 public class ReceptorDeNotificaciones extends Thread{
@@ -43,7 +44,15 @@ public class ReceptorDeNotificaciones extends Thread{
 				elementos = mensaje.split(";");	
 				
 				actualizarLista(new FilaNotificacion(elementos[0],elementos[1]));
-	                   
+	            try {
+					cliente.enviarMensajeAlServidor("Recibido", false);
+				} catch (ExcepcionLecturaErronea e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExcepcionFinConexion e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}       
 	        
 			} else {
 				try {

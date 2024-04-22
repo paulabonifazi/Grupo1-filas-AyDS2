@@ -327,6 +327,8 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 		this.Atencion.setVisible(false);
 		this.Ausencia.setVisible(false);
 		this.SolicitarCliente.setVisible(false);
+		lblclienteActual.setText("Cliente: " + clienteActual);
+		
 		
 	}
 
@@ -372,5 +374,4 @@ public class VistaOperador extends JFrame implements IVistaOperador {
 			}
 		
 	}
-
 }

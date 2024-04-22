@@ -97,7 +97,7 @@ public class ControladorVistaMonitor extends Thread {
 		
 		cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
 	
-		mensaje= datosConexion.get(2) + ";" + "Notificacion";
+		mensaje= datosConexion.get(2) + ";" + "TvLlamado";
 		
 		try {
 			cliente.enviarMensajeAlServidor(mensaje, false);
@@ -144,7 +144,14 @@ public class ControladorVistaMonitor extends Thread {
 	public void iniciarPrograma() {
 		this.receptor.setCliente(cliente);
 		this.receptor.start();
-		this.vista=new VistaNotificacion();
+		IVistaMonitor vista=new VistaNotificacion();
+		this.columnaNotificacion[0]=new FilaNotificacion();
+		this.columnaNotificacion[1]=new FilaNotificacion();
+		this.columnaNotificacion[2]=new FilaNotificacion();
+		this.columnaNotificacion[3]=new FilaNotificacion();
+		this.columnaNotificacion[4]=new FilaNotificacion();
+		this.columnaNotificacion[5]=new FilaNotificacion();
+		this.setVista(vista);
 		vista.abrir();
 		this.start();
 		
@@ -169,24 +176,5 @@ public class ControladorVistaMonitor extends Thread {
 		
 	}
 	
-	public static void main(String[] args) {
-		IVistaMonitor vista=new VistaNotificacion();
-		vista.abrir();
-		ReceptorDeNotificaciones receptor=new HijoReceptor();
-		ControladorVistaMonitor controladorMonitor=new ControladorVistaMonitor(receptor);
-		receptor.setControlador(controladorMonitor);
-		controladorMonitor.setVista(vista);
-		controladorMonitor.columnaNotificacion[0]=new FilaNotificacion();
-		controladorMonitor.columnaNotificacion[1]=new FilaNotificacion();
-		controladorMonitor.columnaNotificacion[2]=new FilaNotificacion();
-		controladorMonitor.columnaNotificacion[3]=new FilaNotificacion();
-		controladorMonitor.columnaNotificacion[4]=new FilaNotificacion();
-		controladorMonitor.columnaNotificacion[5]=new FilaNotificacion();
-		controladorMonitor.start();
-		receptor.start();
-		
-		
-		
-	}
 	
 }
