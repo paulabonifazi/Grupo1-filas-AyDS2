@@ -2,13 +2,159 @@ package SistNotificacion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Observer;
+import java.util.concurrent.Semaphore;
 
-public class ControladorVistaMonitor implements ActionListener {
+import javax.swing.JOptionPane;
 
+import Box.ControladorLogin;
+import Box.IVistaOperador;
+import Box.VistaOperador;
+import Excepciones.ExcepcionErrorAlCerrar;
+import Excepciones.ExcepcionErrorConexion;
+import Excepciones.ExcepcionFinConexion;
+import Excepciones.ExcepcionLecturaErronea;
+import TCP.TCPCliente;
+
+public class ControladorVistaMonitor extends Thread implements ActionListener {
+	private FilaNotificacion[] columnaNotificacion;
+	private ControladorLogin controladorLogin;
+	private TCPCliente cliente;
+	private ReceptorDeNotificaciones receptor;
+	private IVistaMonitor vista;
+	public Semaphore semaforo;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public ControladorVistaMonitor(ReceptorDeNotificaciones receptor) {
+		super();
+		this.receptor = receptor;
+		this.columnaNotificacion=new FilaNotificacion[6];
+		columnaNotificacion[0]=new FilaNotificacion("","");
+	}
 
+
+	public void run(){ //Pasa el tiempo
+		while(true)
+			Thread.sleep(1000);//esto es un segundo?
+			semaforo.acquire();
+			for(int i=0;i<6;i++) {
+				if (columnaNotificacion[i]!=null) {
+					if (columnaNotificacion[i].finalizoTiempo())
+						columnaNotificacion[i]=new FilaNotificacion();
+					else
+						columnaNotificacion[i].pasarSegundo();
+				}
+			}
+			semaforo.release();
+		}
+	}
+
+
+	public void intentarConexion() {
+		try {
+			this.intentarConexionConServidor();
+		
+		}catch (ExcepcionErrorConexion | ExcepcionFinConexion e) {
+			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
+			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
+				if (JOptionPane.OK_OPTION == confirmado) {
+					controladorLogin.mostrarVentana();
+					intentarConexion();
+				}
+				else {
+					System.exit(0);
+				}
+		}
+	}
+
+	private void intentarConexionConServidor() throws ExcepcionErrorConexion,ExcepcionFinConexion{ // PostCondicion Conexion exitosa. 
+		cliente=null;
+		String mensaje;
+		String[] elementos;
+		
+		ArrayList<String> datosConexion = controladorLogin.getDatosConexion(); //0 ip 1 puerto 2 password
+		
+		if (datosConexion.get(0)=="" || datosConexion.get(1)=="" || datosConexion.get(1)=="")
+			throw new ExcepcionErrorConexion();
+		try {
+			Integer.parseInt(datosConexion.get(1));
+	    }catch(NumberFormatException e) {
+	    	throw new ExcepcionErrorConexion();
+	    }
+		
+		
+		cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+	
+		mensaje= datosConexion.get(2) + ";" + "Notificacion";
+		
+		try {
+			cliente.enviarMensajeAlServidor(mensaje, false);
+		} catch (ExcepcionLecturaErronea e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		//while ((mensaje = cliente.recibirmensajeDeServidor(false)) != null)
+		//No se si lo de abajo es lo mismo
+		do
+			mensaje=cliente.recibirmensajeDeServidor(false);
+		while (mensaje==null);
+		
+		
+		elementos = mensaje.split(";"); // "Exito";(puerto)
+		
+		if (elementos[0].equals("Exito")){
+			try {
+				cliente.cerrarConexion();
+			} catch (ExcepcionErrorAlCerrar e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
+			cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
+		}
+		else {
+			throw new ExcepcionErrorConexion();
+		}
+		iniciarPrograma();
+	}
+
+	public void setLogin(ControladorLogin controladorLogin) {
+		// TODO Auto-generated method stub
+		this.controladorLogin=controladorLogin;
+	}
+	
+	public void iniciarPrograma() {
+		this.receptor.setCliente(cliente);
+		this.receptor.start();
+		this.vista=new VistaMonitor();
+		vista.abrir();
+		this.start();
+		
+	}
+
+	public void actualizarLista(FilaNotificacion fila) {
+		columnaNotificacion[0]=fila;
+		for(int i=0;i<5;i++) {
+			columnaNotificacion[i+1]=columnaNotificacion[i];
+		}
+	}
+
+	public void actualizarVista() {
+		vista.setLabelPuesto1(columnaNotificacion[0].getDni(), columnaNotificacion[0].getBox());
+		vista.setLabelPuesto2(columnaNotificacion[1].getDni(), columnaNotificacion[1].getBox());
+		vista.setLabelPuesto3(columnaNotificacion[2].getDni(), columnaNotificacion[2].getBox());
+		vista.setLabelPuesto4(columnaNotificacion[3].getDni(), columnaNotificacion[3].getBox());
+		vista.setLabelPuesto5(columnaNotificacion[4].getDni(), columnaNotificacion[4].getBox());
+		vista.setLabelPuesto6(columnaNotificacion[5].getDni(), columnaNotificacion[5].getBox());
+	}
+	
+	
+	
 }
