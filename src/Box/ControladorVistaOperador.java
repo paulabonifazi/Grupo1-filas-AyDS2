@@ -142,6 +142,7 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void actualizarEstadoCola(int tamCola) { //ACA HAY Q AVISARLE A LA VENTANA
 		this.tamCola=tamCola;
+		this.vista.setEstadoDeLaCola(tamCola);
 	}
 
 
