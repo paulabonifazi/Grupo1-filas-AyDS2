@@ -1,7 +1,5 @@
 package server;
 
-import javax.swing.JOptionPane;
-
 import Excepciones.ExcepcionDeInterrupcion;
 import Excepciones.ExcepcionErrorAlAceptar;
 import Excepciones.ExcepcionErrorAlCerrar;
@@ -50,7 +48,6 @@ public class GestorBox extends Thread implements IAtencion{
 					} catch (ExcepcionFinTimeoutLectura e) {
 						//no hay timeOut por lo que no puede ocurrir
 					}
-		 			
 		 			switch (mensaje) {
 	                    case "solicitudTurno":
 	                    	solicitudTurno();
@@ -163,7 +160,6 @@ public class GestorBox extends Thread implements IAtencion{
 					} catch (ExcepcionFinTimeoutLectura e) {
 						//no puede ocurrir, porque no hay timeout
 					} 
-	        		System.out.println("Mensaje recibido: "+mensaje);
 					if(mensaje.equals("Fin")) {
 						fin=true;
 						atencion.registrarFin(); //se registra la hora del fin de la atencion
@@ -171,11 +167,9 @@ public class GestorBox extends Thread implements IAtencion{
 					}
 					else {
 						if(mensaje.equals("Ausente")) {
-							System.out.println("Cliente ausente!: ausencias:"+turno.getAusencias());
 							fin=true;
-							if(turno.getAusencias()<=0) {
+							if(turno.getAusenias()<1) {
 								turno.addAusencia();
-								System.out.println("Se le sumo una ausencia: ausencias actuales: "+turno.getAusencias());
 								cola.put(turno);
 							}
 							//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
