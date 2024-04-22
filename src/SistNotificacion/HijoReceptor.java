@@ -2,29 +2,33 @@ package SistNotificacion;
 
 import Excepciones.ExcepcionErrorAlCerrar;
 import Excepciones.ExcepcionFinConexion;
-import TCP.TCPCliente;
 
-public class ReceptorDeNotificaciones extends Thread{
-	TCPCliente cliente;
-	ControladorVistaMonitor controlador;
+public class HijoReceptor extends ReceptorDeNotificaciones {
 	
 	
-	public ReceptorDeNotificaciones() {
+	public HijoReceptor() {
 		super();
-
 	}
-
-	public void setCliente(TCPCliente cliente) {
-		this.cliente = cliente;
-	}
-
-
-	public void setControlador(ControladorVistaMonitor controlador) {
-		this.controlador = controlador;
-	}
-
-
+	
 	public void run() {
+	
+		try {
+			actualizarLista(new FilaNotificacion("432422","4"));
+			Thread.sleep(5000);
+			actualizarLista(new FilaNotificacion("72836","6"));
+			Thread.sleep(5000);
+			actualizarLista(new FilaNotificacion("696966","3"));
+			Thread.sleep(5000);
+			actualizarLista(new FilaNotificacion("abcde","3"));
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/*public void run() {
 		String mensaje;
 		String[] elementos;
 		while(true) {
@@ -56,18 +60,5 @@ public class ReceptorDeNotificaciones extends Thread{
 			}
 		}
 	
-	}
-	
-	public void actualizarLista(FilaNotificacion fila) {
-		try {
-			controlador.semaforo.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		controlador.actualizarLista(fila);
-		controlador.semaforo.release();
-		controlador.actualizarVista();
-			
-	}			
+	}*/
 }

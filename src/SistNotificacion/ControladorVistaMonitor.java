@@ -17,31 +17,37 @@ import Excepciones.ExcepcionFinConexion;
 import Excepciones.ExcepcionLecturaErronea;
 import TCP.TCPCliente;
 
-public class ControladorVistaMonitor extends Thread implements ActionListener {
+public class ControladorVistaMonitor extends Thread {
 	private FilaNotificacion[] columnaNotificacion;
 	private ControladorLogin controladorLogin;
 	private TCPCliente cliente;
 	private ReceptorDeNotificaciones receptor;
 	private IVistaMonitor vista;
 	public Semaphore semaforo;
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	public ControladorVistaMonitor(ReceptorDeNotificaciones receptor) {
 		super();
 		this.receptor = receptor;
 		this.columnaNotificacion=new FilaNotificacion[6];
 		columnaNotificacion[0]=new FilaNotificacion("","");
+		semaforo=new Semaphore(1);
 	}
 
-
 	public void run(){ //Pasa el tiempo
-		while(true)
-			Thread.sleep(1000);//esto es un segundo?
-			semaforo.acquire();
+		while(true) {
+			try {
+				Thread.sleep(1000);//esto es un segundo? si
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			try {
+				semaforo.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			for(int i=0;i<6;i++) {
 				if (columnaNotificacion[i]!=null) {
 					if (columnaNotificacion[i].finalizoTiempo())
@@ -50,6 +56,7 @@ public class ControladorVistaMonitor extends Thread implements ActionListener {
 						columnaNotificacion[i].pasarSegundo();
 				}
 			}
+			actualizarVista();
 			semaforo.release();
 		}
 	}
@@ -130,31 +137,56 @@ public class ControladorVistaMonitor extends Thread implements ActionListener {
 		this.controladorLogin=controladorLogin;
 	}
 	
+	public void setVista(IVistaMonitor vista) {
+		this.vista = vista;
+	}
+
 	public void iniciarPrograma() {
 		this.receptor.setCliente(cliente);
 		this.receptor.start();
-		this.vista=new VistaMonitor();
+		this.vista=new VistaNotificacion();
 		vista.abrir();
 		this.start();
 		
 	}
 
 	public void actualizarLista(FilaNotificacion fila) {
-		columnaNotificacion[0]=fila;
-		for(int i=0;i<5;i++) {
-			columnaNotificacion[i+1]=columnaNotificacion[i];
+		
+		for (int i = 4; i >= 0; i--) {                
+			columnaNotificacion[i+1] = columnaNotificacion[i];
 		}
+		columnaNotificacion[0]=fila;
+		actualizarVista();
 	}
 
 	public void actualizarVista() {
-		vista.setLabelPuesto1(columnaNotificacion[0].getDni(), columnaNotificacion[0].getBox());
-		vista.setLabelPuesto2(columnaNotificacion[1].getDni(), columnaNotificacion[1].getBox());
-		vista.setLabelPuesto3(columnaNotificacion[2].getDni(), columnaNotificacion[2].getBox());
-		vista.setLabelPuesto4(columnaNotificacion[3].getDni(), columnaNotificacion[3].getBox());
-		vista.setLabelPuesto5(columnaNotificacion[4].getDni(), columnaNotificacion[4].getBox());
-		vista.setLabelPuesto6(columnaNotificacion[5].getDni(), columnaNotificacion[5].getBox());
+		vista.cambiarContenidoFila(0, columnaNotificacion[0].getDni(), columnaNotificacion[0].getBox());
+		vista.cambiarContenidoFila(1, columnaNotificacion[1].getDni(), columnaNotificacion[1].getBox());
+		vista.cambiarContenidoFila(2, columnaNotificacion[2].getDni(), columnaNotificacion[2].getBox());
+		vista.cambiarContenidoFila(3, columnaNotificacion[3].getDni(), columnaNotificacion[3].getBox());
+		vista.cambiarContenidoFila(4, columnaNotificacion[4].getDni(), columnaNotificacion[4].getBox());
+		vista.cambiarContenidoFila(5, columnaNotificacion[5].getDni(), columnaNotificacion[5].getBox());
+		
 	}
 	
-	
+	public static void main(String[] args) {
+		IVistaMonitor vista=new VistaNotificacion();
+		vista.abrir();
+		ReceptorDeNotificaciones receptor=new HijoReceptor();
+		ControladorVistaMonitor controladorMonitor=new ControladorVistaMonitor(receptor);
+		receptor.setControlador(controladorMonitor);
+		controladorMonitor.setVista(vista);
+		controladorMonitor.columnaNotificacion[0]=new FilaNotificacion();
+		controladorMonitor.columnaNotificacion[1]=new FilaNotificacion();
+		controladorMonitor.columnaNotificacion[2]=new FilaNotificacion();
+		controladorMonitor.columnaNotificacion[3]=new FilaNotificacion();
+		controladorMonitor.columnaNotificacion[4]=new FilaNotificacion();
+		controladorMonitor.columnaNotificacion[5]=new FilaNotificacion();
+		controladorMonitor.start();
+		receptor.start();
+		
+		
+		
+	}
 	
 }
