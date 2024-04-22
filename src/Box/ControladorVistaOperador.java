@@ -184,7 +184,7 @@ public class ControladorVistaOperador implements ActionListener {
 		
 		}catch (ExcepcionErrorConexion | ExcepcionFinConexion e) {
 			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
-			int confirmado = JOptionPane.showConfirmDialog(null,"¿Desea Intentar nuevamente?");
+			int confirmado = JOptionPane.showConfirmDialog(null,"ï¿½Desea Intentar nuevamente?");
 				if (JOptionPane.OK_OPTION == confirmado) {
 					controladorLogin.mostrarVentana();
 					solicitarNumeroBox();
@@ -194,7 +194,6 @@ public class ControladorVistaOperador implements ActionListener {
 					System.exit(0);
 				}
 		}
-		iniciarPrograma();
 	}
 	
 	private void intentarConexionConServidor() throws ExcepcionErrorConexion,ExcepcionFinConexion{ // PostCondicion Conexion exitosa. 
