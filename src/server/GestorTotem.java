@@ -17,41 +17,46 @@ public class GestorTotem  extends Thread implements IRegistro{
     public void run() {
 		String mensaje = null;
 		String[] elementos = null;
+		int desconexiones=0;
 	 	try {
 	 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(conexion.validarIPCliente(IPClienteEsperado)) {
-	 			while(true) {
+	 			while(desconexiones<2) {
+	 				try {
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "Registrar;<DNI>"
+						desconexiones=0;
 						elementos=mensaje.split(";");
 						//No se hace verificacion, la precondicion de registrar es que se recibe un DNI!!! (numerico y con su formato)
-		 			if (elementos[0].equals("Registro") && elementos.length >= 2 && !elementos[1].isBlank() && !elementos[1].isEmpty() && elementos[1].matches("\\d{8}")) {
-		 				this.registrar(elementos[1]);
-		 				}
-		 			else {
-			 			try {
-							conexion.enviarMensajeACliente("InstruccionInexistente", false);
-						} catch (ExcepcionLecturaErronea e) {
-							//nunca ocurre porque no se habilita la comprobacion
-						}
-		 			}
+			 			if (elementos[0].equals("Registro") && elementos.length >= 2 && !elementos[1].isBlank() && !elementos[1].isEmpty() && elementos[1].matches("\\d{8}")) {
+			 				this.registrar(elementos[1]);
+			 				}
+			 			else {
+				 			try {
+								conexion.enviarMensajeACliente("InstruccionInexistente", false);
+				 			} catch (ExcepcionLecturaErronea e) {
+								//nunca ocurre porque no se habilita la comprobacion
+							}
+			 			}
+	 				}
+	 				catch(ExcepcionFinConexion |ExcepcionDeInterrupcion e) {
+	 					desconexiones++;
+	 					Thread.sleep(500);
+	 				}
 	 			}
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {
-			try {
-				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
-			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
-			}
 		}
-	 	catch (InterruptedException |ExcepcionDeInterrupcion|ExcepcionFinConexion|ExcepcionFinTimeoutLectura e) {
-			try {
-				conexion.cerrarConexion();
+	 	catch (InterruptedException |ExcepcionDeInterrupcion|ExcepcionFinTimeoutLectura e) {
+		} 
+	 	finally {
+	 		try {
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
-			} catch (ExcepcionErrorAlCerrar e1) {
+				conexion.cerrarConexion();
+	 		} catch (ExcepcionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
 			}
-		} 
+	 	}
 	}
 	
 	

@@ -21,6 +21,7 @@ public class GestorBox extends Thread implements IAtencion{
 	private Turno turno;
 	private Solicitud solicitud;
 	private Atencion atencion;
+	private int desconexiones=0;
 	
 	
 	public GestorBox(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico, TCPServidor conexion,String IPClienteEsperado,String IDBox) {
@@ -37,47 +38,49 @@ public class GestorBox extends Thread implements IAtencion{
 	@Override
     public void run() {
 		String mensaje = null;
+		desconexiones=0;
 	 	try {
 	 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(conexion.validarIPCliente(ipClienteEsperado)) {
-	 			while(true) {
+	 			while(desconexiones<2) {
 	 				mensaje = null;
 	 				this.turno=new Turno(); //crea un nuevo turno (por si se corta la comunicacion verificar que no se retiro dni)
 		 			try {
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "<Operacion>"
+						desconexiones=0;
+						switch (mensaje) {
+		                    case "solicitudTurno":
+		                    	solicitudTurno();
+		                        break;
+		                    case "Cancelar":
+		                    	enviarMensaje(conexion,"DebeTenerSolicitud1ro");
+		                        break;
+		                    case "Fin":
+		                    case "Ausente":
+		                    	enviarMensaje(conexion,"DebeTenerAtencion1ro");
+		                        break;
+		                    default:
+		                    	enviarMensaje(conexion,"InstruccionInexistente");
+				 			}
 					} catch (ExcepcionFinTimeoutLectura e) {
 						//no hay timeOut por lo que no puede ocurrir
 					}
-		 			switch (mensaje) {
-	                    case "solicitudTurno":
-	                    	solicitudTurno();
-	                        break;
-	                    case "Cancelar":
-	                    	enviarMensaje(conexion,"DebeTenerSolicitud1ro");
-	                        break;
-	                    case "Fin":
-	                    case "Ausente":
-	                    	enviarMensaje(conexion,"DebeTenerAtencion1ro");
-	                        break;
-	                    default:
-	                    	enviarMensaje(conexion,"InstruccionInexistente");
-			 			}
+		 			catch (ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
+		 				if (desconexiones<2) {
+							desconexiones++;
+							Thread.sleep(500);
+		 				}
+					}
 	 			}
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {
-			try {
-				if(buscaSolicitud.isAlive())
-					this.buscaSolicitud.interrupt();
-				this.buscaSolicitud.interrupt();
-				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
-			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
-			}
+	 	}
+	 	catch (InterruptedException |ExcepcionDeInterrupcion e) {
 		}
-	 	catch (ExcepcionDeInterrupcion|ExcepcionFinConexion|InterruptedException e) {
-			try {
-				if(buscaSolicitud.isAlive())
+	 	finally {
+	 		try {
+				if(buscaSolicitud!=null && buscaSolicitud.isAlive())
 					this.buscaSolicitud.interrupt();
 				if (turno.getDni()!=null) { //en caso de que haya retirado elemento de la cola
 					try {
@@ -87,12 +90,12 @@ public class GestorBox extends Thread implements IAtencion{
 						//si fue una interrupcion, pues entonces es porque se quiere cerrar el servidor y por ende no importa el guardado
 					}
 				}
-				conexion.cerrarConexion();
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
+				conexion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
 			}
-		}
+	 	}
 	}
 	
 	
@@ -120,11 +123,11 @@ public class GestorBox extends Thread implements IAtencion{
         	enviarMensaje(conexion, "ActCancelar");
         	//una vez que activa el boton cancelar vuelve a la espera de un mensaje pero por un determinado tiempo
         	fin=false;
-        	while(!fin) {
+        	while(!fin && desconexiones<2) {
         		mensaje=null;
         		try {
 					mensaje=this.conexion.recibirmensajeDeCliente(5000, false); //Se espera por 5 segundos el cancelar y se recibe como mensaje: "<Operacion>"
-					
+					desconexiones=0;
 					if(mensaje.equals("Cancelar")){
 						fin=true;
 						if(turno.getDni()==null) { //si todavia no se encontro... se corta la busqueda
@@ -141,11 +144,16 @@ public class GestorBox extends Thread implements IAtencion{
 					else { //mostrar estado
 						enviarMensaje(conexion,"Estado;"+cola.size());
 					} //y vuelve al ciclo (a esperar por mensaje del cliente)
+				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) {
+					desconexiones++;
+					Thread.sleep(500);
 				}
+       
         	}
 		}
+		if(desconexiones<2) {
         	if(turno.getDni()==null) {
-        		enviarMensaje(conexion,"Cancelado");
+        			enviarMensaje(conexion,"Cancelado");
         	}
         	else {
         		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
@@ -154,31 +162,36 @@ public class GestorBox extends Thread implements IAtencion{
         		//se debe esperar por la ausencia o por el fin de atencion
         		mensaje=null;
         		fin=false;
-        		while(!fin) {
+        		while(!fin && desconexiones<2) {
 	        		try {
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false);//Se espera por mensaje y se recibe como mensaje: "<Operacion>"
-					} catch (ExcepcionFinTimeoutLectura e) {
-						//no puede ocurrir, porque no hay timeout
-					} 
-					if(mensaje.equals("Fin")) {
-						fin=true;
-						atencion.registrarFin(); //se registra la hora del fin de la atencion
-						historico.agregarAtencion(atencion); //se agrega la atencion al historico
-					}
-					else {
-						if(mensaje.equals("Ausente")) {
+						desconexiones=0;
+						if(mensaje.equals("Fin")) {
 							fin=true;
-							if(turno.getAusencias()<1) {
-								turno.addAusencia();
-								cola.put(turno);
-							}
-							//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
+							atencion.registrarFin(); //se registra la hora del fin de la atencion
+							historico.agregarAtencion(atencion); //se agrega la atencion al historico
 						}
-						else
-							if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado
-								enviarMensaje(conexion,"ErrorOperacion");
+						else {
+							if(mensaje.equals("Ausente")) {
+								fin=true;
+								if(turno.getAusencias()<1) {
+									turno.addAusencia();
+									cola.put(turno);
+								}
+								//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
+							}
+							else
+								if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado
+									enviarMensaje(conexion,"ErrorOperacion");
+						}
+	        		} catch (ExcepcionFinTimeoutLectura  e) {
+						//no puede ocurrir, porque no hay timeout
+					} catch (ExcepcionFinConexion |ExcepcionDeInterrupcion e) {
+						desconexiones++;
+						Thread.sleep(500);
 					}
         		}
         	}
+		}
 	}
 }
