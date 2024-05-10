@@ -46,11 +46,7 @@ public class GestorConexion extends Thread {
 							nuevaEjecucion=null;
 							nuevaConexion=null;
 							ID=null;
-							try {
-								this.puertoEntrada.aceptarConexion(0);
-							} catch (ExcepcionFinTimeoutAceptar e) {
-								//no deberia ocurrir, porque no hay timeout
-							}
+							this.puertoEntrada.aceptarConexion(7000);
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
@@ -125,6 +121,9 @@ public class GestorConexion extends Thread {
 									}
 							}
 							puertoEntrada.cerrarConexion();
+
+						} catch (ExcepcionFinTimeoutAceptar e) {
+							this.actualizaConexiones();
 						} catch (ExcepcionErrorAlAceptar | ExcepcionFinConexion | ExcepcionFinTimeoutLectura e) {
 							//como se corta por un error del cliente la ejecución no se sigue con el codigo y se vuelve a empezar el ciclo
 						} catch (ExcepcionErrorAlCerrar e) {
@@ -157,6 +156,7 @@ public class GestorConexion extends Thread {
 		            }
 		        }
 		        for (String key : keysToRemove) {
+		            System.out.print("\u001B[31m" + "Atencion: desconexión de "+this.getnamefromid(conexiones.get(key).getID()) + " con ID= "+ conexiones.get(key).getID()+ "\u001B[0m"+"\n");
 		            conexiones.remove(key);
 		        }
 		     
@@ -186,5 +186,24 @@ public class GestorConexion extends Thread {
 		            }
 		        }
 		 }
-		        
+		     
+		 private String getnamefromid(String Id) {
+			 String name=null;
+			 switch(Id.charAt(0)) {
+			 case 'E': //estadistico
+				 	name="Estadistico";
+			 	break;
+			 case 'T': //totem
+				 	name="Totem";
+				 	break;
+			 case 'L': //TVLlamado
+				 	name= "TVLlamado";
+				 	break;
+			 case 'B': //Box
+				 	name="Box";
+				 	break;
+			 }
+			 return name;
+		 }
+		 
 }

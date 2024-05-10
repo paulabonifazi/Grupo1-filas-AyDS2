@@ -10,7 +10,7 @@ public class C_Estadistico implements IConexion{
 	
 	public C_Estadistico(TCPServidor conexion,Thread hilo) {
 		this.conexion=conexion;
-		this.ID="D"+siguienteID++;
+		this.ID="E"+siguienteID++;
 		this.hilo=hilo;
 	}
 
