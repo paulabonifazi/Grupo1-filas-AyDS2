@@ -65,7 +65,7 @@ public class GestorBox extends Thread implements IAtencion{
 					} catch (ExcepcionFinTimeoutLectura e) {
 						//no hay timeOut por lo que no puede ocurrir
 					}
-		 			catch (ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
+		 			catch (ExcepcionFinConexion|ExcepcionDeInterrupcion e) { //ocurre unicamente si no se puede recibir mensaje del box
 		 				if (desconexiones<2) {
 							desconexiones++;
 							Thread.sleep(500);
@@ -144,7 +144,7 @@ public class GestorBox extends Thread implements IAtencion{
 					else { //mostrar estado
 						enviarMensaje(conexion,"Estado;"+cola.size());
 					} //y vuelve al ciclo (a esperar por mensaje del cliente)
-				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) {
+				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) { // ocurre unicametne si no se puede recibir mensaje del box
 					desconexiones++;
 					Thread.sleep(500);
 				}
@@ -186,7 +186,7 @@ public class GestorBox extends Thread implements IAtencion{
 						}
 	        		} catch (ExcepcionFinTimeoutLectura  e) {
 						//no puede ocurrir, porque no hay timeout
-					} catch (ExcepcionFinConexion |ExcepcionDeInterrupcion e) {
+					} catch (ExcepcionFinConexion |ExcepcionDeInterrupcion e) { //ocurre en caso de que no se pueda recibir mensaje del box
 						desconexiones++;
 						Thread.sleep(500);
 					}

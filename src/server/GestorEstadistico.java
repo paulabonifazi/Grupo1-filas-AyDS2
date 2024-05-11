@@ -39,7 +39,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 							} catch (ExcepcionFinTimeoutLectura e) {
 								//no hay timeOut por lo que no puede ocurrir
 							}
-				 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
+				 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) { //ocurre cuando no se puede recibir mensaje del estadístico
 				 					desconexiones++;
 									Thread.sleep(500);
 				 			}
@@ -70,10 +70,10 @@ public class GestorEstadistico extends Thread implements IEstado{
 			}
 
 			@Override
-			public void MostrarEstado() throws ExcepcionFinConexion, ExcepcionDeInterrupcion {
+			public void MostrarEstado()  {
 				try {
 					conexion.enviarMensajeACliente(this.historico.estado()+"/"+cola.size(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
-				} catch (ExcepcionLecturaErronea e) {
+				} catch (ExcepcionLecturaErronea|ExcepcionFinConexion | ExcepcionDeInterrupcion e) {
 					//nunca ocurre porque no se habilita la comprobacion
 				}
 			}

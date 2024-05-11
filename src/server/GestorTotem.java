@@ -38,7 +38,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 							}
 			 			}
 	 				}
-	 				catch(ExcepcionFinConexion |ExcepcionDeInterrupcion e) {
+	 				catch(ExcepcionFinConexion |ExcepcionDeInterrupcion e) { //las desconexiones provienen de no poder recibir mensaje del totem
 	 					desconexiones++;
 	 					Thread.sleep(500);
 	 				}
@@ -61,7 +61,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 	
 	
 	@Override
-	public void registrar(String DNI) throws ExcepcionFinConexion, ExcepcionDeInterrupcion, InterruptedException{
+	public void registrar(String DNI) throws  InterruptedException{
 		String mensaje = null;
 		if(!cola.contiene(DNI)) {
 				Turno turno=new Turno(DNI); //al crear el turno se registra la hora
@@ -72,9 +72,9 @@ public class GestorTotem  extends Thread implements IRegistro{
 			mensaje="DniRepetido";
 		try {
 			conexion.enviarMensajeACliente(mensaje, false);
-		} catch (ExcepcionLecturaErronea e) {
+		} catch (ExcepcionLecturaErronea |ExcepcionFinConexion| ExcepcionDeInterrupcion e) {
 			//nunca ocurre porque no se habilita la comprobacion
-		}finally {}
+		}
 	}
 
 }

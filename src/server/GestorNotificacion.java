@@ -28,11 +28,17 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		 			try {
 		 				llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
 			 			mostrar(llamado.getDNI(),llamado.getBox()); //!!!) EL SISTEMA DE LLAMADO DEBE INDICAR "Recibido" por cada mensaje que recibe, con ello el server sabe si todavia se mantiene la conexion
-			 			desconexiones=0;
 		 			}
 		 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
-		 				desconexiones++;
-		 				Thread.sleep(500);
+		 				while (desconexiones<2) {
+		 						Thread.sleep(500);
+			 					try {
+									serverNotificacion.recibirmensajeDeCliente(0, false); //como ya se envió un mensaje, se reintenta recibir la confirmacion. Si nunca se recibe se da por perdida la conexion
+									desconexiones=0;
+			 					} catch (ExcepcionFinConexion | ExcepcionFinTimeoutLectura e1) {
+									desconexiones++;
+								}
+		 				}
 		 			}
 	 			}
 	 		}
