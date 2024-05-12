@@ -9,6 +9,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private TCPServidor serverNotificacion;
 	private MonitorNotificacion llamados;
 	private String ipClienteEsperado;
+	private Boolean borrado;
 	private LinkedList<Esclavo> listaEsclavos;
 	
 	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado) {
