@@ -18,7 +18,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 
 	@Override
     public void run() {
-		Atencion llamado;
+		Llamado llamado;
 		int desconexiones=0;
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos

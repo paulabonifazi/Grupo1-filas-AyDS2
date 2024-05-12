@@ -41,5 +41,8 @@ public class C_Totem implements IConexion{
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	
-	
+	@Override
+	public String toString() {
+		return ID+","+conexion.getIPCliente()+","+conexion.getPuerto();
+	}
 }

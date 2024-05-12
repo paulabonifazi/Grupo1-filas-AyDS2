@@ -113,7 +113,7 @@ public class GestorBox extends Thread implements IAtencion{
 	@Override
 	public void solicitudTurno() throws ExcepcionFinConexion, ExcepcionDeInterrupcion, InterruptedException  {
 		String mensaje=null;
-        buscaSolicitud=new GestorSolicitud(this.turno,cola); //va y espera en la cola por una asignacion de turno, mientras que el gestor de box espera por un mensaje del operario (revisando cuando está el turno solicitado)
+        buscaSolicitud=new GestorSolicitud(this.turno,cola,IDBox); //va y espera en la cola por una asignacion de turno, mientras que el gestor de box espera por un mensaje del operario (revisando cuando está el turno solicitado)
         solicitud=new Solicitud(IDBox); //se crea la solicitud para registrar la hora de solicitud del turno
         buscaSolicitud.start(); //se ejecuta el thread que busca el turno
 		Thread.sleep(1000);//espera 0,5 segundos por el resultado del turno
@@ -158,7 +158,7 @@ public class GestorBox extends Thread implements IAtencion{
         	else {
         		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
         		enviarMensaje(conexion,"Atencion;"+turno.getDni());
-        		llamados.put(atencion); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
+        		llamados.put(new Llamado(atencion.getDNI(), atencion.getBox())); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
         		//se debe esperar por la ausencia o por el fin de atencion
         		mensaje=null;
         		fin=false;
@@ -167,14 +167,14 @@ public class GestorBox extends Thread implements IAtencion{
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false);//Se espera por mensaje y se recibe como mensaje: "<Operacion>"
 						desconexiones=0;
 						if(mensaje.equals("Fin")) {
-							//TODO cola.eliminaratencionpendiente(IDBOX)
+							cola.finAtencion(IDBox);
 							fin=true;
 							atencion.registrarFin(); //se registra la hora del fin de la atencion
 							historico.agregarAtencion(atencion); //se agrega la atencion al historico
 						}
 						else {
 							if(mensaje.equals("Ausente")) {
-								//TODO cola.eliminaratencionpendiente(IDBOX)
+								cola.finAtencion(IDBox);
 								fin=true;
 								if(turno.getAusencias()<1) {
 									turno.addAusencia();

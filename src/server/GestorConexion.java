@@ -29,6 +29,7 @@ public class GestorConexion extends Thread {
 			this.conexiones=conexiones;
 			this.puertoEntrada=puertoEntrada;
 			this.listaEsclavos=listaEsclavos;
+			this.conexionesEsclavos=new HashMap<String,IConexion>();
 		}
 		
 		 @Override
@@ -57,19 +58,11 @@ public class GestorConexion extends Thread {
 
 							//GESTOR DE CONEXIONES
 							//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
-							//TODO gestor de conexiones tiene: conexiones a componentes/ conexiones a esclavos/ lista de esclavos (habria que recorrer, ademas de la lista de conexiones, la de conexiones de esclavos (no la lista de esclavos), buscando los desconectados para eliminarlos de la entrada de sus 2 listas)
-							
-							
-							
-							
 							
 							
 							//RECONEXION DE COMPONENTES
 							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
 							//luego en cada componente, se recibe el mensaje con la lista de los esclavos y cuando se registre una desconexion: se reintenta 2 veces con el maestro y sino se empieza a intentar con los esclavos recorriendo la lista... (si no se conecta a ningun vuelve al login)
-							
-							
-							
 							
 							this.puertoEntrada.aceptarConexion(7000);
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
@@ -140,7 +133,7 @@ public class GestorConexion extends Thread {
 											nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,puertoEntrada.getIPCliente(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
 											nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
 											conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
-											this.listaEsclavos.addLast(new Esclavo(nuevaConexion.getID(),nuevaConexion.getPuerto(),nuevaConexion.getIP()));
+											this.listaEsclavos.addLast(new Esclavo(nuevaConexion.getID(),nuevaConexion.getPuerto(),puertoEntrada.getIPCliente()));
 											nuevaEjecucion.start();
 											Respuesta="Exito;"+puertonuevaconexion.getPuerto()+";"+nuevaConexion.getID();
 							            	break;
@@ -214,12 +207,12 @@ public class GestorConexion extends Thread {
 		            }
 		        }
 		        for (String key : keysToRemove) {
-		            conexiones.remove(key);
 		            pos=buscaPosEsclavo(key);
 		            if(pos!=-1) {
+		            	System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexionesEsclavos.get(key).getID()+ "\u001B[0m"+"\n"); 
 		            	listaEsclavos.remove(pos);
+		            	conexionesEsclavos.remove(key);
 		            }
-		            System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexiones.get(key).getID()+ "\u001B[0m"+"\n"); 
 		        }
 		 }
 		 

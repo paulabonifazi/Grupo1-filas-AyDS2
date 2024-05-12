@@ -72,7 +72,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 			@Override
 			public void MostrarEstado()  {
 				try {
-					conexion.enviarMensajeACliente(this.historico.estado()+"/"+cola.size(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
+					conexion.enviarMensajeACliente(this.historico.tiempos()+"/"+cola.size(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
 				} catch (ExcepcionLecturaErronea|ExcepcionFinConexion | ExcepcionDeInterrupcion e) {
 					//nunca ocurre porque no se habilita la comprobacion
 				}

@@ -1,10 +1,11 @@
 package server;
 
+import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class MonitorNotificacion {
-	private BlockingQueue<Atencion> notificaciones=new LinkedBlockingQueue<Atencion>();
+	private BlockingQueue<Llamado> notificaciones=new LinkedBlockingQueue<Llamado>();
 	private boolean activado=false;
 
 
@@ -12,13 +13,13 @@ public class MonitorNotificacion {
 		}
 		
 		// Método para colocar un elemento en la cola
-	    public void put(Atencion elemento) throws InterruptedException {
+	    public void put(Llamado elemento) throws InterruptedException {
 	    	if(activado)
 	    		notificaciones.put(elemento);
 	    }
 	    
 	 // Método para retirar un elemento de la cola
-	    public Atencion take() throws InterruptedException {
+	    public Llamado take() throws InterruptedException {
 	    	return notificaciones.take();
 	    }
 
@@ -28,9 +29,20 @@ public class MonitorNotificacion {
 
 		public void setActivado(boolean cambio) {
 			if(activado==true && !cambio) 
-				notificaciones=new LinkedBlockingQueue<Atencion>(); //cada vez que se quite el recurso,se vacia la cola de llamados por mostrar
+				notificaciones=new LinkedBlockingQueue<Llamado>(); //cada vez que se quite el recurso,se vacia la cola de llamados por mostrar
 			this.activado = cambio;
 		}
 	    
-	    
+		 public String estado() {
+		    	String estado="";
+		    	Llamado llamado;
+		    	Iterator<Llamado> iterator = notificaciones.iterator();
+		    	while (iterator.hasNext()) {
+		    		llamado=iterator.next();
+		    		estado+=llamado.getDNI()+","+llamado.getBox();
+		    		if(iterator.hasNext())
+		    			estado+=";";
+		    	}
+		    	return estado;
+		 }
 }

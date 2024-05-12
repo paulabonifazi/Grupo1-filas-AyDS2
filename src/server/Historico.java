@@ -16,7 +16,7 @@ public class Historico {
         atenciones.put(ID++, atencion);
     }
 	
-    public String estado() {
+    public String tiempos() {
     	String rta=atenciones.size()+"/"; //cantidad de atenciones
 		
 		 Iterator<Atencion> iterator=atenciones.values().iterator();
@@ -31,4 +31,17 @@ public class Historico {
 	     return rta; //Devuelve como resultado una parte del string que se le envia a estadistico
     }
     
+    public String estado() {
+    	String rta="";
+    	Atencion sig;
+		 Iterator<Atencion> iterator=atenciones.values().iterator();
+	        while (iterator.hasNext()) {
+	            sig= iterator.next();
+	            rta+=sig.toString();
+	            if(iterator.hasNext()){
+	            	rta+=";";
+	            }
+	        }
+	     return rta;
+    }
 }
