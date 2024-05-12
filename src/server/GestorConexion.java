@@ -29,6 +29,7 @@ public class GestorConexion extends Thread {
 			this.conexiones=conexiones;
 			this.puertoEntrada=puertoEntrada;
 			this.listaEsclavos=listaEsclavos;
+			this.conexionesEsclavos=new HashMap<String,IConexion>();
 		}
 		
 		 @Override
@@ -57,24 +58,17 @@ public class GestorConexion extends Thread {
 
 							//GESTOR DE CONEXIONES
 							//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
-							//TODO gestor de conexiones tiene: conexiones a componentes/ conexiones a esclavos/ lista de esclavos (habria que recorrer, ademas de la lista de conexiones, la de conexiones de esclavos (no la lista de esclavos), buscando los desconectados para eliminarlos de la entrada de sus 2 listas)
-							
-							
-							
-							
 							
 							
 							//RECONEXION DE COMPONENTES
 							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
 							//luego en cada componente, se recibe el mensaje con la lista de los esclavos y cuando se registre una desconexion: se reintenta 2 veces con el maestro y sino se empieza a intentar con los esclavos recorriendo la lista... (si no se conecta a ningun vuelve al login)
 							
-							
-							
-							
 							this.puertoEntrada.aceptarConexion(7000);
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
+								this.actualizaEsclavos(); //elimina los esclavos viejos (ya desconectados)
 								elementos = mensaje.split(";");	
 								 if(elementos[0].equals(parametros.getContraseña())&& elementos.length >= 2){
 									 switch (elementos[1]) { 
@@ -139,7 +133,7 @@ public class GestorConexion extends Thread {
 											nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,puertoEntrada.getIPCliente(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
 											nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
 											conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
-											this.listaEsclavos.addLast(new Esclavo(nuevaConexion.getID(),nuevaConexion.getPuerto(),nuevaConexion.getIP()));
+											this.listaEsclavos.addLast(new Esclavo(nuevaConexion.getID(),nuevaConexion.getPuerto(),puertoEntrada.getIPCliente()));
 											nuevaEjecucion.start();
 											Respuesta="Exito;"+puertonuevaconexion.getPuerto()+";"+nuevaConexion.getID();
 							            	break;
@@ -161,6 +155,7 @@ public class GestorConexion extends Thread {
 
 						} catch (ExcepcionFinTimeoutAceptar e) {
 							this.actualizaConexiones();
+							this.actualizaEsclavos();
 						} catch (ExcepcionErrorAlAceptar | ExcepcionFinConexion | ExcepcionFinTimeoutLectura e) {
 							//como se corta por un error del cliente la ejecución no se sigue con el codigo y se vuelve a empezar el ciclo
 						} catch (ExcepcionErrorAlCerrar e) {
@@ -181,7 +176,7 @@ public class GestorConexion extends Thread {
 			 	
 		    }
 		 
-//TODO tambien actualizar las conexiones de los esclavos		 
+	 
 		 private void actualizaConexiones() {
 			 	IConexion conexion;
 			 	Set<String> keysToRemove = new HashSet<String>();
@@ -199,6 +194,40 @@ public class GestorConexion extends Thread {
 		     
 		 }
 		 
+		//TODO tambien actualizar las conexiones de los esclavos		 
+		 private void actualizaEsclavos() {
+			 	IConexion esclavo;
+			 	int pos;
+			 	Set<String> keysToRemove = new HashSet<String>();
+			 	Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
+		        while (iterator.hasNext()) {
+		            esclavo = iterator.next();
+		            if (!esclavo.isConectado()) {
+		            	keysToRemove.add(esclavo.getID());
+		            }
+		        }
+		        for (String key : keysToRemove) {
+		            pos=buscaPosEsclavo(key);
+		            if(pos!=-1) {
+		            	System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexionesEsclavos.get(key).getID()+ "\u001B[0m"+"\n"); 
+		            	listaEsclavos.remove(pos);
+		            	conexionesEsclavos.remove(key);
+		            }
+		        }
+		 }
+		 
+		 private int buscaPosEsclavo(String id) {
+			int pos = -1; // Inicializamos el índice como -1 para indicar que no se encontró el elemento
+			// Buscamos el índice del elemento con el ID dado
+			for (int i = 0; i < listaEsclavos.size(); i++) {
+				if (listaEsclavos.get(i).getID().compareTo(id)==0) {
+				    pos = i;
+				    break; // Salimos del bucle una vez que encontramos el elemento
+				 }
+			}
+			return pos;
+		 }
+		 
 		 private boolean isInt(String cadena) {
 			 try {
      	        Integer.parseInt(cadena);
@@ -210,9 +239,10 @@ public class GestorConexion extends Thread {
 		 
 		 //TODO cortar las conexiones de los esclavos
 		 private void cierraConexiones() {
-			 Iterator<IConexion> iterator = conexiones.values().iterator();
-		        while (iterator.hasNext()) {
-		            IConexion conexion = iterator.next();
+			 IConexion conexion;
+			 Iterator<IConexion> it = conexionesEsclavos.values().iterator();
+		        while (it.hasNext()) {
+		            conexion = it.next();
 		            if (conexion.isConectado()) {
 		            	try {
 							conexion.cerrarConexion();
@@ -223,6 +253,20 @@ public class GestorConexion extends Thread {
 						}
 		            }
 		        }
+			 Iterator<IConexion> iterator = conexiones.values().iterator();
+		        while (iterator.hasNext()) {
+		            conexion = iterator.next();
+		            if (conexion.isConectado()) {
+		            	try {
+							conexion.cerrarConexion();
+							System.out.println("Se cerró: "+ conexion.getID());
+						} catch (ExcepcionErrorAlCerrar e) {
+		            		System.out.println("Error critico: no fue posible cerrar la conexion de: "+conexion.getID());
+							e.printStackTrace();
+						}
+		            }
+		        }
+		     
 		 }
 		     
 		 private String getnamefromid(String Id) {
@@ -240,9 +284,6 @@ public class GestorConexion extends Thread {
 				 case 'B': //Box
 					 	name="Box";
 					 	break;
-				 case 'S':
-					 	name="Esclavo";
-				 		break;
 			 }
 			 return name;
 		 }

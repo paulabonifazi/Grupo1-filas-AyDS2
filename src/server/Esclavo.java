@@ -22,4 +22,11 @@ public class Esclavo{
 	public String getIP() {
 		return IP;
 	}
+
+	@Override
+	public String toString() {
+		return this.ID+","+this.IP+","+this.puerto;
+	}
+	
+	
 }

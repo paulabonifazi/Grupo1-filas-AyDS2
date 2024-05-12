@@ -18,7 +18,9 @@ public class Solicitud {
 	public String getIdBox() {
 		return idBox;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return  idBox+","+hrinicio.toString();
+	}
 }

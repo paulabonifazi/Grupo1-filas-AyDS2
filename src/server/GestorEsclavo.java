@@ -1,10 +1,10 @@
 package server;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import Excepciones.*;
 import TCP.*;
-import interfaces.INotificacion;
 
 public class GestorEsclavo extends Thread{
 	private TCPServidor serverEsclavo;
@@ -37,7 +37,8 @@ public class GestorEsclavo extends Thread{
 	 		if(serverEsclavo.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
 		 			try {
-		 				serverEsclavo.enviarMensajeACliente("hola", true); //TODO Mensaje con toda la info
+		 				Thread.sleep(5000);
+		 				serverEsclavo.enviarMensajeACliente(estadoServer(), true);
 		 			}
 		 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
 		 				while (desconexiones<2) {
@@ -65,5 +66,38 @@ public class GestorEsclavo extends Thread{
 				// no puede hacerse nada más que terminar el thread
 			}
 	 	}
+	}
+	
+	//TODO devolver el estado con un formato para que lo entienda el esclavo
+	private String estadoServer() {
+		String estado=null;
+		estado=cola.estado()+"/"+llamados.estado()+"/"+historico.estado()+"/"+parametros.getContraseña()+"/"+ this.estadoConexiones() +"/"+this.estadoEsclavos();
+		return estado;
+	}
+	//HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos
+	private String estadoConexiones() {
+		String mensaje="";
+		IConexion conexion;
+		Iterator<IConexion> it= conexiones.values().iterator();
+		while(it.hasNext()) {
+			conexion= it.next();
+			mensaje+=conexion.toString();
+			if(it.hasNext())
+				mensaje+=";";
+		}
+		return mensaje;
+	}
+	
+	private String estadoEsclavos() {
+		String mensaje="";
+		Esclavo esclavo;
+		Iterator<Esclavo> it= listaEsclavos.iterator();
+		while(it.hasNext()) {
+			esclavo=it.next();
+			mensaje+=esclavo.toString();
+			if(it.hasNext())
+				mensaje+=";";
+		}
+		return mensaje;
 	}
 }

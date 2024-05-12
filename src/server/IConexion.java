@@ -7,4 +7,5 @@ public interface IConexion {
 	public String getID();
 	public boolean isConectado();
 	public void cerrarConexion()throws ExcepcionErrorAlCerrar;
+	public String toString(); //sobreescribir para mostrar los estados
 }

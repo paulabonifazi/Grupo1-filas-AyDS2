@@ -38,8 +38,15 @@ public class Turno {
 		aux=this.ausencias;
 		this.ausencias=aux+1;
 	}
-	
+
 	public int getAusencias() {
 		return this.ausencias;
 	}
+
+	@Override
+	public String toString() {
+		return dni+","+hrRegistro.toString()+","+ausencias;
+	}
+	
+	
 }

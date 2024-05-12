@@ -40,4 +40,11 @@ public class Atencion {
 	public String getBox(){
 		return solicitud.getIdBox();
 	}
+
+	@Override
+	public String toString() {
+		return  turno.toString()+"-"+solicitud.toString()+"-"+hrinicio.toString()+"-"+hrfin.toString();
+	}
+	
+	
 }
