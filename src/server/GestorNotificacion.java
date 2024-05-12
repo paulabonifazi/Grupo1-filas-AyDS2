@@ -11,11 +11,12 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private String ipClienteEsperado;
 	private LinkedList<Esclavo> listaEsclavos;
 	
-	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado) {
+	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado) {
 		super();
 		this.serverNotificacion = serverNotificacion;
 		this.llamados = llamados;
 		this.ipClienteEsperado = ipClienteEsperado;
+		this.borrado=borrado;
 	}
 
 	//TODO ver en donde hacer cuando recibe mje del server de actualizar lista de esclavos
@@ -28,7 +29,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
-	 			this.llamados.setActivado(true); //activa el sistema de llamado
+	 			this.llamados.activar(borrado); //activa el sistema de llamado
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
 		 			try {
 		 				llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
@@ -38,7 +39,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		 				while (desconexiones<2) {
 		 						Thread.sleep(500);
 			 					try {
-									serverNotificacion.recibirmensajeDeCliente(0, false); //como ya se envió un mensaje, se reintenta recibir la confirmacion. Si nunca se recibe se da por perdida la conexion
+									serverNotificacion.recibirmensajeDeCliente(0, false); //como ya se enviï¿½ un mensaje, se reintenta recibir la confirmacion. Si nunca se recibe se da por perdida la conexion
 									desconexiones=0;
 			 					} catch (ExcepcionFinConexion | ExcepcionFinTimeoutLectura e1) {
 									desconexiones++;
@@ -46,20 +47,20 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		 				}
 		 			}
 	 			}
-	 			//TODO intentó 2 veces conectarse, busca un esclavo hasta poder establecer conexión
+	 			//TODO intentï¿½ 2 veces conectarse, busca un esclavo hasta poder establecer conexiï¿½n
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) { 
 		}
-	 	catch(ExcepcionDeInterrupcion | InterruptedException|ExcepcionLecturaErronea e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, además del serversocket
+	 	catch(ExcepcionDeInterrupcion | InterruptedException|ExcepcionLecturaErronea e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, ademï¿½s del serversocket
 	 	}
 	 	finally {
 	 		try {
-				this.llamados.setActivado(false);
+				this.llamados.desactivar();
 				serverNotificacion.cerrarPuertoServidor(); 
 				serverNotificacion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
+				// no puede hacerse nada mï¿½s que terminar el thread
 			}
 	 	}
 	}

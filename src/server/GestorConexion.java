@@ -17,10 +17,11 @@ public class GestorConexion extends Thread {
 		private HashMap<String, IConexion> conexiones;
 		private HashMap<String,IConexion> conexionesEsclavos;
 		private  LinkedList<Esclavo> listaEsclavos;
+		private LinkedList<InfoConexion> listaConexiones;
 		
 		
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos,LinkedList<InfoConexion> listaConexiones) {
 			super();
 			this.cola = cola;
 			this.llamados = llamados;
@@ -30,6 +31,7 @@ public class GestorConexion extends Thread {
 			this.puertoEntrada=puertoEntrada;
 			this.listaEsclavos=listaEsclavos;
 			this.conexionesEsclavos=new HashMap<String,IConexion>();
+			this.listaConexiones=listaConexiones;
 		}
 		
 		 @Override
@@ -105,7 +107,7 @@ public class GestorConexion extends Thread {
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente());	
+							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente(),true);
 							                	
 							                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	

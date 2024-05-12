@@ -85,5 +85,36 @@ public class MonitorDeCola {
     	return estado;
     }
     
+    public void parse(String cola, String atenciones) {
+		 int i;
+		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
+			 String[] turnos=cola.split(";");
+			 String[] turno;
+			 i=0;
+			 while(i<turnos.length) {
+				 turno=turnos[i].split(",");
+				 if(turno.length==3) {
+					try {
+						this.coladeTurnos.put(new Turno(turnos[0],turnos[1],turnos[2]));
+					} catch (InterruptedException e) {
+					}
+				 }
+				 i++;
+			 }
+		 }
+		 if(atenciones!=null && !atenciones.isBlank() && !atenciones.isEmpty()) {
+			 String[] pendientes=atenciones.split(";");
+			 String[] atencion;
+			 i=0;
+			 while(i<pendientes.length) {
+				 atencion=pendientes[i].split(",");
+				 if(atencion.length==2) {
+					this.atencionesAbiertas.put(atencion[0], atencion[1]);
+				 }
+				 i++;
+			 }
+		 }
+	 }
+    
 }
 

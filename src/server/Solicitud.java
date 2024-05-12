@@ -10,6 +10,11 @@ public class Solicitud {
 		this.idBox=IdBox;
 		hrinicio=LocalTime.now();
 	}
+	
+	public Solicitud(String IdBox,String hr) {
+		this.idBox=IdBox;
+		hrinicio=LocalTime.parse(hr);
+	}
 
 	public LocalTime getHrSolicitud() {
 		return hrinicio;

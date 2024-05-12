@@ -15,6 +15,7 @@ public class Servidor{
 		Historico historico= new Historico();
 		HashMap<String, IConexion> conexiones= new HashMap<String, IConexion>();
 		LinkedList<Esclavo> listaEsclavos=new LinkedList<Esclavo>();
+		LinkedList<InfoConexion> listaConexiones=null;
 		String contrasenia=null;
 		
 		try(Scanner scanner = new Scanner(System.in)){
@@ -46,7 +47,7 @@ public class Servidor{
 					TCPServidor puertoLibre;
 					try {
 						puertoLibre = new TCPServidor();
-						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,conexiones,listaEsclavos);
+						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,conexiones,listaEsclavos,listaConexiones);
 						gestorConexion.start();
 						while (!parametros.isFinalizar()) {
 							System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Cerrar servidor");
@@ -126,11 +127,12 @@ public class Servidor{
 					String lectura=null;
 					String Ip;
 					String mensaje;
-					String[] elementos;
 					String IDEsclavo;
 					int puerto=0;
 					int desconexiones=0;
-					
+					Boolean act,conectado;
+					String[] elementos,infconexiones,infesclavos;
+					int i;
 					do {
 						System.out.println("Ingrese el puerto del maestro");
 						valida=false;
@@ -187,14 +189,73 @@ public class Servidor{
 									} catch (ExcepcionErrorAlCerrar e) {
 										//si ocurre no se puede hacer nada
 									}
-									conexionConMaestro=new TCPCliente(Ip, Integer.parseInt(elementos[1]));
-									desconexiones=0;
-									while(modo.charAt(0)=='0') {
-										//TODO Se pone a escuchar los mensajes del maestro y pisa sus estructuras con ellos.
-										//en el catch de error de conexion: desconexion++ si desconexion es menor a 2; y sino empieza a recorrer esclavos
-										//TODO caso en el que se cae el servidor... recorrer los esclavos o volverse maestro
-										// en caso de no recibir el mensaje intenta reconectarse 2 veces al maestro y sino empieza con el recorrido de los esclavos (evaluando los ID de esclavo) hasta llegar a el (se hace maestro) o conectarse a alguno (se hace esclavo y espera sus mensajes de vuelta).
-									}
+									puerto=Integer.parseInt(elementos[1]); //nuevo puerto dado por el servidor
+									conexionConMaestro=new TCPCliente(Ip, puerto);
+									conectado=true;
+									while(conectado){
+										desconexiones=0;
+										while(desconexiones<2) { //interactua con el servidor hasta que no se puede reconectar (reintenta 2 veces)
+											try {
+												mensaje=conexionConMaestro.recibirmensajeDeServidor(true);
+												desconexiones=0;
+												elementos = mensaje.split("/");	
+												if(elementos.length==8)
+												cola.parse(elementos[0],elementos[1]);
+												bufferSalida.parse(elementos[2]);
+												historico.parse(elementos[3]);
+												contrasenia= elementos[4];
+												
+												infconexiones=elementos[5].split(";");
+												String[] conexion;
+												i=0;
+												listaConexiones= new LinkedList<InfoConexion>();
+												while(i<infconexiones.length) {
+													conexion=infconexiones[i].split(",");
+													listaConexiones.add(new InfoConexion(conexion[0], conexion[1], conexion[2]));
+													i++;
+												}
+												
+												infesclavos=elementos[6].split(";");
+												String[]esclavo;
+												i=0;
+												listaEsclavos= new LinkedList<Esclavo>();
+												while(i<infesclavos.length) {
+													esclavo=infesclavos[i].split(",");
+													listaConexiones.add(new InfoConexion(esclavo[0], esclavo[1], esclavo[2]));
+													i++;
+												}
+											}catch (ExcepcionFinConexion e) {
+												while(desconexiones<2)
+													desconexiones++;
+											}
+										}
+										try {
+											conexionConMaestro.cerrarConexion();
+										} catch (ExcepcionErrorAlCerrar e) {
+											//si ocurre no se puede hacer nada
+										}
+										act=false;
+										conectado=false;
+										Esclavo esclavo;
+										while(!listaEsclavos.isEmpty() && (!act||!conectado)) {
+											esclavo=listaEsclavos.remove();
+											if(esclavo.getID().equals(IDEsclavo)) { //no avanza mas porque llego a el
+												act=true;
+												modo="1";
+											}
+											else {
+												desconexiones=0;
+												while (desconexiones<2) {
+													try {
+														conexionConMaestro= new TCPCliente(esclavo.getIP(), puerto);
+														conectado=true;
+													}catch (ExcepcionErrorConexion e) {
+														desconexiones++;
+													}
+												}
+											}
+										}
+									} //si esta conectado, entonces sigue siendo esclavo, mientras que si no está conectado es porque el es el maestro
 								}
 								else {
 									System.out.println("Error: contraseña incorrecta");
