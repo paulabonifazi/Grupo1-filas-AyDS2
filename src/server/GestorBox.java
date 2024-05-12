@@ -36,6 +36,8 @@ public class GestorBox extends Thread implements IAtencion{
 		this.ipClienteEsperado=IPClienteEsperado;
 		this.IDBox=IDBox;
 	}
+	
+	//TODO ver en donde hacer cuando recibe mje del server de actualizar lista de esclavos
 
 
 	@Override

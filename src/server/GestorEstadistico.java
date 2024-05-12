@@ -20,6 +20,8 @@ public class GestorEstadistico extends Thread implements IEstado{
 				this.historico=historico;
 			}
 			
+			//TODO ver en donde hacer cuando recibe mje del server de actualizar lista de esclavos
+			
 			
 			@Override
 		    public void run() {

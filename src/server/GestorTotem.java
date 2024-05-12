@@ -18,6 +18,8 @@ public class GestorTotem  extends Thread implements IRegistro{
 		this.IPClienteEsperado=IPClienteEsperado;
 	}
 	
+	//TODO ver en donde hacer cuando recibe mje del server de actualizar lista de esclavos
+	
 	@Override
     public void run() {
 		String mensaje = null;

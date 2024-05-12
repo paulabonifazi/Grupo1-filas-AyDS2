@@ -18,6 +18,8 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		this.ipClienteEsperado = ipClienteEsperado;
 	}
 
+	//TODO ver en donde hacer cuando recibe mje del server de actualizar lista de esclavos
+	
 
 	@Override
     public void run() {
