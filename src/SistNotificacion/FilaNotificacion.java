@@ -15,7 +15,7 @@ public class FilaNotificacion {
 	
 	public FilaNotificacion() {
 		super();
-		this.segundosMostrado = 9999;
+		this.segundosMostrado = 99999999; //creo que con un tiempo grande los llamados no se borrarían
 		this.dni = "";
 		this.box = "";
 	}

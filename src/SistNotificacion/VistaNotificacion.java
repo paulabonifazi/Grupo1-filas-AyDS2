@@ -13,7 +13,7 @@ public class VistaNotificacion extends JFrame implements IVistaMonitor {
     private DefaultTableModel modeloTabla;
 
     public VistaNotificacion() {
-    	setTitle("Tabla DNI y Box");
+    	setTitle("TV");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Crear el modelo de la tabla
