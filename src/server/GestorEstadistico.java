@@ -53,6 +53,11 @@ public class GestorEstadistico extends Thread implements IEstado{
 				 			}
 			 			}
 			 			//TODO intentó 2 veces conectarse, busca un esclavo hasta poder establecer conexión
+			 			int i=0;
+			 			while(i < listaEsclavos.size()) {
+			 				//listaEsclavos.get(i).
+			 				//tendria que ser una lista de esclavos o una lista de conexiones de esclavos?
+			 			}
 			 		}
 			 		try {
 						conexion.cerrarConexion();
