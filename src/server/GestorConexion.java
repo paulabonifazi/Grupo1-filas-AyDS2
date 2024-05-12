@@ -75,6 +75,7 @@ public class GestorConexion extends Thread {
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
 								this.actualizaConexiones(); //elimina las conexiones viejas (cuyos hilos ya terminaron)
+								this.actualizaEsclavos(); //elimina los esclavos viejos (ya desconectados)
 								elementos = mensaje.split(";");	
 								 if(elementos[0].equals(parametros.getContraseña())&& elementos.length >= 2){
 									 switch (elementos[1]) { 
@@ -161,6 +162,7 @@ public class GestorConexion extends Thread {
 
 						} catch (ExcepcionFinTimeoutAceptar e) {
 							this.actualizaConexiones();
+							this.actualizaEsclavos();
 						} catch (ExcepcionErrorAlAceptar | ExcepcionFinConexion | ExcepcionFinTimeoutLectura e) {
 							//como se corta por un error del cliente la ejecución no se sigue con el codigo y se vuelve a empezar el ciclo
 						} catch (ExcepcionErrorAlCerrar e) {
@@ -181,7 +183,7 @@ public class GestorConexion extends Thread {
 			 	
 		    }
 		 
-//TODO tambien actualizar las conexiones de los esclavos		 
+	 
 		 private void actualizaConexiones() {
 			 	IConexion conexion;
 			 	Set<String> keysToRemove = new HashSet<String>();
@@ -199,6 +201,40 @@ public class GestorConexion extends Thread {
 		     
 		 }
 		 
+		//TODO tambien actualizar las conexiones de los esclavos		 
+		 private void actualizaEsclavos() {
+			 	IConexion esclavo;
+			 	int pos;
+			 	Set<String> keysToRemove = new HashSet<String>();
+			 	Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
+		        while (iterator.hasNext()) {
+		            esclavo = iterator.next();
+		            if (!esclavo.isConectado()) {
+		            	keysToRemove.add(esclavo.getID());
+		            }
+		        }
+		        for (String key : keysToRemove) {
+		            conexiones.remove(key);
+		            pos=buscaPosEsclavo(key);
+		            if(pos!=-1) {
+		            	listaEsclavos.remove(pos);
+		            }
+		            System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexiones.get(key).getID()+ "\u001B[0m"+"\n"); 
+		        }
+		 }
+		 
+		 private int buscaPosEsclavo(String id) {
+			int pos = -1; // Inicializamos el índice como -1 para indicar que no se encontró el elemento
+			// Buscamos el índice del elemento con el ID dado
+			for (int i = 0; i < listaEsclavos.size(); i++) {
+				if (listaEsclavos.get(i).getID().compareTo(id)==0) {
+				    pos = i;
+				    break; // Salimos del bucle una vez que encontramos el elemento
+				 }
+			}
+			return pos;
+		 }
+		 
 		 private boolean isInt(String cadena) {
 			 try {
      	        Integer.parseInt(cadena);
@@ -210,9 +246,10 @@ public class GestorConexion extends Thread {
 		 
 		 //TODO cortar las conexiones de los esclavos
 		 private void cierraConexiones() {
-			 Iterator<IConexion> iterator = conexiones.values().iterator();
-		        while (iterator.hasNext()) {
-		            IConexion conexion = iterator.next();
+			 IConexion conexion;
+			 Iterator<IConexion> it = conexionesEsclavos.values().iterator();
+		        while (it.hasNext()) {
+		            conexion = it.next();
 		            if (conexion.isConectado()) {
 		            	try {
 							conexion.cerrarConexion();
@@ -223,6 +260,20 @@ public class GestorConexion extends Thread {
 						}
 		            }
 		        }
+			 Iterator<IConexion> iterator = conexiones.values().iterator();
+		        while (iterator.hasNext()) {
+		            conexion = iterator.next();
+		            if (conexion.isConectado()) {
+		            	try {
+							conexion.cerrarConexion();
+							System.out.println("Se cerró: "+ conexion.getID());
+						} catch (ExcepcionErrorAlCerrar e) {
+		            		System.out.println("Error critico: no fue posible cerrar la conexion de: "+conexion.getID());
+							e.printStackTrace();
+						}
+		            }
+		        }
+		     
 		 }
 		     
 		 private String getnamefromid(String Id) {
@@ -240,9 +291,6 @@ public class GestorConexion extends Thread {
 				 case 'B': //Box
 					 	name="Box";
 					 	break;
-				 case 'S':
-					 	name="Esclavo";
-				 		break;
 			 }
 			 return name;
 		 }

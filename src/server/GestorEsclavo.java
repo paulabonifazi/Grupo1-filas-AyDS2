@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import Excepciones.*;
 import TCP.*;
-import interfaces.INotificacion;
 
 public class GestorEsclavo extends Thread{
 	private TCPServidor serverEsclavo;
@@ -32,12 +31,14 @@ public class GestorEsclavo extends Thread{
 	@Override
     public void run() {
 		int desconexiones=0;
+		String mensaje=null;
 	 	try {
 	 		this.serverEsclavo.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverEsclavo.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
 		 			try {
-		 				serverEsclavo.enviarMensajeACliente("hola", true); //TODO Mensaje con toda la info
+		 				mensaje= estadoServer();
+		 				serverEsclavo.enviarMensajeACliente(mensaje, true);
 		 			}
 		 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
 		 				while (desconexiones<2) {
@@ -65,5 +66,11 @@ public class GestorEsclavo extends Thread{
 				// no puede hacerse nada más que terminar el thread
 			}
 	 	}
+	}
+	
+	//TODO devolver el estado con un formato para que lo entienda el esclavo
+	private String estadoServer() {
+		String estado=null;
+		return estado;
 	}
 }
