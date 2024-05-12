@@ -1,6 +1,6 @@
 package server;
 
-import java.util.HashMap;
+
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -13,7 +13,6 @@ public class Servidor{
 		MonitorDeCola cola = new MonitorDeCola();
 		MonitorNotificacion bufferSalida=new MonitorNotificacion();
 		Historico historico= new Historico();
-		HashMap<String, IConexion> conexiones= new HashMap<String, IConexion>();
 		LinkedList<Esclavo> listaEsclavos=new LinkedList<Esclavo>();
 		LinkedList<InfoConexion> listaConexiones=null;
 		String contrasenia=null;
@@ -47,7 +46,7 @@ public class Servidor{
 					TCPServidor puertoLibre;
 					try {
 						puertoLibre = new TCPServidor();
-						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,conexiones,listaEsclavos,listaConexiones);
+						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,listaEsclavos,listaConexiones);
 						gestorConexion.start();
 						while (!parametros.isFinalizar()) {
 							System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Cerrar servidor");

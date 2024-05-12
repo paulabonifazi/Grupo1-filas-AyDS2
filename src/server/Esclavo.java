@@ -22,6 +22,12 @@ public class Esclavo{
 	public String getIP() {
 		return IP;
 	}
+	
+	
+
+	public void setID(String iD) {
+		ID = iD;
+	}
 
 	@Override
 	public String toString() {

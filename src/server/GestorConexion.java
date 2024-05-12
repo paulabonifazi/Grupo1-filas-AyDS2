@@ -21,13 +21,13 @@ public class GestorConexion extends Thread {
 		
 		
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos,LinkedList<InfoConexion> listaConexiones) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,LinkedList<Esclavo> listaEsclavos,LinkedList<InfoConexion> listaConexiones) {
 			super();
 			this.cola = cola;
 			this.llamados = llamados;
 			this.historico = historico;
 			this.parametros=parametros;
-			this.conexiones=conexiones;
+			this.conexiones=new HashMap<String, IConexion>();
 			this.puertoEntrada=puertoEntrada;
 			this.listaEsclavos=listaEsclavos;
 			this.conexionesEsclavos=new HashMap<String,IConexion>();
@@ -60,7 +60,56 @@ public class GestorConexion extends Thread {
 
 							//GESTOR DE CONEXIONES
 							//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
-							
+							InfoConexion info;
+							if(listaConexiones!=null && !listaConexiones.isEmpty()) {
+								while (!listaConexiones.isEmpty()) {
+									info=listaConexiones.remove();
+									switch (this.getnamefromid(info.getID())) { 
+								            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
+									            	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+								            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, info.getIP());
+								            		nuevaEjecucion.start();
+								            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
+								            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+								                break;
+								            case "Box":
+									            		puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+									            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,info.getIP(),info.getID());
+									            		nuevaEjecucion.start();
+									            		this.conexiones.put(info.getID(), new C_Box(puertonuevaconexion, nuevaEjecucion, info.getID()));
+								                break;
+								            case "TvLlamado":
+								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+								                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, info.getIP(),false);
+								                	nuevaEjecucion.start();
+								                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
+								            	break;
+								            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
+								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+								                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, info.getIP());
+								                	
+								                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
+								                	nuevaEjecucion.start();
+								                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+								            	break;
+									}
+								}
+							}
+							Esclavo esclavo;
+							LinkedList<Esclavo> listaAux=new LinkedList<Esclavo>();
+							if(listaEsclavos!=null && !listaEsclavos.isEmpty()) {
+								while(!listaEsclavos.isEmpty()) {
+									esclavo=listaEsclavos.remove();
+									puertonuevaconexion=new TCPServidor(esclavo.getPuerto());
+									nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,esclavo.getIP(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
+									nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
+									
+									conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
+									esclavo.setID(nuevaConexion.getID());
+									listaAux.addLast(esclavo);
+									nuevaEjecucion.start();
+								}
+							}
 							
 							//RECONEXION DE COMPONENTES
 							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
@@ -275,7 +324,7 @@ public class GestorConexion extends Thread {
 			 String name=null;
 			 switch(Id.charAt(0)) {
 				 case 'E': //estadistico
-					 	name="Estadistico";
+					 	name="Estadisticos";
 				 	break;
 				 case 'T': //totem
 					 	name="Totem";

@@ -1,9 +1,9 @@
 package server;
 
 public class InfoConexion {
-	String ID;
-	String IP;
-	int puerto;
+	private String ID;
+	private String IP;
+	private int puerto;
 	public InfoConexion(String id, String ip, String puerto) {
 		this.ID=id;
 		this.IP=ip;
