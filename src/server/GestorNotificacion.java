@@ -7,12 +7,14 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private TCPServidor serverNotificacion;
 	private MonitorNotificacion llamados;
 	private String ipClienteEsperado;
+	private Boolean borrado;
 	
-	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado) {
+	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado) {
 		super();
 		this.serverNotificacion = serverNotificacion;
 		this.llamados = llamados;
 		this.ipClienteEsperado = ipClienteEsperado;
+		this.borrado=borrado;
 	}
 
 
@@ -23,7 +25,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
-	 			this.llamados.setActivado(true); //activa el sistema de llamado
+	 			this.llamados.activar(borrado); //activa el sistema de llamado
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
 		 			try {
 		 				llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
@@ -49,7 +51,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	 	}
 	 	finally {
 	 		try {
-				this.llamados.setActivado(false);
+				this.llamados.desactivar();
 				serverNotificacion.cerrarPuertoServidor(); 
 				serverNotificacion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
