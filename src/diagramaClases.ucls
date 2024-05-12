@@ -1,0 +1,1577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="Box.GestorCliente" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/GestorCliente.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1935" y="1443"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="Box.EsperaState" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/EsperaState.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1376" y="-229"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="Box.VentanaLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/VentanaLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1022" y="724"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="Box.IVistaLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/IVistaLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1049" y="1392"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="Box.ControladorLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/ControladorLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1140" y="1125"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="Box.EnviadorMensajes" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/EnviadorMensajes.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1493" y="1542"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="7" language="java" name="Box.IVistaOperador" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/IVistaOperador.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1820" y="972"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="8" language="java" name="Box.InactivoState" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/InactivoState.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1429" y="516"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="Box.MainControladorBox" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/MainControladorBox.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1152" y="462"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="Box.AtendiendoState" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/AtendiendoState.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1505" y="193"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="Box.ControladorVistaOperador" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/ControladorVistaOperador.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1511" y="1013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="Box.VistaOperador" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/VistaOperador.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1822" y="318"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="Box.StateAbstracta" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Box/StateAbstracta.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1776" y="-246"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="estadistico.VentanaEstadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/VentanaEstadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="885" y="-181"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="estadistico.GestorConexionEstadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/GestorConexionEstadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="459" y="29"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="16" language="java" name="estadistico.IVistaEstadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/IVistaEstadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="896" y="273"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="17" language="java" name="estadistico.CalculosEstadisticos" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/CalculosEstadisticos.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="486" y="193"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="estadistico.Estadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/Estadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="459" y="-337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="estadistico.ControladorEstadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/estadistico/ControladorEstadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="451" y="-182"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="20" language="java" name="SistNotificacion.IVistaMonitor" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/IVistaMonitor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="106" width="209" x="562" y="1201"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="21" language="java" name="SistNotificacion.ReceptorDeNotificaciones" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/ReceptorDeNotificaciones.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="122" y="1134"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="SistNotificacion.ControladorLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/ControladorLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-234" y="620"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="SistNotificacion.VentanaLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/VentanaLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="128" y="518"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="24" language="java" name="SistNotificacion.IVistaLogin" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/IVistaLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-6" y="850"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="25" language="java" name="SistNotificacion.FilaNotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/FilaNotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="416" y="1353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="SistNotificacion.MainNotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/MainNotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="526" y="487"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="SistNotificacion.ControladorVistaMonitor" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/ControladorVistaMonitor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="480" y="810"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="SistNotificacion.VistaNotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/SistNotificacion/VistaNotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="519" y="1072"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="server.Atencion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Atencion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="662" y="2934"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="server.GestorSolicitud" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorSolicitud.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="72" y="2500"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="server.MonitorDeCola" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/MonitorDeCola.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="148" y="2808"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="server.Turno" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Turno.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-141" y="3128"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="server.Solicitud" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Solicitud.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="563" y="3243"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="server.GestorTotem" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorTotem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-252" y="2079"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="server.C_Estadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/C_Estadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1485" y="1809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="server.InfoConexion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/InfoConexion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-30" y="1843"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="server.GestorConexion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorConexion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="232" width="376" x="539" y="1850"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="server.GestorNotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorNotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-687" y="2095"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="server.Llamado" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Llamado.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-648" y="2809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="server.C_Box" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/C_Box.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1367" y="2341"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="server.C_Esclavo" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/C_Esclavo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1679" y="2129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="server.C_TvLlamado" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/C_TvLlamado.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1846" y="1805"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="server.Esclavo" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Esclavo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="852" y="2624"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="server.GestorBox" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorBox.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="223" y="2227"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="server.GestorEstadistico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorEstadistico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="741" y="2375"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="server.MonitorNotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/MonitorNotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-470" y="2549"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="server.C_Totem" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/C_Totem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2012" y="2131"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="server.GestorEsclavo" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/GestorEsclavo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="196" width="424" x="1082" y="2532"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="server.Historico" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Historico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1176" y="3010"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="50" language="java" name="server.IConexion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/IConexion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1754" y="2520"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="51" language="java" name="server.ParametrosDeConexion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/ParametrosDeConexion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1062" y="2317"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="52" language="java" name="server.Servidor" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/server/Servidor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="517" y="1569"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="Totem.ControladorVistaRegistro" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Totem/ControladorVistaRegistro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-473" y="256"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="54" language="java" name="Totem.GestorConexionTotem" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Totem/GestorConexionTotem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-528" y="653"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="55" language="java" name="Totem.Totem" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Totem/Totem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-214" y="250"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="56" language="java" name="Totem.VistaTotem" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Totem/VistaTotem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-791" y="854"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="57" language="java" name="Totem.IVistaRegistro" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/Totem/IVistaRegistro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-344" y="945"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="58" language="java" name="TCP.TCPCliente" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/TCP/TCPCliente.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-423" y="1371"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="59" language="java" name="TCP.TCPServidor" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/TCP/TCPServidor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-50" y="1549"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="60" language="java" name="interfaces.IAtencion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/interfaces/IAtencion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="317" y="2035"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="61" language="java" name="interfaces.IEstado" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/interfaces/IEstado.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="779" y="468"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="62" language="java" name="interfaces.INotificacion" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/interfaces/INotificacion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-685" y="1866"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="63" language="java" name="interfaces.IRegistro" project="Grupo1-filas-AyDS2" 
+    file="/Grupo1-filas-AyDS2/src/interfaces/IRegistro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-679" y="1692"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <association id="64">    
+    <bendpoint x="483" y="2493"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="65" name="atencion"/>      
+      <multiplicity id="66" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="67">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="50"/>  
+  </realization>  
+  <association id="68">    
+    <bendpoint x="1521" y="2203"/>    
+    <bendpoint x="1590" y="2304"/>    
+    <bendpoint x="1676" y="2332"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="69" name="conexiones"/>      
+      <multiplicity id="70" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="72" name="serverNotificacion"/>      
+      <multiplicity id="73" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="75" name="cliente"/>      
+      <multiplicity id="76" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="77">    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="60"/>  
+  </realization>  
+  <dependency id="78">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="79">    
+    <bendpoint x="1588" y="409"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <association id="80">    
+    <bendpoint x="1850" y="1977"/>    
+    <bendpoint x="1379" y="1941"/>    
+    <bendpoint x="1293" y="1918"/>    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="81" name="conexion">        
+        <position height="20" width="60" x="155" y="1566"/>      
+      </attribute>      
+      <multiplicity id="82" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="83">    
+    <end type="SOURCE" refId="56"/>    
+    <end type="TARGET" refId="57"/>  
+  </realization>  
+  <dependency id="84">    
+    <bendpoint x="1289" y="155"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="85">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="35"/>  
+  </dependency>  
+  <association id="86">    
+    <bendpoint x="1214" y="1825"/>    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="87" name="conexion"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="89">    
+    <bendpoint x="1500" y="-99"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="90">    
+    <bendpoint x="-220" y="1847"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="91" name="conexion"/>      
+      <multiplicity id="92" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="94" name="conexion"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <bendpoint x="356" y="149"/>    
+    <bendpoint x="283" y="890"/>    
+    <bendpoint x="-100" y="1005"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="97" name="conexion"/>      
+      <multiplicity id="98" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="99">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="20"/>  
+  </realization>  
+  <association id="100">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="101" name="controlador"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="103">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="104" name="turno"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="106">    
+    <bendpoint x="-20" y="1033"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="107" name="cliente"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="109">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="44"/>  
+  </dependency>  
+  <association id="110">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="111" name="controladorLogin"/>      
+      <multiplicity id="112" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="113">    
+    <bendpoint x="664" y="984"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="114" name="vista"/>      
+      <multiplicity id="115" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="116">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="117" name="vista"/>      
+      <multiplicity id="118" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="57" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="119">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="120" name="conexiones"/>      
+      <multiplicity id="121" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="122">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="123" name="notificaciones"/>      
+      <multiplicity id="124" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="125">    
+    <bendpoint x="1684" y="1670"/>    
+    <bendpoint x="1367" y="1662"/>    
+    <bendpoint x="927" y="1697"/>    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="126" name="conexion">        
+        <position height="20" width="60" x="103" y="1528"/>      
+      </attribute>      
+      <multiplicity id="127" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="128">    
+    <bendpoint x="967" y="2514"/>    
+    <bendpoint x="1042" y="2643"/>    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="129" name="historico"/>      
+      <multiplicity id="130" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="131">    
+    <bendpoint x="1360" y="1416"/>    
+    <bendpoint x="1246" y="1522"/>    
+    <bendpoint x="679" y="1509"/>    
+    <bendpoint x="224" y="1489"/>    
+    <bendpoint x="221" y="1266"/>    
+    <bendpoint x="8" y="1272"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="132" name="cliente"/>      
+      <multiplicity id="133" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="134">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="135" name="cola"/>      
+      <multiplicity id="136" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="137">    
+    <bendpoint x="847" y="1744"/>    
+    <bendpoint x="989" y="1859"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="51"/>  
+  </dependency>  
+  <dependency id="138">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="139">    
+    <bendpoint x="373" y="1872"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="34"/>  
+  </dependency>  
+  <association id="140">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="141" name="listaEsclavos"/>      
+      <multiplicity id="142" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="143">    
+    <bendpoint x="973" y="1278"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <dependency id="144">    
+    <bendpoint x="1268" y="155"/>    
+    <bendpoint x="1264" y="572"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <association id="145">    
+    <bendpoint x="-125" y="2537"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="146" name="cola"/>      
+      <multiplicity id="147" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="148">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="149" name="controladorLogin"/>      
+      <multiplicity id="150" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="151">    
+    <bendpoint x="953" y="2307"/>    
+    <bendpoint x="952" y="2480"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="48"/>  
+  </dependency>  
+  <association id="152">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="153" name="controlador"/>      
+      <multiplicity id="154" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="155">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="156" name="llamados"/>      
+      <multiplicity id="157" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="158">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="24"/>  
+  </realization>  
+  <association id="159">    
+    <bendpoint x="199" y="1880"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="160" name="conexion"/>      
+      <multiplicity id="161" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="162">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="39"/>  
+  </dependency>  
+  <dependency id="163">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <association id="164">    
+    <bendpoint x="-39" y="2658"/>    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="165" name="turno"/>      
+      <multiplicity id="166" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="167">    
+    <bendpoint x="1493" y="2214"/>    
+    <bendpoint x="1611" y="2419"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="168" name="conexionesEsclavos"/>      
+      <multiplicity id="169" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="170">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="45"/>  
+  </dependency>  
+  <dependency id="171">    
+    <bendpoint x="-122" y="2315"/>    
+    <bendpoint x="-413" y="2736"/>    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="39"/>  
+  </dependency>  
+  <dependency id="172">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="173">    
+    <bendpoint x="706" y="68"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="174" name="vista"/>      
+      <multiplicity id="175" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="176">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <association id="177">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="178" name="cola"/>      
+      <multiplicity id="179" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="180">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="181" name="listaEsclavos"/>      
+      <multiplicity id="182" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="183">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="50"/>  
+  </realization>  
+  <association id="184">    
+    <bendpoint x="-437" y="1976"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="185" name="llamados"/>      
+      <multiplicity id="186" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="187">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="50"/>  
+  </realization>  
+  <association id="188">    
+    <bendpoint x="928" y="1848"/>    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="189" name="conexion"/>      
+      <multiplicity id="190" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="191">    
+    <bendpoint x="326" y="1504"/>    
+    <bendpoint x="208" y="1502"/>    
+    <bendpoint x="193" y="1304"/>    
+    <bendpoint x="23" y="1306"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="192" name="cliente"/>      
+      <multiplicity id="193" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="194">    
+    <bendpoint x="1650" y="-99"/>    
+    <bendpoint x="1650" y="155"/>    
+    <bendpoint x="1650" y="409"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="195" name="controlador"/>      
+      <multiplicity id="196" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="197">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="198" name="controlador"/>      
+      <multiplicity id="199" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="200">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <association id="201">    
+    <bendpoint x="1118" y="2514"/>    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="202" name="parametros"/>      
+      <multiplicity id="203" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="204">    
+    <bendpoint x="348" y="1002"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="205" name="columnaNotificacion"/>      
+      <multiplicity id="206" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="207">    
+    <bendpoint x="82" y="2380"/>    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="208" name="listaEsclavos"/>      
+      <multiplicity id="209" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="210">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="211" name="gcliente"/>      
+      <multiplicity id="212" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="213">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="214">    
+    <bendpoint x="1648" y="1964"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="42"/>  
+  </dependency>  
+  <dependency id="215">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="216">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="217" name="listaConexiones"/>      
+      <multiplicity id="218" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="219">    
+    <bendpoint x="823" y="3106"/>    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <association id="220">    
+    <bendpoint x="-100" y="2314"/>    
+    <bendpoint x="-100" y="2658"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="221" name="turno"/>      
+      <multiplicity id="222" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="223">    
+    <bendpoint x="954" y="2555"/>    
+    <bendpoint x="942" y="2257"/>    
+    <bendpoint x="544" y="2138"/>    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="224" name="serverEsclavo"/>      
+      <multiplicity id="225" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="226">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="227" name="modelo"/>      
+      <multiplicity id="228" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="229">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <association id="230">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="231" name="llamados"/>      
+      <multiplicity id="232" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="233">    
+    <bendpoint x="-41" y="2103"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="46"/>  
+  </dependency>  
+  <association id="234">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="235" name="controlador"/>      
+      <multiplicity id="236" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="237">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="238" name="controlador"/>      
+      <multiplicity id="239" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="240">    
+    <bendpoint x="441" y="2493"/>    
+    <bendpoint x="441" y="2837"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="241" name="solicitud"/>      
+      <multiplicity id="242" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="243">    
+    <bendpoint x="1567" y="2303"/>    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="50"/>  
+  </realization>  
+  <association id="244">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="245" name="vista"/>      
+      <multiplicity id="246" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="247">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <dependency id="248">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <association id="249">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="250" name="coladeTurnos"/>      
+      <multiplicity id="251" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="252">    
+    <bendpoint x="285" y="666"/>    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <association id="253">    
+    <bendpoint x="502" y="2185"/>    
+    <bendpoint x="462" y="2493"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="254" name="cola"/>      
+      <multiplicity id="255" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="256">    
+    <bendpoint x="1173" y="2150"/>    
+    <bendpoint x="1174" y="2502"/>    
+    <bendpoint x="1527" y="2509"/>    
+    <bendpoint x="1527" y="2747"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="257" name="historico"/>      
+      <multiplicity id="258" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="259">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="36"/>  
+  </dependency>  
+  <association id="260">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="261" name="parametros"/>      
+      <multiplicity id="262" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="263">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="16"/>  
+  </realization>  
+  <association id="264">    
+    <bendpoint x="505" y="2639"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="265" name="listaEsclavos"/>      
+      <multiplicity id="266" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="267">    
+    <end type="SOURCE" refId="49" navigable="false">      
+      <attribute id="268" name="atenciones"/>      
+      <multiplicity id="269" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="270">    
+    <bendpoint x="290" y="2493"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="271" name="cola"/>      
+      <multiplicity id="272" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="273">    
+    <bendpoint x="1182" y="773"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <generalization id="274">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <realization id="275">    
+    <bendpoint x="1114" y="1841"/>    
+    <bendpoint x="788" y="1400"/>    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="61"/>  
+  </realization>  
+  <realization id="276">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="63"/>  
+  </realization>  
+  <dependency id="277">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <association id="278">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="279" name="solicitud"/>      
+      <multiplicity id="280" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="281">    
+    <bendpoint x="-432" y="1952"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="38"/>  
+  </dependency>  
+  <association id="282">    
+    <bendpoint x="961" y="2779"/>    
+    <bendpoint x="629" y="2773"/>    
+    <bendpoint x="617" y="2605"/>    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="283" name="llamados"/>      
+      <multiplicity id="284" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="285">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <association id="286">    
+    <bendpoint x="-527" y="768"/>    
+    <end type="SOURCE" refId="54" navigable="false">      
+      <attribute id="287" name="conexion"/>      
+      <multiplicity id="288" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="289">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <realization id="290">    
+    <bendpoint x="669" y="139"/>    
+    <bendpoint x="697" y="340"/>    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="61"/>  
+  </realization>  
+  <association id="291">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="292" name="buscaSolicitud"/>      
+      <multiplicity id="293" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="294">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="59"/>  
+  </dependency>  
+  <association id="295">    
+    <bendpoint x="527" y="2222"/>    
+    <bendpoint x="531" y="2462"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="296" name="listaEsclavos"/>      
+      <multiplicity id="297" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="298">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="299" name="receptor"/>      
+      <multiplicity id="300" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="301">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="302" name="historico"/>      
+      <multiplicity id="303" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="304">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="305" name="modelo"/>      
+      <multiplicity id="306" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="54" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="307">    
+    <bendpoint x="1310" y="155"/>    
+    <bendpoint x="1472" y="-99"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="308">    
+    <bendpoint x="1965" y="1131"/>    
+    <bendpoint x="1965" y="409"/>    
+    <bendpoint x="1965" y="155"/>    
+    <bendpoint x="1965" y="-99"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="309" name="estado"/>      
+      <multiplicity id="310" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="311">    
+    <bendpoint x="1239" y="2151"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="40"/>  
+  </dependency>  
+  <association id="312">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="313" name="enviadorMensajes"/>      
+      <multiplicity id="314" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="315">    
+    <bendpoint x="1818" y="1983"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <dependency id="316">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="41"/>  
+  </dependency>  
+  <dependency id="317">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="53"/>  
+  </dependency>  
+  <association id="318">    
+    <bendpoint x="1671" y="409"/>    
+    <bendpoint x="1671" y="155"/>    
+    <bendpoint x="1671" y="-99"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="319" name="ventanaState"/>      
+      <multiplicity id="320" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="321">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="322">    
+    <bendpoint x="1123" y="1967"/>    
+    <bendpoint x="1533" y="2134"/>    
+    <bendpoint x="1532" y="2773"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <association id="323">    
+    <bendpoint x="-118" y="2358"/>    
+    <bendpoint x="266" y="2436"/>    
+    <bendpoint x="392" y="2534"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="324" name="listaEsclavos"/>      
+      <multiplicity id="325" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="326">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="327" name="vista"/>      
+      <multiplicity id="328" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="329">    
+    <bendpoint x="-268" y="2672"/>    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <association id="330">    
+    <bendpoint x="953" y="2760"/>    
+    <bendpoint x="730" y="2759"/>    
+    <bendpoint x="725" y="2664"/>    
+    <bendpoint x="405" y="2666"/>    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="331" name="cola"/>      
+      <multiplicity id="332" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="333">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="334" name="puertoEntrada"/>      
+      <multiplicity id="335" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="336">    
+    <bendpoint x="185" y="1506"/>    
+    <bendpoint x="173" y="1336"/>    
+    <bendpoint x="40" y="1338"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="58"/>  
+  </dependency>  
+  <dependency id="337">    
+    <bendpoint x="1323" y="1770"/>    
+    <bendpoint x="1324" y="2076"/>    
+    <bendpoint x="1492" y="2142"/>    
+    <bendpoint x="1537" y="2327"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="50"/>  
+  </dependency>  
+  <association id="338">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="339" name="vista"/>      
+      <multiplicity id="340" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="341">    
+    <bendpoint x="-169" y="2287"/>    
+    <bendpoint x="-162" y="2541"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="31"/>  
+  </dependency>  
+  <dependency id="342">    
+    <bendpoint x="497" y="1734"/>    
+    <bendpoint x="497" y="2006"/>    
+    <bendpoint x="505" y="2457"/>    
+    <bendpoint x="664" y="2478"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="43"/>  
+  </dependency>  
+  <dependency id="343">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="56"/>  
+  </dependency>  
+  <association id="344">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="345" name="conexion"/>      
+      <multiplicity id="346" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="347">    
+    <bendpoint x="1232" y="1506"/>    
+    <bendpoint x="248" y="1470"/>    
+    <bendpoint x="235" y="1243"/>    
+    <bendpoint x="3" y="1244"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="348" name="cliente"/>      
+      <multiplicity id="349" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="350">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <realization id="351">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="50"/>  
+  </realization>  
+  <realization id="352">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="62"/>  
+  </realization>  
+  <association id="353">    
+    <bendpoint x="671" y="2725"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="354" name="historico"/>      
+      <multiplicity id="355" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="356">    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="63"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
