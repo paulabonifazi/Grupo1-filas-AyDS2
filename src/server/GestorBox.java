@@ -1,5 +1,7 @@
 package server;
 
+import java.util.LinkedList;
+
 import Excepciones.ExcepcionDeInterrupcion;
 import Excepciones.ExcepcionErrorAlAceptar;
 import Excepciones.ExcepcionErrorAlCerrar;
@@ -22,6 +24,7 @@ public class GestorBox extends Thread implements IAtencion{
 	private Solicitud solicitud;
 	private Atencion atencion;
 	private int desconexiones=0;
+	private LinkedList<Esclavo> listaEsclavos;
 	
 	
 	public GestorBox(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico, TCPServidor conexion,String IPClienteEsperado,String IDBox) {

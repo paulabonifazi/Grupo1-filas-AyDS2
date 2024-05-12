@@ -1,12 +1,17 @@
 package server;
 
 import interfaces.IRegistro;
+
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.TCPServidor;
 public class GestorTotem  extends Thread implements IRegistro{
 	MonitorDeCola cola;
 	String IPClienteEsperado;
 	TCPServidor conexion;
+	LinkedList<Esclavo> listaEsclavos;
+	
 	public GestorTotem(MonitorDeCola cola, TCPServidor conexion, String IPClienteEsperado) {
 		this.cola=cola;
 		this.conexion=conexion;
@@ -43,6 +48,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 	 					Thread.sleep(500);
 	 				}
 	 			}
+	 			//TODO intentó 2 veces conectarse, busca un esclavo hasta poder establecer conexión
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {

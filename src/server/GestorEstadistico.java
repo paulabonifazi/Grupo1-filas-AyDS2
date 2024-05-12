@@ -1,6 +1,9 @@
 package server;
 
 import interfaces.IEstado;
+
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.TCPServidor;
 public class GestorEstadistico extends Thread implements IEstado{
@@ -8,12 +11,15 @@ public class GestorEstadistico extends Thread implements IEstado{
 			String IPClienteEsperado;
 			Historico historico;
 			TCPServidor conexion;
+			LinkedList<Esclavo> listaEsclavos;
+			
 			public GestorEstadistico(MonitorDeCola cola,Historico historico, TCPServidor conexion, String IPClienteEsperado) {
 				this.cola=cola;
 				this.conexion=conexion;
 				this.IPClienteEsperado=IPClienteEsperado;
 				this.historico=historico;
 			}
+			
 			
 			@Override
 		    public void run() {
@@ -44,6 +50,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 									Thread.sleep(500);
 				 			}
 			 			}
+			 			//TODO intentó 2 veces conectarse, busca un esclavo hasta poder establecer conexión
 			 		}
 			 		try {
 						conexion.cerrarConexion();

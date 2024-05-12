@@ -1,4 +1,6 @@
 package server;
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.*;
 import interfaces.INotificacion;
@@ -7,6 +9,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private TCPServidor serverNotificacion;
 	private MonitorNotificacion llamados;
 	private String ipClienteEsperado;
+	private LinkedList<Esclavo> listaEsclavos;
 	
 	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado) {
 		super();
@@ -41,6 +44,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		 				}
 		 			}
 	 			}
+	 			//TODO intentó 2 veces conectarse, busca un esclavo hasta poder establecer conexión
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) { 
