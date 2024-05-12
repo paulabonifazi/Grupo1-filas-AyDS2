@@ -167,18 +167,20 @@ public class GestorBox extends Thread implements IAtencion{
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false);//Se espera por mensaje y se recibe como mensaje: "<Operacion>"
 						desconexiones=0;
 						if(mensaje.equals("Fin")) {
+							//TODO cola.eliminaratencionpendiente(IDBOX)
 							fin=true;
 							atencion.registrarFin(); //se registra la hora del fin de la atencion
 							historico.agregarAtencion(atencion); //se agrega la atencion al historico
 						}
 						else {
 							if(mensaje.equals("Ausente")) {
+								//TODO cola.eliminaratencionpendiente(IDBOX)
 								fin=true;
 								if(turno.getAusencias()<1) {
 									turno.addAusencia();
 									cola.put(turno);
 								}
-								//si no es su primera ausencia entonces no se vuelve a reingresar y se pierde el turno
+								//TODO cuando lleva más de 2 asuentes se muestra en el televisor sin nro de box
 							}
 							else
 								if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado

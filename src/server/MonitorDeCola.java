@@ -8,7 +8,9 @@ import java.util.concurrent.Semaphore;
 public class MonitorDeCola {
 	private BlockingQueue<Turno> coladeTurnos;
 	private Semaphore semaforodeSolicitud;
-
+	//TODO Estructura para las atenciones pendientes, donde se agregan desde el metodo take (cuando se retira un turno y se inicia una atencion) y se retira cuando el box finaliza/ ausenta una atencion (va a tener que haber un metodo sincronziado para eliminar la atencion pendiente)
+	
+	
 	public MonitorDeCola() {
 		this.coladeTurnos=new LinkedBlockingQueue<Turno>();
 		this.semaforodeSolicitud=new Semaphore(1, true);
@@ -53,3 +55,4 @@ public class MonitorDeCola {
         return encuentra;
     }
 }
+

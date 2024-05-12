@@ -15,13 +15,13 @@ public class GestorConexion extends Thread {
 		private ParametrosDeConexion parametros;
 		private HashMap<String, IConexion> conexiones;
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada) {
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones) {
 			super();
 			this.cola = cola;
 			this.llamados = llamados;
 			this.historico = historico;
 			this.parametros=parametros;
-			this.conexiones=new HashMap<String, IConexion>();
+			this.conexiones=conexiones;
 			this.puertoEntrada=puertoEntrada;
 		}
 		
@@ -46,6 +46,25 @@ public class GestorConexion extends Thread {
 							nuevaEjecucion=null;
 							nuevaConexion=null;
 							ID=null;
+							
+							
+
+							//GESTOR DE CONEXIONES
+							//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
+							//TODO gestor de conexiones tiene: conexiones a componentes/ conexiones a esclavos/ lista de esclavos (habria que recorrer, ademas de la lista de conexiones, la de conexiones de esclavos (no la lista de esclavos), buscando los desconectados para eliminarlos de la entrada de sus 2 listas)
+							
+							
+							//CONEXION DE ESCLAVOS
+							//TODO agregar una nueva conexion que es de esclavo (un nuevo objeto Iconexion de tipo esclavo), la cual se registra en las conexiones de esclavo y en la lista de esclavos con un puerto y con una ip. Para cada esclavo se crea un thread gestor de esclavo, el cual envia mensajes periodicamete validando la conexion y en caso de que se caiga se cierra el thread (la entrada de la lista de conexioens) y cuando el gestor de conexiones ve esto, elimina la entrada de la lista de esclavos.
+							//el gestor de esclavo debe tener referencia todo (menos la lista de conexiones de esclavo) y dicha info se envia con una cierta estructura que le permite al esclavo poder pisarla al recibirla
+							
+							//RECONEXION DE COMPONENTES
+							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
+							//luego en cada componente, se recibe el mensaje con la lista de los esclavos y cuando se registre una desconexion: se reintenta 2 veces con el maestro y sino se empieza a intentar con los esclavos recorriendo la lista... (si no se conecta a ningun vuelve al login)
+							
+							
+							
+							
 							this.puertoEntrada.aceptarConexion(7000);
 							mensaje=this.puertoEntrada.recibirmensajeDeCliente(0, false);
 							if  (mensaje!=null){
