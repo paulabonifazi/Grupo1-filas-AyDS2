@@ -2,6 +2,7 @@ package server;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Scanner;
 import Excepciones.*;
 import TCP.TCPCliente;
@@ -13,8 +14,8 @@ public class Servidor{
 		MonitorNotificacion bufferSalida=new MonitorNotificacion();
 		Historico historico= new Historico();
 		HashMap<String, IConexion> conexiones= new HashMap<String, IConexion>();
-		//TODO lista de esclavos (no necesariamete sincronizada xq solo la modifica el gestor de esclavos,se pasa por parametro) Y utilizar los parametros de conexion para establecer el puerto de los esclavos (y recordar agregar la funcionalidad del main para mostrar dicho puerto)
-		
+		LinkedList<Esclavo> listaEsclavos=new LinkedList<Esclavo>();
+		String contrasenia=null;
 		
 		try(Scanner scanner = new Scanner(System.in)){
 			System.out.println("Ingresar modo de servidor [1:Maestro/0:esclavo]");
@@ -32,20 +33,20 @@ public class Servidor{
 				if(modo.charAt(0)=='1') { //es MAESTRO
 					System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");
 					valida=false;
-					String contraseña=null;
-					do {
-						contraseña = scanner.nextLine();
-						if(!contraseña.isEmpty() && contraseña!=null && !contraseña.isBlank())
-							valida=true;
-						else
-							System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
-					}while(!valida);
-					//TODO si ya se tenia una contraseña, xq antes era el esclavo entonces utilizar esa (si contraseña!=null). Por lo tanto contraseña tendria que estar arriba con los otros parametros
-					ParametrosDeConexion parametros= new ParametrosDeConexion(contraseña); //ingresar contraseña al empezar el servidor 
+					if(contrasenia==null) {
+						do {
+							contrasenia = scanner.nextLine();
+							if(!contrasenia.isEmpty() && contrasenia!=null && !contrasenia.isBlank())
+								valida=true;
+							else
+								System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
+						}while(!valida);
+					}
+					ParametrosDeConexion parametros= new ParametrosDeConexion(contrasenia); //ingresar contraseña al empezar el servidor 
 					TCPServidor puertoLibre;
 					try {
 						puertoLibre = new TCPServidor();
-						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,conexiones);
+						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,conexiones,listaEsclavos);
 						gestorConexion.start();
 						while (!parametros.isFinalizar()) {
 							System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Cerrar servidor");
@@ -64,7 +65,6 @@ public class Servidor{
 							}while(!valida);
 							
 			                switch (opcion) {
-			              //TODO Agregar una funcion para mostrar el puerto de conexion de esclavos (ya sea esta misma junto con el puerto de entrada o sin o otra opcion)
 			                    case 1:
 			                        System.out.println("El número de puerto de entrada es: "+ parametros.getPuertoLibre()+"\n");
 			                        break;
@@ -78,13 +78,13 @@ public class Servidor{
 			                        System.out.println("Ingrese la nueva contraseña:(no puede ser vacia)");
 			                        valida=false;
 			                        do {
-			            				contraseña = scanner.nextLine();
-			            				if(!contraseña.isEmpty() && contraseña!=null && !contraseña.isBlank())
+			                        	contrasenia = scanner.nextLine();
+			            				if(!contrasenia.isEmpty() && contrasenia!=null && !contrasenia.isBlank())
 			            					valida=true;
 			            				else
 			            					System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
 			            			}while(!valida);
-			                        parametros.setContraseña(contraseña);
+			                        parametros.setContraseña(contrasenia);
 			                        break;
 			                    case 5:
 			                        parametros.setFinalizar(true); //para finalizar su propio ciclo y permite verificar a los threads interrumpidos validar su finalizacion
@@ -123,16 +123,14 @@ public class Servidor{
 					}
 				}
 				else { //Es modo Esclavo
-					boolean conectado=false;
 					String lectura=null;
-					String Ip,contrasenia;
+					String Ip;
 					String mensaje;
 					String[] elementos;
-					int nroEsclavo;
+					String IDEsclavo;
 					int puerto=0;
+					int desconexiones=0;
 					
-
-					//TODO ingresar contraseña ip y el puerto (de los esclavos del maestro)
 					do {
 						System.out.println("Ingrese el puerto del maestro");
 						valida=false;
@@ -178,19 +176,25 @@ public class Servidor{
 						
 						try {
 							TCPCliente conexionConMaestro= new TCPCliente(Ip, puerto);
-							conexionConMaestro.enviarMensajeAlServidor(contrasenia+";Esclavo", null);
-							mensaje=conexionConMaestro.recibirmensajeDeServidor(null);
+							conexionConMaestro.enviarMensajeAlServidor(contrasenia+";Esclavo", false);
+							mensaje=conexionConMaestro.recibirmensajeDeServidor(false);
 							if(mensaje!=null) {
 								elementos = mensaje.split(";");	 //le llega un mensaje que es: exito;puerto;nroEsclavo
 								if(elementos.length >= 3 && elementos[0].equals("Exito")) {
-									nroEsclavo=Integer.parseInt(elementos[2]);
+									IDEsclavo=elementos[2];
 									try {
 										conexionConMaestro.cerrarConexion();
 									} catch (ExcepcionErrorAlCerrar e) {
 										//si ocurre no se puede hacer nada
 									}
 									conexionConMaestro=new TCPCliente(Ip, Integer.parseInt(elementos[1]));
-									//TODO Se pone a escuchar los mensajes del maestro y pisa sus estructuras con ellos.
+									desconexiones=0;
+									while(modo.charAt(0)=='0') {
+										//TODO Se pone a escuchar los mensajes del maestro y pisa sus estructuras con ellos.
+										//en el catch de error de conexion: desconexion++ si desconexion es menor a 2; y sino empieza a recorrer esclavos
+										//TODO caso en el que se cae el servidor... recorrer los esclavos o volverse maestro
+										// en caso de no recibir el mensaje intenta reconectarse 2 veces al maestro y sino empieza con el recorrido de los esclavos (evaluando los ID de esclavo) hasta llegar a el (se hace maestro) o conectarse a alguno (se hace esclavo y espera sus mensajes de vuelta).
+									}
 								}
 								else {
 									System.out.println("Error: contraseña incorrecta");
@@ -204,10 +208,9 @@ public class Servidor{
 							System.out.println("Error de conexion: Ip o puerto erroneos");
 						}
 						catch (ExcepcionLecturaErronea | ExcepcionFinConexion e) {
-							//TODO caso en el que se cae el servidor... recorrer los esclavos o volverse maestro
-							// en caso de no recibir el mensaje intenta reconectarse 2 veces al maestro y sino empieza con el recorrido de los esclavos hasta llegar a el (se hace maestro) o conectarse a alguno (se hace esclavo y espera sus mensajes de vuelta).
+							System.out.println("Error de conexion: reintente");
 						}
-					}while(conectado);
+					}while(modo.charAt(0)=='0');
 					
 					
 				}

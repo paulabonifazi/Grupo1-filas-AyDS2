@@ -3,6 +3,7 @@ package server;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 import Excepciones.*;
 import TCP.TCPServidor;
@@ -14,8 +15,12 @@ public class GestorConexion extends Thread {
 		private TCPServidor puertoEntrada ;
 		private ParametrosDeConexion parametros;
 		private HashMap<String, IConexion> conexiones;
+		private HashMap<String,IConexion> conexionesEsclavos;
+		private  LinkedList<Esclavo> listaEsclavos;
 		
-		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones) {
+		
+		
+		public GestorConexion(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico,ParametrosDeConexion parametros,TCPServidor puertoEntrada,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos) {
 			super();
 			this.cola = cola;
 			this.llamados = llamados;
@@ -23,6 +28,7 @@ public class GestorConexion extends Thread {
 			this.parametros=parametros;
 			this.conexiones=conexiones;
 			this.puertoEntrada=puertoEntrada;
+			this.listaEsclavos=listaEsclavos;
 		}
 		
 		 @Override
@@ -54,9 +60,9 @@ public class GestorConexion extends Thread {
 							//TODO gestor de conexiones tiene: conexiones a componentes/ conexiones a esclavos/ lista de esclavos (habria que recorrer, ademas de la lista de conexiones, la de conexiones de esclavos (no la lista de esclavos), buscando los desconectados para eliminarlos de la entrada de sus 2 listas)
 							
 							
-							//CONEXION DE ESCLAVOS
-							//TODO agregar una nueva conexion que es de esclavo (un nuevo objeto Iconexion de tipo esclavo), la cual se registra en las conexiones de esclavo y en la lista de esclavos con un puerto y con una ip. Para cada esclavo se crea un thread gestor de esclavo, el cual envia mensajes periodicamete validando la conexion y en caso de que se caiga se cierra el thread (la entrada de la lista de conexioens) y cuando el gestor de conexiones ve esto, elimina la entrada de la lista de esclavos.
-							//el gestor de esclavo debe tener referencia todo (menos la lista de conexiones de esclavo) y dicha info se envia con una cierta estructura que le permite al esclavo poder pisarla al recibirla
+							
+							
+							
 							
 							//RECONEXION DE COMPONENTES
 							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
@@ -125,6 +131,18 @@ public class GestorConexion extends Thread {
 							                	nuevaEjecucion.start();
 							                	Respuesta="Exito;"+puertonuevaconexion.getPuerto();
 							            	break;	
+							            case "Esclavo":
+							            	//CONEXION DE ESCLAVOS
+											// agregar una nueva conexion que es de esclavo (un nuevo objeto Iconexion de tipo esclavo), la cual se registra en las conexiones de esclavo y en la lista de esclavos con un puerto y con una ip. Para cada esclavo se crea un thread gestor de esclavo, el cual envia mensajes periodicamete validando la conexion y en caso de que se caiga se cierra el thread (la entrada de la lista de conexioens) y cuando el gestor de conexiones ve esto, elimina la entrada de la lista de esclavos.
+											//el gestor de esclavo debe tener referencia todo (menos la lista de conexiones de esclavo) y dicha info se envia con una cierta estructura que le permite al esclavo poder pisarla al recibirla
+											puertonuevaconexion=new TCPServidor();
+											nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,puertoEntrada.getIPCliente(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
+											nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
+											conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
+											this.listaEsclavos.addLast(new Esclavo(nuevaConexion.getID(),nuevaConexion.getPuerto(),nuevaConexion.getIP()));
+											nuevaEjecucion.start();
+											Respuesta="Exito;"+puertonuevaconexion.getPuerto()+";"+nuevaConexion.getID();
+							            	break;
 							            default:
 							                Respuesta= "TipoDeConexionInexistente";
 							                break;
@@ -163,7 +181,7 @@ public class GestorConexion extends Thread {
 			 	
 		    }
 		 
-		 
+//TODO tambien actualizar las conexiones de los esclavos		 
 		 private void actualizaConexiones() {
 			 	IConexion conexion;
 			 	Set<String> keysToRemove = new HashSet<String>();
@@ -189,7 +207,8 @@ public class GestorConexion extends Thread {
      	        return false;
      	    }
 		 }
-
+		 
+		 //TODO cortar las conexiones de los esclavos
 		 private void cierraConexiones() {
 			 Iterator<IConexion> iterator = conexiones.values().iterator();
 		        while (iterator.hasNext()) {
@@ -209,18 +228,21 @@ public class GestorConexion extends Thread {
 		 private String getnamefromid(String Id) {
 			 String name=null;
 			 switch(Id.charAt(0)) {
-			 case 'E': //estadistico
-				 	name="Estadistico";
-			 	break;
-			 case 'T': //totem
-				 	name="Totem";
+				 case 'E': //estadistico
+					 	name="Estadistico";
 				 	break;
-			 case 'L': //TVLlamado
-				 	name= "TVLlamado";
-				 	break;
-			 case 'B': //Box
-				 	name="Box";
-				 	break;
+				 case 'T': //totem
+					 	name="Totem";
+					 	break;
+				 case 'L': //TVLlamado
+					 	name= "TVLlamado";
+					 	break;
+				 case 'B': //Box
+					 	name="Box";
+					 	break;
+				 case 'S':
+					 	name="Esclavo";
+				 		break;
 			 }
 			 return name;
 		 }
