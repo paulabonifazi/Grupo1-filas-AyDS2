@@ -221,7 +221,7 @@ public class Servidor{
 												i=0;
 												listaEsclavos= new LinkedList<Esclavo>();
 												while(i<infesclavos.length) {
-													if(!infconexiones[i].isBlank()&&!infconexiones[i].isEmpty()) {
+													if(!infesclavos[i].isBlank()&&!infesclavos[i].isEmpty()) {
 														esclavo=infesclavos[i].split(",");
 														listaConexiones.add(new InfoConexion(esclavo[0], esclavo[1], esclavo[2]));
 													}
