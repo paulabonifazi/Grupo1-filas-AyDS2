@@ -1,6 +1,10 @@
 package server;
 
 import interfaces.IEstado;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.TCPServidor;
 public class GestorEstadistico extends Thread implements IEstado{
@@ -8,11 +12,13 @@ public class GestorEstadistico extends Thread implements IEstado{
 			String IPClienteEsperado;
 			Historico historico;
 			TCPServidor conexion;
-			public GestorEstadistico(MonitorDeCola cola,Historico historico, TCPServidor conexion, String IPClienteEsperado) {
+			private LinkedList<Esclavo> listaEsclavos;
+			public GestorEstadistico(MonitorDeCola cola,Historico historico, TCPServidor conexion, String IPClienteEsperado,LinkedList<Esclavo> listaEsclavos) {
 				this.cola=cola;
 				this.conexion=conexion;
 				this.IPClienteEsperado=IPClienteEsperado;
 				this.historico=historico;
+				this.listaEsclavos=listaEsclavos;
 			}
 			
 			@Override
@@ -20,7 +26,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 				String mensaje = null;
 				int desconexiones=0;
 			 	try {
-			 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
+			 		this.conexion.aceptarConexion(100000); //espera por 7 segundos
 			 		if(conexion.validarIPCliente(IPClienteEsperado)) {
 			 			while(desconexiones<2) {
 				 			try {
@@ -72,11 +78,24 @@ public class GestorEstadistico extends Thread implements IEstado{
 			@Override
 			public void MostrarEstado()  {
 				try {
-					conexion.enviarMensajeACliente(this.historico.tiempos()+"/"+cola.size(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
+					conexion.enviarMensajeACliente(this.historico.tiempos()+"/"+cola.size()+"$"+IpEsclavos(), false);//estructura de Estado: "ClientesAtendidos/<t.espera,t.solicitud,t.atencion>;...;...;.../ClientesEnEspera"
 				} catch (ExcepcionLecturaErronea|ExcepcionFinConexion | ExcepcionDeInterrupcion e) {
 					//nunca ocurre porque no se habilita la comprobacion
 				}
 			}
-
+			
+			private String IpEsclavos() {
+				String ips="";
+				Iterator<Esclavo> it=this.listaEsclavos.iterator();
+				Esclavo actual;
+				while(it.hasNext()) {
+					actual=it.next();
+					ips+=actual.getIP();
+					if(it.hasNext()) {
+						ips+="$";
+					}
+				}
+				return ips;
+			}
 		}
 

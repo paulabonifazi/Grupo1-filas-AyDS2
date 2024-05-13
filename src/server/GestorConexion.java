@@ -86,7 +86,7 @@ public class GestorConexion extends Thread {
 								            	break;
 								            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
 								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, info.getIP());
+								                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, info.getIP(),listaEsclavos);
 								                	
 								                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
 								                	nuevaEjecucion.start();
@@ -169,7 +169,7 @@ public class GestorConexion extends Thread {
 							            	break;
 							            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, puertoEntrada.getIPCliente());
+							                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, puertoEntrada.getIPCliente(),listaEsclavos);
 							                	
 							                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
 							                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
