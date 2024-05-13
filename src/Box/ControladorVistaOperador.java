@@ -245,7 +245,7 @@ public class ControladorVistaOperador implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
+			this.datosConexion.set(1,elementos[1]); // Reemplazo los datos de conexion
 			
 			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
@@ -295,6 +295,8 @@ public class ControladorVistaOperador implements ActionListener {
 		do { 
 			while (reintentos>0 && !conectado){
 				try {
+					System.out.println(reintentos); // DEBUG
+					
 					this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 					conectado=true;
 				} catch (NumberFormatException e) {
@@ -311,10 +313,10 @@ public class ControladorVistaOperador implements ActionListener {
 				}
 			}
 			if (reintentos<=0) {
-				this.datosConexion.add(0,listaServidoresEsclavos.get(i));
+				this.datosConexion.set(0,listaServidoresEsclavos.get(i));
 				i++;
 				reintentos=2;
-				if (i>this.listaServidoresEsclavos.size())
+				if (i>=this.listaServidoresEsclavos.size())
 					System.exit(0);
 			}
 		}while (!conectado);

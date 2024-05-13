@@ -21,25 +21,22 @@ public class EnviadorMensajes extends Thread{
 	
 	public void run() {
 		String mensaje;
-		while(true) {
+		while(!this.isInterrupted()) {
 			mensaje=null;
 			try {
 				mensaje=blockingQueue.take();
+				switch(mensaje) {
+				case "Fin":
+					cliente.enviarMensajeAlServidor(mensaje, true);
+				case "Ausente":
+					cliente.enviarMensajeAlServidor(mensaje, true);
+				default:
+					cliente.enviarMensajeAlServidor(mensaje, false);
+			
+			}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();				
-			}
-
-			try {
-				switch(mensaje) {
-					case "Fin":
-						cliente.enviarMensajeAlServidor(mensaje, true);
-					case "Ausente":
-						cliente.enviarMensajeAlServidor(mensaje, true);
-					default:
-						cliente.enviarMensajeAlServidor(mensaje, false);
-				
-				}
+				e.printStackTrace();					
 			} catch (ExcepcionLecturaErronea e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

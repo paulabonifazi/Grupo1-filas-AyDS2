@@ -24,7 +24,7 @@ public class GestorCliente extends Thread{
 	public void run() {
 		String mensaje;
 		String[] elementos;
-		while(true) {
+		while(!this.isInterrupted()) {
 			mensaje=null;
 			elementos=null;
 			if (!cliente.estaCerrado()){		
@@ -42,6 +42,7 @@ public class GestorCliente extends Thread{
 	                case "Estado": //Actualizar personas en pantalla
 	                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
 	                	controlador.actualizarEsclavosServidor(elementos[2]);
+	                	System.out.println(elementos[2]); // DEBUG
 	                    break;
 	                case "Atencion": //Asignar cliente
 	                	controlador.asignarCliente(elementos[1]);
