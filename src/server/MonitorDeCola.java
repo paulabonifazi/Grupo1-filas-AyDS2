@@ -41,8 +41,8 @@ public class MonitorDeCola {
     	return turno;
     }
     
-    public void finAtencion(String Id)  {
-    	atencionesAbiertas.remove(Id);
+    public String finAtencion(String Id)  {
+    	return  atencionesAbiertas.remove(Id);
     }
     
  // Método para obtener el tamaño de la cola

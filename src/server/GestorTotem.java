@@ -1,16 +1,23 @@
 package server;
 
 import interfaces.IRegistro;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.TCPServidor;
 public class GestorTotem  extends Thread implements IRegistro{
-	MonitorDeCola cola;
-	String IPClienteEsperado;
-	TCPServidor conexion;
-	public GestorTotem(MonitorDeCola cola, TCPServidor conexion, String IPClienteEsperado) {
+	private MonitorDeCola cola;
+	private String IPClienteEsperado;
+	private TCPServidor conexion;
+	private LinkedList<Esclavo> listaEsclavos;
+	
+	public GestorTotem(MonitorDeCola cola, TCPServidor conexion, String IPClienteEsperado, LinkedList<Esclavo> listaesclavos) {
 		this.cola=cola;
 		this.conexion=conexion;
 		this.IPClienteEsperado=IPClienteEsperado;
+		this.listaEsclavos=listaesclavos;
 	}
 	
 	@Override
@@ -19,7 +26,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 		String[] elementos = null;
 		int desconexiones=0;
 	 	try {
-	 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
+	 		this.conexion.aceptarConexion(100000);
 	 		if(conexion.validarIPCliente(IPClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				try {
@@ -71,10 +78,24 @@ public class GestorTotem  extends Thread implements IRegistro{
 		else
 			mensaje="DniRepetido";
 		try {
-			conexion.enviarMensajeACliente(mensaje, false);
+			conexion.enviarMensajeACliente(mensaje+"$"+IpEsclavos(), false);
 		} catch (ExcepcionLecturaErronea |ExcepcionFinConexion| ExcepcionDeInterrupcion e) {
 			//nunca ocurre porque no se habilita la comprobacion
 		}
 	}
 
+	private String IpEsclavos() {
+		String ips="";
+		Iterator<Esclavo> it=this.listaEsclavos.iterator();
+		Esclavo actual;
+		while(it.hasNext()) {
+			actual=it.next();
+			ips+=actual.getIP();
+			if(it.hasNext()) {
+				ips+="$";
+			}
+		}
+		return ips;
+	}
+	
 }

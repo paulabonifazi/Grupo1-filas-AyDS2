@@ -1,5 +1,6 @@
 package Totem;
 
+import java.util.LinkedList;
 import java.util.Observable;
 
 import Excepciones.ExcepcionErrorAlCerrar;
@@ -11,6 +12,9 @@ import interfaces.IRegistro;
 @SuppressWarnings("deprecation")
 public class GestorConexionTotem extends Observable implements IRegistro{
 	private TCPCliente conexion;
+	private LinkedList<String> ipEsclavos;
+	private int puerto;
+	
 	public GestorConexionTotem() {
 		// TODO Auto-generated constructor stub
 	}
@@ -30,6 +34,7 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 					} catch (ExcepcionErrorAlCerrar e) {
 						//si ocurre no se puede hacer nada
 					}
+					this.puerto=Integer.parseInt(elementos[1]);
 					conexion=new TCPCliente(IP, Integer.parseInt(elementos[1]));
 					setChanged();
 					notifyObservers("Entra");
@@ -55,14 +60,58 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 	public void registrar(String DNI) {
 			try {
 				conexion.enviarMensajeAlServidor("Registro;"+DNI, false);
-				String estado=conexion.recibirmensajeDeServidor(false);
-	            setChanged();
-				notifyObservers(estado); //problema de conexion vuelve al login
-			} catch (ExcepcionLecturaErronea e) {
+				int desconexion=0;
+				boolean recibido=false;
+				boolean sinesclavos=false;
+				while (!recibido && !sinesclavos ) {
+					try {
+						String[] elementos= conexion.recibirmensajeDeServidor(false).split("$");
+						recibido=true;
+						int i=1;
+						this.ipEsclavos=new LinkedList<String>();
+						while(i<elementos.length) {
+							if(!elementos[i].isBlank() && !elementos[i].isEmpty()) {
+								ipEsclavos.add(elementos[i]);
+							}
+							i++;
+						}
+						String estado=elementos[0];
+						setChanged();
+						notifyObservers(estado);
+					} catch (ExcepcionFinConexion e1) {
+							if(desconexion<2)
+								desconexion++;
+							else {
+									desconexion=0;
+									try {
+										Thread.sleep(3000);
+									} catch (InterruptedException e) {}
+									Boolean conectado=false;
+									while(!conectado && !ipEsclavos.isEmpty()) {
+										try {
+											conexion.cerrarConexion();
+										} catch (ExcepcionErrorAlCerrar e) {}
+										try {
+											conexion= new TCPCliente(ipEsclavos.remove(), this.puerto);
+											conectado=true;
+										} catch (ExcepcionErrorConexion e) {
+										}
+									}
+									if(ipEsclavos.isEmpty()) {
+										sinesclavos=true;
+									}
+							}
+							
+					}
+				}
+				if(!recibido) {
+						setChanged();
+						notifyObservers("Conexion"); //problema de conexion vuelve al login
+				}
+				
+
+			} catch (ExcepcionLecturaErronea|ExcepcionFinConexion e) {
 				//no puede ocurrir
-			} catch (ExcepcionFinConexion e) {
-				setChanged();
-				notifyObservers("Conexion"); //problema de conexion vuelve al login
 			}
 			
 		}

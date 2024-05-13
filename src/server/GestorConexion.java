@@ -67,14 +67,14 @@ public class GestorConexion extends Thread {
 									switch (this.getnamefromid(info.getID())) { 
 								            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 									            	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, info.getIP());
+								            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, info.getIP(),listaEsclavos);
 								            		nuevaEjecucion.start();
 								            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
 								            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
 								                break;
 								            case "Box":
 									            		puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-									            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,info.getIP(),info.getID());
+									            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,info.getIP(),info.getID(),listaEsclavos);
 									            		nuevaEjecucion.start();
 									            		this.conexiones.put(info.getID(), new C_Box(puertonuevaconexion, nuevaEjecucion, info.getID()));
 								                break;
@@ -109,6 +109,7 @@ public class GestorConexion extends Thread {
 									listaAux.addLast(esclavo);
 									nuevaEjecucion.start();
 								}
+								listaEsclavos=listaAux;
 							}
 							
 							//RECONEXION DE COMPONENTES
@@ -125,7 +126,7 @@ public class GestorConexion extends Thread {
 									 switch (elementos[1]) { 
 							            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 							            	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, puertoEntrada.getIPCliente());
+						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, puertoEntrada.getIPCliente(),listaEsclavos);
 						            		
 						            		nuevaEjecucion.start();
 						            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
@@ -139,7 +140,7 @@ public class GestorConexion extends Thread {
 								            	ID="B"+elementos[2];
 								            	if(!conexiones.containsKey(ID)) {
 								            		puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-								            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID);
+								            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,puertoEntrada.getIPCliente(),ID,listaEsclavos);
 								            		
 								            		this.conexiones.put(ID, new C_Box(puertonuevaconexion, nuevaEjecucion, ID));
 								            		

@@ -1,5 +1,8 @@
 package server;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import Excepciones.ExcepcionDeInterrupcion;
 import Excepciones.ExcepcionErrorAlAceptar;
 import Excepciones.ExcepcionErrorAlCerrar;
@@ -22,9 +25,10 @@ public class GestorBox extends Thread implements IAtencion{
 	private Solicitud solicitud;
 	private Atencion atencion;
 	private int desconexiones=0;
+	private LinkedList<Esclavo> listaEsclavos;
 	
 	
-	public GestorBox(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico, TCPServidor conexion,String IPClienteEsperado,String IDBox) {
+	public GestorBox(MonitorDeCola cola, MonitorNotificacion llamados, Historico historico, TCPServidor conexion,String IPClienteEsperado,String IDBox,LinkedList<Esclavo> listaEsclavos) {
 		super();
 		this.cola = cola;
 		this.llamados = llamados;
@@ -32,15 +36,17 @@ public class GestorBox extends Thread implements IAtencion{
 		this.conexion = conexion;
 		this.ipClienteEsperado=IPClienteEsperado;
 		this.IDBox=IDBox;
+		this.listaEsclavos=listaEsclavos;
 	}
 
 
 	@Override
     public void run() {
 		String mensaje = null;
+		String DNI;
 		desconexiones=0;
 	 	try {
-	 		this.conexion.aceptarConexion(7000); //espera por 7 segundos
+	 		this.conexion.aceptarConexion(100000);
 	 		if(conexion.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				mensaje = null;
@@ -50,14 +56,35 @@ public class GestorBox extends Thread implements IAtencion{
 						desconexiones=0;
 						switch (mensaje) {
 		                    case "solicitudTurno":
-		                    	solicitudTurno();
+		                    	if(cola.finAtencion(IDBox)==null) {
+		                    		solicitudTurno();
+		                    	}
+		                    	else {
+		                    		enviarMensaje(conexion,"Tiene una atencion pendiente");
+		                    	}
 		                        break;
 		                    case "Cancelar":
 		                    	enviarMensaje(conexion,"DebeTenerSolicitud1ro");
 		                        break;
 		                    case "Fin":
+		                    		DNI=cola.finAtencion(IDBox);
+			                    	if(DNI!=null) {
+			                    		Atencion atencion= new Atencion(new Turno(DNI), new Solicitud(IDBox));
+			                    		atencion.registrarFin();
+										historico.agregarAtencion(atencion); //se agrega la atencion al historico
+										enviarMensaje(conexion,"Recibido");
+			                    	}
+			                    	else
+			                    		enviarMensaje(conexion,"DebeTenerAtencion1ro");
+		                    	break;
 		                    case "Ausente":
-		                    	enviarMensaje(conexion,"DebeTenerAtencion1ro");
+		                    		DNI=cola.finAtencion(IDBox);
+		                    	if(DNI!=null) {
+		                    		cola.put(new Turno(DNI));
+		                    		enviarMensaje(conexion,"Recibido");
+		                    	}
+		                    	else
+		                    		enviarMensaje(conexion,"DebeTenerAtencion1ro");
 		                        break;
 		                    default:
 		                    	enviarMensaje(conexion,"InstruccionInexistente");
@@ -80,6 +107,13 @@ public class GestorBox extends Thread implements IAtencion{
 		}
 	 	finally {
 	 		try {
+	 			DNI=cola.finAtencion(IDBox);
+	 			if(DNI!=null) {
+	 				try {
+						cola.put(new Turno(DNI));
+					} catch (InterruptedException e) {
+					}
+	 			}
 				if(buscaSolicitud!=null && buscaSolicitud.isAlive())
 					this.buscaSolicitud.interrupt();
 				if (turno.getDni()!=null) { //en caso de que haya retirado elemento de la cola
@@ -142,7 +176,7 @@ public class GestorBox extends Thread implements IAtencion{
 						fin=true;
 					}
 					else { //mostrar estado
-						enviarMensaje(conexion,"Estado;"+cola.size());
+						enviarMensaje(conexion,"Estado;"+cola.size()+";"+IpEsclavos());
 					} //y vuelve al ciclo (a esperar por mensaje del cliente)
 				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) { // ocurre unicametne si no se puede recibir mensaje del box
 					desconexiones++;
@@ -157,7 +191,7 @@ public class GestorBox extends Thread implements IAtencion{
         	}
         	else {
         		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
-        		enviarMensaje(conexion,"Atencion;"+turno.getDni());
+        		enviarMensaje(conexion,"Atencion;"+turno.getDni()+";"+IpEsclavos());
         		llamados.put(new Llamado(atencion.getDNI(), atencion.getBox())); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
         		//se debe esperar por la ausencia o por el fin de atencion
         		mensaje=null;
@@ -171,6 +205,7 @@ public class GestorBox extends Thread implements IAtencion{
 							fin=true;
 							atencion.registrarFin(); //se registra la hora del fin de la atencion
 							historico.agregarAtencion(atencion); //se agrega la atencion al historico
+							enviarMensaje(conexion,"Recibido");
 						}
 						else {
 							if(mensaje.equals("Ausente")) {
@@ -181,6 +216,7 @@ public class GestorBox extends Thread implements IAtencion{
 									cola.put(turno);
 								}
 								//TODO cuando lleva más de 2 asuentes se muestra en el televisor sin nro de box
+								enviarMensaje(conexion,"Recibido");
 							}
 							else
 								if(!mensaje.equals("Cancelar"))//por si a caso llego un cancelar no detectado
@@ -196,4 +232,19 @@ public class GestorBox extends Thread implements IAtencion{
         	}
 		}
 	}
+	
+	private String IpEsclavos() {
+		String ips="";
+		Iterator<Esclavo> it=listaEsclavos.iterator();
+		Esclavo actual;
+		while(it.hasNext()) {
+			actual=it.next();
+			ips+=actual.getIP();
+			if(it.hasNext()) {
+				ips+="$";
+			}
+		}
+		return ips;
+	}
+	
 }
