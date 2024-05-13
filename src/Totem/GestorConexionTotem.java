@@ -84,7 +84,7 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 							else {
 									desconexion=0;
 									try {
-										Thread.sleep(3000);
+										Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
 									} catch (InterruptedException e) {}
 									Boolean conectado=false;
 									while(!conectado && !ipEsclavos.isEmpty()) {
