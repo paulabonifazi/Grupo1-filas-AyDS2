@@ -24,6 +24,7 @@ public class ControladorVistaMonitor extends Thread {
 	private ReceptorDeNotificaciones receptor;
 	private IVistaMonitor vista;
 	public Semaphore semaforo;
+	private int puerto;
 	
 	public ControladorVistaMonitor(ReceptorDeNotificaciones receptor) {
 		super();
@@ -123,7 +124,9 @@ public class ControladorVistaMonitor extends Thread {
 				e.printStackTrace();
 			}
 			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
-			cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+			this.puerto=Integer.parseInt(datosConexion.get(1));
+			cliente=new TCPCliente(datosConexion.get(0),this.puerto);
+			this.receptor.setpuerto(this.puerto);
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
 		}
 		else {
@@ -135,6 +138,11 @@ public class ControladorVistaMonitor extends Thread {
 	public void setLogin(ControladorLogin controladorLogin) {
 		// TODO Auto-generated method stub
 		this.controladorLogin=controladorLogin;
+	}
+	
+	public void volverLoginError() {
+		JOptionPane.showMessageDialog(null, "Se produjo un error de conexion, reintente conectarse");
+		this.controladorLogin.mostrarVentana();
 	}
 	
 	public void setVista(IVistaMonitor vista) {
