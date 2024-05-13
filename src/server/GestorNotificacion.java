@@ -69,7 +69,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	@Override
 	public void mostrar(String dni, String IDBox) throws ExcepcionFinConexion, ExcepcionDeInterrupcion, ExcepcionLecturaErronea {
 			try {
- 				serverNotificacion.enviarMensajeACliente(dni+";"+IDBox, true); //TODO +";"+IpEsclavos()
+ 				serverNotificacion.enviarMensajeACliente(dni+";"+IDBox+";"+IpEsclavos(), true); 
  				//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
 			}
 			finally {}
