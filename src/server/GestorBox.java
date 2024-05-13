@@ -37,6 +37,7 @@ public class GestorBox extends Thread implements IAtencion{
 		this.ipClienteEsperado=IPClienteEsperado;
 		this.IDBox=IDBox;
 		this.listaEsclavos=listaEsclavos;
+		this.turno=new Turno();
 	}
 
 
@@ -46,7 +47,7 @@ public class GestorBox extends Thread implements IAtencion{
 		String DNI;
 		desconexiones=0;
 	 	try {
-	 		this.conexion.aceptarConexion(300000);
+	 		this.conexion.aceptarConexion(30000);
 	 		if(conexion.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				mensaje = null;
