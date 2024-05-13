@@ -1,6 +1,5 @@
 package Box;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.swing.JOptionPane;
@@ -13,17 +12,14 @@ import TCP.TCPCliente;
 
 public class GestorCliente extends Thread{
 	TCPCliente cliente;
-	BlockingQueue<String> blockingQueue;
 	ControladorVistaOperador controlador;
 	StateAbstracta estado;
 	
 	public GestorCliente(TCPCliente cliente,ControladorVistaOperador controlador) {
 		super();
 		this.cliente = cliente;
-		blockingQueue = new LinkedBlockingDeque<>();
 		this.controlador=controlador;
 	}
-
 
 	public void run() {
 		String mensaje;
@@ -36,8 +32,8 @@ public class GestorCliente extends Thread{
 					try {
 						mensaje=cliente.recibirmensajeDeServidor(false);
 					} catch (ExcepcionFinConexion e) {
-						// TODO Auto-generated catch block
-						System.exit(0);
+						controlador.reintentarConexion();
+						this.interrupt();
 					}
 				while (mensaje==null);
 				//Mensaje recibido
@@ -45,9 +41,11 @@ public class GestorCliente extends Thread{
 				switch (elementos[0]) {
 	                case "Estado": //Actualizar personas en pantalla
 	                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
+	                	controlador.actualizarEsclavosServidor(elementos[2]);
 	                    break;
 	                case "Atencion": //Asignar cliente
 	                	controlador.asignarCliente(elementos[1]);
+	                	controlador.actualizarEsclavosServidor(elementos[2]);
 	                    break;
 	                case "ActCancelar":
 	                	controlador.habilitarBotonCancelar();

@@ -10,11 +10,13 @@ import TCP.TCPCliente;
 public class EnviadorMensajes extends Thread{
 	TCPCliente cliente;
 	BlockingQueue<String> blockingQueue;
+	ControladorVistaOperador controlador;
 	
-	public EnviadorMensajes(TCPCliente cliente,BlockingQueue blockingQueue) {
+	public EnviadorMensajes(TCPCliente cliente,BlockingQueue blockingQueue,ControladorVistaOperador controlador) {
 		super();
 		this.cliente = cliente;
 		this.blockingQueue = blockingQueue;
+		this.controlador=controlador;
 	}
 	
 	public void run() {
@@ -27,12 +29,27 @@ public class EnviadorMensajes extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();				
 			}
+
 			try {
-				cliente.enviarMensajeAlServidor(mensaje, false);
-			} catch (ExcepcionLecturaErronea | ExcepcionFinConexion e) {
+				switch(mensaje) {
+					case "Fin":
+						cliente.enviarMensajeAlServidor(mensaje, true);
+					case "Ausente":
+						cliente.enviarMensajeAlServidor(mensaje, true);
+					default:
+						cliente.enviarMensajeAlServidor(mensaje, false);
+				
+				}
+			} catch (ExcepcionLecturaErronea e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (ExcepcionFinConexion e) {
+				blockingQueue.add(mensaje);
+				controlador.reintentarConexion();
+				this.interrupt();
 			}
+
+			
 		}
 	}
 			

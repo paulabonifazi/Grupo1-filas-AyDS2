@@ -2,7 +2,9 @@ package Box;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -24,8 +26,11 @@ public class ControladorVistaOperador implements ActionListener {
 	private int numeroBox;
 	private int tamCola;
 	private String dni;
-	ControladorLogin controladorLogin;
-	TCPCliente cliente;
+	private ControladorLogin controladorLogin;
+	private TCPCliente cliente;
+	private ArrayList<String> datosConexion;
+	private ArrayList<String> listaServidoresEsclavos;
+	
 	
 	public TCPCliente getTCPCliente() {
 		return cliente;
@@ -202,20 +207,20 @@ public class ControladorVistaOperador implements ActionListener {
 		String mensaje;
 		String[] elementos;
 		
-		ArrayList<String> datosConexion = controladorLogin.getDatosConexion(); //0 ip 1 puerto 2 password
+		this.datosConexion = controladorLogin.getDatosConexion(); //0 ip 1 puerto 2 password
 		
-		if (datosConexion.get(0)=="" || datosConexion.get(1)=="" || datosConexion.get(1)=="")
+		if (this.datosConexion.get(0)=="" || this.datosConexion.get(1)=="" || this.datosConexion.get(1)=="")
 			throw new ExcepcionErrorConexion();
 		try {
-			Integer.parseInt(datosConexion.get(1));
+			Integer.parseInt(this.datosConexion.get(1));
         }catch(NumberFormatException e) {
         	throw new ExcepcionErrorConexion();
         }
 		
 		
-		cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+		cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 
-		mensaje= datosConexion.get(2) + ";" + "Box" + ";" + Integer.toString(numeroBox);
+		mensaje= this.datosConexion.get(2) + ";" + "Box" + ";" + Integer.toString(numeroBox);
 		
 		try {
 			cliente.enviarMensajeAlServidor(mensaje, false);
@@ -240,8 +245,9 @@ public class ControladorVistaOperador implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
-			cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+			this.datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
+			
+			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
 		}
 		else {
@@ -262,14 +268,14 @@ public class ControladorVistaOperador implements ActionListener {
 	public void iniciarPrograma() {
 		
 		
-		IVistaOperador vista=new VistaOperador();
-		BlockingQueue cola=new LinkedBlockingDeque<String>();
-		GestorCliente gcliente=new GestorCliente(this.getTCPCliente(),this);
-		EnviadorMensajes enviadorMensajes=new EnviadorMensajes(this.getTCPCliente(),cola);
+		this.vista=new VistaOperador();
+		this.colamensajes=new LinkedBlockingDeque<String>();
+		this.gcliente=new GestorCliente(this.getTCPCliente(),this);
+		this.enviadorMensajes=new EnviadorMensajes(this.getTCPCliente(),this.colamensajes,this);
 		
 		setVista(vista);
 		setEnviadorMensajes(enviadorMensajes);
-		setColamensajes(cola);
+		setColamensajes(colamensajes);
 		setGcliente(gcliente);
 		gcliente.start();
 		enviadorMensajes.start();
@@ -278,7 +284,107 @@ public class ControladorVistaOperador implements ActionListener {
 		vista.abrir();
 		
 	}
+
+
+	public void reintentarConexion() {
+		int reintentos=2;
+		boolean conectado=false;
+		int i=0;
+		
+		
+		do { 
+			while (reintentos>0 && !conectado){
+				try {
+					this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
+					conectado=true;
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExcepcionErrorConexion e) {
+					reintentos=reintentos-1;
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+			if (reintentos<=0) {
+				this.datosConexion.add(0,listaServidoresEsclavos.get(i));
+				i++;
+				reintentos=2;
+				if (i>this.listaServidoresEsclavos.size())
+					System.exit(0);
+			}
+		}while (!conectado);
+		
+		if (!gcliente.isInterrupted()) //Interrumpe threads que esten relacionados con las conexiones
+			gcliente.interrupt();
+		if (!enviadorMensajes.isInterrupted())
+			enviadorMensajes.interrupt();
+		
+		this.gcliente=new GestorCliente(this.getTCPCliente(),this);;
+		this.enviadorMensajes= new EnviadorMensajes(this.getTCPCliente(),this.colamensajes,this);
+		
+		gcliente.start();
+		enviadorMensajes.start();
+		
+	}
+
+
+	public void actualizarEsclavosServidor(String ips) {
+		ArrayList<String> ipsActualizadas= new ArrayList<String>(Arrays.asList(ips.split("$")));
+		this.listaServidoresEsclavos=ipsActualizadas;
+		
+	}
 	
+	public void conexionPerdida() {
+		VentanaLogin auxventana=new VentanaLogin();
+		ControladorLogin auxcontroladorLogin= new ControladorLogin(auxventana);
+		auxventana.setControlador(auxcontroladorLogin);
+		auxcontroladorLogin.mostrarVentana();
+		ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
+		this.datosConexion=datosNuevaConexion;
+		try {
+			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExcepcionErrorConexion e) {
+			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
+			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
+				if (JOptionPane.OK_OPTION == confirmado) {
+					conexionPerdidaReintento(auxcontroladorLogin);
+				}
+				else {
+					System.exit(0);
+				}
+		}
+		JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
+	}
 	
+	private void conexionPerdidaReintento(ControladorLogin auxcontroladorLogin) {
+		auxcontroladorLogin.mostrarVentana();
+		ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
+		this.datosConexion=datosNuevaConexion;
+		
+		try {
+			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExcepcionErrorConexion e) {
+			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
+			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
+				if (JOptionPane.OK_OPTION == confirmado) {
+					conexionPerdidaReintento(auxcontroladorLogin);
+				}
+				else {
+					System.exit(0);
+				}
+		}
+		
+	}
 	
 }
