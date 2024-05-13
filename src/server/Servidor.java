@@ -102,7 +102,6 @@ public class Servidor{
 										//no puede interrumpirse
 									}
 									System.out.println("Ingrese 0 para ser esclavo o 1 si desea terminar");
-									valida=false;
 									do {
 										modo = scanner.nextLine();
 										if (modo != null && !modo.isEmpty() && !modo.isBlank() && modo.length() == 1 && (modo.charAt(0) == '0' || modo.charAt(0) == '1')) {
@@ -210,8 +209,10 @@ public class Servidor{
 												i=0;
 												listaConexiones= new LinkedList<InfoConexion>();
 												while(i<infconexiones.length) {
-													conexion=infconexiones[i].split(",");
-													listaConexiones.add(new InfoConexion(conexion[0], conexion[1], conexion[2]));
+													if(!infconexiones[i].isBlank()&&!infconexiones[i].isEmpty()) {
+														conexion=infconexiones[i].split(",");
+														listaConexiones.add(new InfoConexion(conexion[0], conexion[1], conexion[2]));
+													}
 													i++;
 												}
 												
@@ -220,8 +221,10 @@ public class Servidor{
 												i=0;
 												listaEsclavos= new LinkedList<Esclavo>();
 												while(i<infesclavos.length) {
-													esclavo=infesclavos[i].split(",");
-													listaConexiones.add(new InfoConexion(esclavo[0], esclavo[1], esclavo[2]));
+													if(!infconexiones[i].isBlank()&&!infconexiones[i].isEmpty()) {
+														esclavo=infesclavos[i].split(",");
+														listaConexiones.add(new InfoConexion(esclavo[0], esclavo[1], esclavo[2]));
+													}
 													i++;
 												}
 											}catch (ExcepcionFinConexion e) {
@@ -255,6 +258,7 @@ public class Servidor{
 												}
 											}
 										}
+										
 									} //si esta conectado, entonces sigue siendo esclavo, mientras que si no está conectado es porque el es el maestro
 								}
 								else {
