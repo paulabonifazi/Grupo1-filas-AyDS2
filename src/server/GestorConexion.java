@@ -80,7 +80,7 @@ public class GestorConexion extends Thread {
 								                break;
 								            case "TvLlamado":
 								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, info.getIP(),false);
+								                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, info.getIP(),false,listaEsclavos);
 								                	nuevaEjecucion.start();
 								                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 								            	break;
@@ -157,7 +157,7 @@ public class GestorConexion extends Thread {
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente(),true);
+							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente(),true,listaEsclavos);
 							                	
 							                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	

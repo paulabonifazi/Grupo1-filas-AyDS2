@@ -102,6 +102,7 @@ public class Servidor{
 										//no puede interrumpirse
 									}
 									System.out.println("Ingrese 0 para ser esclavo o 1 si desea terminar");
+									valida=false;
 									do {
 										modo = scanner.nextLine();
 										if (modo != null && !modo.isEmpty() && !modo.isBlank() && modo.length() == 1 && (modo.charAt(0) == '0' || modo.charAt(0) == '1')) {
