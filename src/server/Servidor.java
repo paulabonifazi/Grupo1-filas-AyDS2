@@ -102,6 +102,7 @@ public class Servidor{
 										//no puede interrumpirse
 									}
 									System.out.println("Ingrese 0 para ser esclavo o 1 si desea terminar");
+									valida=false;
 									do {
 										modo = scanner.nextLine();
 										if (modo != null && !modo.isEmpty() && !modo.isBlank() && modo.length() == 1 && (modo.charAt(0) == '0' || modo.charAt(0) == '1')) {
@@ -198,35 +199,38 @@ public class Servidor{
 												mensaje=conexionConMaestro.recibirmensajeDeServidor(true);
 												desconexiones=0;
 												elementos = mensaje.split("/");	
-												if(elementos.length==8)
-												cola.parse(elementos[0],elementos[1]);
-												bufferSalida.parse(elementos[2]);
-												historico.parse(elementos[3]);
-												contrasenia= elementos[4];
-												
-												infconexiones=elementos[5].split(";");
-												String[] conexion;
-												i=0;
-												listaConexiones= new LinkedList<InfoConexion>();
-												while(i<infconexiones.length) {
-													if(!infconexiones[i].isBlank()&&!infconexiones[i].isEmpty()) {
-														conexion=infconexiones[i].split(",");
-														listaConexiones.add(new InfoConexion(conexion[0], conexion[1], conexion[2]));
+												if(elementos.length==7) {
+													cola.parse(elementos[0],elementos[1]);
+													bufferSalida.parse(elementos[2]);
+													historico.parse(elementos[3]);
+													contrasenia= elementos[4];
+													
+													infconexiones=elementos[5].split(";");
+													String[] conexion;
+													i=0;
+													listaConexiones= new LinkedList<InfoConexion>();
+													while(i<infconexiones.length) {
+														if(!infconexiones[i].isBlank()&&!infconexiones[i].isEmpty()) {
+															conexion=infconexiones[i].split(",");
+															listaConexiones.add(new InfoConexion(conexion[0], conexion[1], conexion[2]));
+														}
+														i++;
 													}
-													i++;
-												}
-												
-												infesclavos=elementos[6].split(";");
-												String[]esclavo;
-												i=0;
-												listaEsclavos= new LinkedList<Esclavo>();
-												while(i<infesclavos.length) {
-													if(!infesclavos[i].isBlank()&&!infesclavos[i].isEmpty()) {
-														esclavo=infesclavos[i].split(",");
-														listaConexiones.add(new InfoConexion(esclavo[0], esclavo[1], esclavo[2]));
+													
+													infesclavos=elementos[6].split(";");
+													String[]esclavo;
+													i=0;
+													listaEsclavos= new LinkedList<Esclavo>();
+													while(i<infesclavos.length) {
+														if(!infesclavos[i].isBlank()&&!infesclavos[i].isEmpty()) {
+															esclavo=infesclavos[i].split(",");
+															listaEsclavos.add(new Esclavo(esclavo[0], esclavo[1], esclavo[2]));
+														}
+														i++;
 													}
-													i++;
 												}
+												else
+													System.out.println("ERROR");
 											}catch (ExcepcionFinConexion e) {
 												while(desconexiones<2)
 													desconexiones++;

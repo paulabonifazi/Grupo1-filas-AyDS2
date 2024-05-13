@@ -10,6 +10,12 @@ public class Esclavo{
 		this.puerto=puerto;
 		this.IP=ip;
 	}
+	
+	public Esclavo(String id, String ip, String puerto) {
+		this.ID=id;
+		this.puerto=Integer.parseInt(puerto);
+		this.IP=ip;
+	}
 
 	public String getID() {
 		return ID;

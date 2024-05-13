@@ -37,7 +37,6 @@ public class C_Esclavo implements IConexion{
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		this.conexion.cerrarConexion();
 		this.conexion.cerrarPuertoServidor(); //en caso de que este dormido en un metodo .net
-		
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	

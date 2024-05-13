@@ -54,7 +54,7 @@ public class GestorConexion extends Thread {
 					InfoConexion info;
 					if(listaConexiones!=null && !listaConexiones.isEmpty()) {
 						while (!listaConexiones.isEmpty()) {
-							info=listaConexiones.remove();
+							info=listaConexiones.removeFirst();
 							switch (this.getnamefromid(info.getID())) { 
 						            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
 							            	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
@@ -248,7 +248,6 @@ public class GestorConexion extends Thread {
 		//TODO tambien actualizar las conexiones de los esclavos		 
 		 private void actualizaEsclavos() {
 			 	IConexion esclavo;
-			 	int pos;
 			 	Set<String> keysToRemove = new HashSet<String>();
 			 	Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
 		        while (iterator.hasNext()) {
@@ -257,26 +256,22 @@ public class GestorConexion extends Thread {
 		            	keysToRemove.add(esclavo.getID());
 		            }
 		        }
-		        for (String key : keysToRemove) {
-		            pos=buscaPosEsclavo(key);
-		            if(pos!=-1) {
-		            	System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexionesEsclavos.get(key).getID()+ "\u001B[0m"+"\n"); 
-		            	listaEsclavos.remove(pos);
-		            	conexionesEsclavos.remove(key);
-		            }
+		        LinkedList<Esclavo>listaAux= new LinkedList<Esclavo>();
+		        Esclavo aux;
+		        while(!listaEsclavos.isEmpty()) {
+		        	aux=listaEsclavos.removeFirst();
+		        	if(keysToRemove.contains(aux.getID())) {
+		        		conexionesEsclavos.remove(aux.getID());
+		        		System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ aux.getID()+ "\u001B[0m"+"\n"); 
+		        	}
+		        	else {
+		        		listaAux.addFirst(aux);;
+		        	}
 		        }
-		 }
-		 
-		 private int buscaPosEsclavo(String id) {
-			int pos = -1; // Inicializamos el índice como -1 para indicar que no se encontró el elemento
-			// Buscamos el índice del elemento con el ID dado
-			for (int i = 0; i < listaEsclavos.size(); i++) {
-				if (listaEsclavos.get(i).getID().compareTo(id)==0) {
-				    pos = i;
-				    break; // Salimos del bucle una vez que encontramos el elemento
-				 }
-			}
-			return pos;
+		        while(!listaAux.isEmpty()) {
+		        	this.listaEsclavos.add(listaAux.remove());
+		        }
+		        
 		 }
 		 
 		 private boolean isInt(String cadena) {

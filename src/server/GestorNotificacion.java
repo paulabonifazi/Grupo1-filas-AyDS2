@@ -28,7 +28,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		Llamado llamado;
 		int desconexiones=0;
 	 	try {
-	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
+	 		this.serverNotificacion.aceptarConexion(300000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
 	 			this.llamados.activar(borrado); //activa el sistema de llamado
 	 			while(desconexiones<2) { //No recibe datos, solo envia.

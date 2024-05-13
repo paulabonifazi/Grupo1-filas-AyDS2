@@ -12,7 +12,7 @@ import interfaces.IEstado;
 @SuppressWarnings("deprecation")
 public class GestorConexionEstadistico extends Observable implements IEstado{
 	private TCPCliente conexion;
-	private LinkedList<String> ipEsclavos;
+	private LinkedList<String> ipEsclavos=new LinkedList<String>();
 	private int puerto;
 	public GestorConexionEstadistico() {
 		// TODO Auto-generated constructor stub

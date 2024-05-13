@@ -28,7 +28,7 @@ public class TCPCliente {
 
 	public void cerrarConexion() throws ExcepcionErrorAlCerrar {
 		try {
-				if ( !socket.isClosed()) {
+				if ( socket!=null && !socket.isClosed()) {
 		            socket.close();
 		        }
 		        if (out!= null&& !out.checkError()) {
@@ -55,6 +55,9 @@ public class TCPCliente {
 				out.println("Recibido");
 		}
 		catch (IOException e) {
+			throw new ExcepcionFinConexion();
+		}
+		if(mensaje==null) {
 			throw new ExcepcionFinConexion();
 		}
 		return mensaje;

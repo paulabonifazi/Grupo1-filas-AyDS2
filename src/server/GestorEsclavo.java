@@ -33,7 +33,7 @@ public class GestorEsclavo extends Thread{
     public void run() {
 		int desconexiones=0;
 	 	try {
-	 		this.serverEsclavo.aceptarConexion(7000); //espera por 7 segundos
+	 		this.serverEsclavo.aceptarConexion(300000);
 	 		if(serverEsclavo.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
 		 			try {
@@ -60,10 +60,14 @@ public class GestorEsclavo extends Thread{
 	 	}
 	 	finally {
 	 		try {
+	 			System.out.println("baibai");
 				serverEsclavo.cerrarPuertoServidor(); 
 				serverEsclavo.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
+				try {
+					serverEsclavo.cerrarConexion();
+				} catch (ExcepcionErrorAlCerrar e) {
+				}
 			}
 	 	}
 	}

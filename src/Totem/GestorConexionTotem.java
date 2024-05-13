@@ -12,7 +12,7 @@ import interfaces.IRegistro;
 @SuppressWarnings("deprecation")
 public class GestorConexionTotem extends Observable implements IRegistro{
 	private TCPCliente conexion;
-	private LinkedList<String> ipEsclavos;
+	private LinkedList<String> ipEsclavos=new LinkedList<String>();
 	private int puerto;
 	
 	public GestorConexionTotem() {

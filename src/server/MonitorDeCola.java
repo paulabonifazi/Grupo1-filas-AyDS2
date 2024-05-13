@@ -19,12 +19,12 @@ public class MonitorDeCola {
 		atencionesAbiertas= new ConcurrentHashMap<String, String>();
 	}
 	
-	// Método para colocar un elemento en la cola
+	// Mï¿½todo para colocar un elemento en la cola
     public void put(Turno elemento) throws InterruptedException {
     		coladeTurnos.put(elemento);
     }
     
- // Método para retirar un elemento de la cola
+ // Mï¿½todo para retirar un elemento de la cola
     public Turno take(String Id) throws InterruptedException {
     	Turno turno = null;
     	try {
@@ -45,7 +45,7 @@ public class MonitorDeCola {
     	return  atencionesAbiertas.remove(Id);
     }
     
- // Método para obtener el tamaño de la cola
+ // Mï¿½todo para obtener el tamaï¿½o de la cola
     public int size() {
         return coladeTurnos.size();
     }
@@ -87,21 +87,23 @@ public class MonitorDeCola {
     
     public void parse(String cola, String atenciones) {
 		 int i;
+		 this.coladeTurnos= new LinkedBlockingQueue<Turno>();
 		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
 			 String[] turnos=cola.split(";");
 			 String[] turno;
 			 i=0;
 			 while(i<turnos.length) {
-				 turno=turnos[i].split(",");
-				 if(turno.length==3) {
-					try {
-						this.coladeTurnos.put(new Turno(turnos[0],turnos[1],turnos[2]));
-					} catch (InterruptedException e) {
-					}
-				 }
-				 i++;
+					 turno=turnos[i].split(",");
+					 if(turno.length==3) {
+						try {
+							this.coladeTurnos.put(new Turno(turno[0],turno[1],turno[2]));
+						} catch (InterruptedException e) {
+						}
+					 }
+					 i++;
 			 }
 		 }
+		 this.atencionesAbiertas=new ConcurrentHashMap<String, String>();
 		 if(atenciones!=null && !atenciones.isBlank() && !atenciones.isEmpty()) {
 			 String[] pendientes=atenciones.split(";");
 			 String[] atencion;

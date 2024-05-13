@@ -26,7 +26,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 		String[] elementos = null;
 		int desconexiones=0;
 	 	try {
-	 		this.conexion.aceptarConexion(100000);
+	 		this.conexion.aceptarConexion(300000);
 	 		if(conexion.validarIPCliente(IPClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				try {

@@ -46,7 +46,7 @@ public class GestorBox extends Thread implements IAtencion{
 		String DNI;
 		desconexiones=0;
 	 	try {
-	 		this.conexion.aceptarConexion(100000);
+	 		this.conexion.aceptarConexion(300000);
 	 		if(conexion.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				mensaje = null;
