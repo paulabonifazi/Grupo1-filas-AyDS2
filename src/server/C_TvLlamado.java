@@ -40,4 +40,9 @@ public class C_TvLlamado implements IConexion{
 		this.hilo.interrupt(); //en caso de que este dormido en la cola
 	}
 	
+	@Override
+	public String toString() {
+		return ID+","+conexion.getIPCliente()+","+conexion.getPuerto();
+	}
+	
 }

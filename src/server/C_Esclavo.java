@@ -2,15 +2,15 @@ package server;
 import Excepciones.*;
 import TCP.TCPServidor;
 
-public class C_Estadistico implements IConexion{
+public class C_Esclavo implements IConexion{
 	private TCPServidor conexion;
 	private String ID;
 	private Thread hilo;
 	private static int siguienteID=0;
 	
-	public C_Estadistico(TCPServidor conexion,Thread hilo) {
+	public C_Esclavo(TCPServidor conexion,Thread hilo) {
 		this.conexion=conexion;
-		this.ID="E"+siguienteID++;
+		this.ID="S"+siguienteID++;
 		this.hilo=hilo;
 	}
 

@@ -1,5 +1,6 @@
 package estadistico;
 
+import java.util.LinkedList;
 import java.util.Observable;
 
 import Excepciones.ExcepcionErrorAlCerrar;
@@ -11,6 +12,8 @@ import interfaces.IEstado;
 @SuppressWarnings("deprecation")
 public class GestorConexionEstadistico extends Observable implements IEstado{
 	private TCPCliente conexion;
+	private LinkedList<String> ipEsclavos;
+	private int puerto;
 	public GestorConexionEstadistico() {
 		// TODO Auto-generated constructor stub
 	}
@@ -18,40 +21,83 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 	public void MostrarEstado() {
 		try {
 			conexion.enviarMensajeAlServidor("MostrarEstado", false);
-			String estado=conexion.recibirmensajeDeServidor(false);
-			// Patrón para extraer los valores
-			 String[]elementos= estado.split("/");
-             int clientesAtendidos=Integer.parseInt(elementos[0]);
-             int clientesEnEspera=Integer.parseInt(elementos[2]);
-             Double tPromEsp=(double) 0;
-             Double tPromSoli = (double) 0;
-             Double tPromAtc=(double) 0;
-             if(elementos[1]!=null&& !elementos[1].isBlank()&& !elementos[1].isEmpty()) {
-            	String[] Ctiempos= elementos[1].split(";");
-	             Long[] tEsperaArray = new Long[Ctiempos.length];
-	             Long[] tSolicitudArray = new Long[Ctiempos.length];
-	             Long[] tAtencionArray = new Long[Ctiempos.length];
-	            String[]tiempos=null;
-	            
-	            for (int i = 0; i < Ctiempos.length; i++) {
-	         	   tiempos=Ctiempos[i].split(",");
-		         	   tEsperaArray[i]=Long.parseLong(tiempos[0]);
-		         	   tSolicitudArray[i]=Long.parseLong(tiempos[1]);
-		         	   tAtencionArray[i]=Long.parseLong(tiempos[2]);
-	            }
-	            tPromEsp=CalculosEstadisticos.calcularPromedio(tEsperaArray);
-	            tPromSoli=CalculosEstadisticos.calcularPromedio(tSolicitudArray);
-	            tPromAtc=CalculosEstadisticos.calcularPromedio(tAtencionArray);
-            }  
-            setChanged();
-			notifyObservers(clientesAtendidos+";"+tPromEsp+";"+tPromSoli+";"+tPromAtc+";"+clientesEnEspera); //problema de conexion vuelve al login
-		} catch (ExcepcionLecturaErronea e) {
+			int desconexion=0;
+			boolean recibido=false;
+			boolean sinesclavos=false;
+			while (!recibido && !sinesclavos ) {
+				try {	
+					String estado=conexion.recibirmensajeDeServidor(false);
+					recibido=true;
+					// Patrón para extraer los valores
+					 String[]elementos=estado.split("$");
+					 int j=1;
+					 ipEsclavos=new LinkedList<String>();
+					 while(j<elementos.length) {
+							if(!elementos[j].isBlank() && !elementos[j].isEmpty()) {
+								ipEsclavos.add(elementos[j]);
+							}
+							j++;
+						}
+					 String[]estadisticas= elementos[0].split("/");
+		             int clientesAtendidos=Integer.parseInt(estadisticas[0]);
+		             int clientesEnEspera=Integer.parseInt(estadisticas[2]);
+		             Double tPromEsp=(double) 0;
+		             Double tPromSoli = (double) 0;
+		             Double tPromAtc=(double) 0;
+		             if(estadisticas[1]!=null&& !estadisticas[1].isBlank()&& !estadisticas[1].isEmpty()) {
+		            	String[] Ctiempos= estadisticas[1].split(";");
+			             Long[] tEsperaArray = new Long[Ctiempos.length];
+			             Long[] tSolicitudArray = new Long[Ctiempos.length];
+			             Long[] tAtencionArray = new Long[Ctiempos.length];
+			            String[]tiempos=null;
+			            
+			            for (int i = 0; i < Ctiempos.length; i++) {
+			         	   tiempos=Ctiempos[i].split(",");
+				         	   tEsperaArray[i]=Long.parseLong(tiempos[0]);
+				         	   tSolicitudArray[i]=Long.parseLong(tiempos[1]);
+				         	   tAtencionArray[i]=Long.parseLong(tiempos[2]);
+			            }
+			            tPromEsp=CalculosEstadisticos.calcularPromedio(tEsperaArray);
+			            tPromSoli=CalculosEstadisticos.calcularPromedio(tSolicitudArray);
+			            tPromAtc=CalculosEstadisticos.calcularPromedio(tAtencionArray);
+		            }  
+		            setChanged();
+					notifyObservers(clientesAtendidos+";"+tPromEsp+";"+tPromSoli+";"+tPromAtc+";"+clientesEnEspera); //problema de conexion vuelve al login
+			
+				}
+				catch(ExcepcionFinConexion e) {
+					if(desconexion<2)
+						desconexion++;
+					else {
+							desconexion=0;
+							try {
+								Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
+							} catch (InterruptedException e2) {}
+							Boolean conectado=false;
+							while(!conectado && !ipEsclavos.isEmpty()) {
+								try {
+									conexion.cerrarConexion();
+								} catch (ExcepcionErrorAlCerrar e3) {}
+								try {
+									conexion= new TCPCliente(ipEsclavos.remove(), this.puerto);
+									conectado=true;
+								} catch (ExcepcionErrorConexion e4) {
+								}
+							}
+							if(ipEsclavos.isEmpty()) {
+								sinesclavos=true;
+							}
+					}
+					
+				}
+			}
+			if(!recibido) {
+				setChanged();
+				notifyObservers("Conexion"); //problema de conexion vuelve al login
+			}
+		} catch (ExcepcionLecturaErronea|ExcepcionFinConexion e) {
 			//no puede ocurrir
-		} catch (ExcepcionFinConexion e) {
-			setChanged();
-			notifyObservers("Conexion"); //problema de conexion vuelve al login
 		}
-		
 	}
 	
 	public void loginSV(String contrasenia,String IP,int puerto) {
@@ -67,6 +113,7 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 					} catch (ExcepcionErrorAlCerrar e) {
 						//si ocurre no se puede hacer nada
 					}
+					this.puerto=Integer.parseInt(elementos[1]);
 					conexion=new TCPCliente(IP, Integer.parseInt(elementos[1]));
 					setChanged();
 					notifyObservers("Exito");

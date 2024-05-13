@@ -18,6 +18,13 @@ public class Turno {
 		hrRegistro=	LocalTime.now();
 		ausencias=0;
 	}
+	
+	public Turno(String dni,String hr, String ausencias) {
+		this.dni = dni;
+		this.hrRegistro=LocalTime.parse(hr);
+		this.ausencias=Integer.parseInt(ausencias);
+	}
+
 
 	public LocalTime getHrRegistro() {
 		return hrRegistro;
@@ -38,8 +45,15 @@ public class Turno {
 		aux=this.ausencias;
 		this.ausencias=aux+1;
 	}
-	
+
 	public int getAusencias() {
 		return this.ausencias;
 	}
+
+	@Override
+	public String toString() {
+		return dni+","+hrRegistro.toString()+","+ausencias;
+	}
+	
+	
 }

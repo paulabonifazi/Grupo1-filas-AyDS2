@@ -7,46 +7,56 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private TCPServidor serverNotificacion;
 	private MonitorNotificacion llamados;
 	private String ipClienteEsperado;
-	private Boolean fin=false; 
+	private Boolean borrado;
 	
-	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado) {
+	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado) {
 		super();
 		this.serverNotificacion = serverNotificacion;
 		this.llamados = llamados;
 		this.ipClienteEsperado = ipClienteEsperado;
+		this.borrado=borrado;
 	}
 
 
 	@Override
     public void run() {
-		Atencion llamado;
+		Llamado llamado;
+		int desconexiones=0;
 	 	try {
 	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
-	 			this.llamados.setActivado(true); //activa el sistema de llamado
-	 			while(!fin) { //No recibe datos, solo envia.
-		 			llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
-		 			mostrar(llamado.getDNI(),llamado.getBox()); //!!!) EL SISTEMA DE LLAMADO DEBE INDICAR "Recibido" por cada mensaje que recibe, con ello el server sabe si todavia se mantiene la conexion
+	 			this.llamados.activar(borrado); //activa el sistema de llamado
+	 			while(desconexiones<2) { //No recibe datos, solo envia.
+		 			try {
+		 				llamado=llamados.take(); //espera por un elemento en el buffer de salida, en caso de ser interrumpida es porque es fin del servidor
+			 			mostrar(llamado.getDNI(),llamado.getBox()); //!!!) EL SISTEMA DE LLAMADO DEBE INDICAR "Recibido" por cada mensaje que recibe, con ello el server sabe si todavia se mantiene la conexion
+		 			}
+		 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) {
+		 				while (desconexiones<2) {
+		 						Thread.sleep(500);
+			 					try {
+									serverNotificacion.recibirmensajeDeCliente(0, false); //como ya se envió un mensaje, se reintenta recibir la confirmacion. Si nunca se recibe se da por perdida la conexion
+									desconexiones=0;
+			 					} catch (ExcepcionFinConexion | ExcepcionFinTimeoutLectura e1) {
+									desconexiones++;
+								}
+		 				}
+		 			}
 	 			}
 	 		}
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) { 
-			try {
-				this.llamados.setActivado(false);
-				serverNotificacion.cerrarPuertoServidor(); 
-			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
-			}
 		}
-	 	catch(ExcepcionDeInterrupcion|ExcepcionFinConexion | InterruptedException|ExcepcionLecturaErronea e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, además del serversocket
+	 	catch(ExcepcionDeInterrupcion | InterruptedException|ExcepcionLecturaErronea e) { //se diferencia, ya que en estos casos ya se habia hecho el .accept() por ende hay que cerrar el socket, además del serversocket
+	 	}
+	 	finally {
 	 		try {
-	 			this.llamados.setActivado(false);
-	 			serverNotificacion.cerrarConexion();
-				serverNotificacion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar) 
+				this.llamados.desactivar();
+				serverNotificacion.cerrarPuertoServidor(); 
+				serverNotificacion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
 				// no puede hacerse nada más que terminar el thread
 			}
-	 		
 	 	}
 	}
 

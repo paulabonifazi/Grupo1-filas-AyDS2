@@ -16,6 +16,14 @@ public class Atencion {
 		hrinicio=LocalTime.now();
 	}
 	
+	public Atencion(Turno turno, Solicitud solicitud,String hrinicio, String hrfin) {
+		super();
+		this.turno = turno;
+		this.solicitud = solicitud;
+		this.hrinicio=LocalTime.parse(hrinicio);
+		this.hrfin=LocalTime.parse(hrfin);
+	}
+	
 	public void registrarFin() {
 		hrfin=LocalTime.now();
 	}
@@ -40,4 +48,11 @@ public class Atencion {
 	public String getBox(){
 		return solicitud.getIdBox();
 	}
+
+	@Override
+	public String toString() {
+		return  turno.toString()+"-"+solicitud.toString()+"-"+hrinicio.toString()+"-"+hrfin.toString();
+	}
+	
+	
 }
