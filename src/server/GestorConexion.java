@@ -325,7 +325,7 @@ public class GestorConexion extends Thread {
 					 	name="Totem";
 					 	break;
 				 case 'L': //TVLlamado
-					 	name= "TVLlamado";
+					 	name= "TvLlamado";
 					 	break;
 				 case 'B': //Box
 					 	name="Box";

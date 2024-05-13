@@ -62,8 +62,8 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 				conexion.enviarMensajeAlServidor("Registro;"+DNI, false);
 				int desconexion=0;
 				boolean recibido=false;
-				boolean sinesclavos=false;
-				while (!recibido && !sinesclavos ) {
+				boolean sinEsclavos=false;
+				while (!recibido && !sinEsclavos ) {
 					try {
 						String[] elementos= conexion.recibirmensajeDeServidor(false).split("/");
 						recibido=true;
@@ -79,14 +79,12 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 						setChanged();
 						notifyObservers(estado);
 					} catch (ExcepcionFinConexion e1) {
-							if(desconexion<2)
+							if(desconexion<2) {
 								desconexion++;
+							}
+								
 							else {
-									try {
-										Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
-									} catch (InterruptedException e) {}
 									Boolean conectado=false;
-									boolean sinEsclavos=false;
 									String ip="";
 									while(!conectado && !sinEsclavos) {
 										try {
@@ -102,14 +100,15 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 												} catch (ExcepcionErrorConexion e) {
 												}
 											}
-											else
-												sinesclavos=true;
+											else {
+												sinEsclavos=true;
+											}
 									}
 							}
 							
 					}
 				}
-				if(!recibido) {
+				if(!recibido || sinEsclavos) {
 						setChanged();
 						notifyObservers("Conexion"); //problema de conexion vuelve al login
 				}

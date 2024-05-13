@@ -72,9 +72,8 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 								Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
 							} catch (InterruptedException e) {}
 							Boolean conectado=false;
-							boolean sinEsclavos=false;
 							String ip="";
-							while(!conectado && !sinEsclavos) {
+							while(!conectado && !sinesclavos) {
 								try {
 									conexion.cerrarConexion();
 								} catch (ExcepcionErrorAlCerrar e) {}

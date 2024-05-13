@@ -50,7 +50,6 @@ public class GestorBox extends Thread implements IAtencion{
 	 		if(conexion.validarIPCliente(ipClienteEsperado)) {
 	 			while(desconexiones<2) {
 	 				mensaje = null;
-	 				this.turno=new Turno(); //crea un nuevo turno (por si se corta la comunicacion verificar que no se retiro dni)
 		 			try {
 						mensaje=this.conexion.recibirmensajeDeCliente(0, false); //Se recibe como mensaje: "<Operacion>"
 						desconexiones=0;
@@ -107,23 +106,18 @@ public class GestorBox extends Thread implements IAtencion{
 		}
 	 	finally {
 	 		try {
-	 			DNI=cola.finAtencion(IDBox);
+				if(buscaSolicitud!=null && buscaSolicitud.isAlive())
+					this.buscaSolicitud.interrupt();
+				DNI=cola.finAtencion(IDBox);
 	 			if(DNI!=null) {
 	 				try {
-						cola.put(new Turno(DNI));
+	 					if(this.turno!=null)
+	 						cola.put(turno);
+	 					else
+	 						cola.put(new Turno(DNI));
 					} catch (InterruptedException e) {
 					}
 	 			}
-				if(buscaSolicitud!=null && buscaSolicitud.isAlive())
-					this.buscaSolicitud.interrupt();
-				if (turno.getDni()!=null) { //en caso de que haya retirado elemento de la cola
-					try {
-						if(!cola.contiene(turno.getDni()))
-							cola.put(turno);
-					} catch (InterruptedException e1) {
-						//si fue una interrupcion, pues entonces es porque se quiere cerrar el servidor y por ende no importa el guardado
-					}
-				}
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
 				conexion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
@@ -147,7 +141,8 @@ public class GestorBox extends Thread implements IAtencion{
 	@Override
 	public void solicitudTurno() throws ExcepcionFinConexion, ExcepcionDeInterrupcion, InterruptedException  {
 		String mensaje=null;
-        buscaSolicitud=new GestorSolicitud(this.turno,cola,IDBox); //va y espera en la cola por una asignacion de turno, mientras que el gestor de box espera por un mensaje del operario (revisando cuando está el turno solicitado)
+		this.turno=new Turno(); //crea un nuevo turno (por si se corta la comunicacion verificar que no se retiro dni)
+		buscaSolicitud=new GestorSolicitud(this.turno,cola,IDBox); //va y espera en la cola por una asignacion de turno, mientras que el gestor de box espera por un mensaje del operario (revisando cuando está el turno solicitado)
         solicitud=new Solicitud(IDBox); //se crea la solicitud para registrar la hora de solicitud del turno
         buscaSolicitud.start(); //se ejecuta el thread que busca el turno
 		Thread.sleep(1000);//espera 0,5 segundos por el resultado del turno
@@ -176,7 +171,7 @@ public class GestorBox extends Thread implements IAtencion{
 						fin=true;
 					}
 					else { //mostrar estado
-						enviarMensaje(conexion,"Estado;"+cola.size()+";"+IpEsclavos());
+						enviarMensaje(conexion,"Estado;"+cola.size());//TODO +";"+IpEsclavos()
 					} //y vuelve al ciclo (a esperar por mensaje del cliente)
 				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) { // ocurre unicametne si no se puede recibir mensaje del box
 					desconexiones++;
@@ -191,7 +186,7 @@ public class GestorBox extends Thread implements IAtencion{
         	}
         	else {
         		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
-        		enviarMensaje(conexion,"Atencion;"+turno.getDni()+";"+IpEsclavos());
+        		enviarMensaje(conexion,"Atencion;"+turno.getDni());//TODO +";"+IpEsclavos()
         		llamados.put(new Llamado(atencion.getDNI(), atencion.getBox())); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
         		//se debe esperar por la ausencia o por el fin de atencion
         		mensaje=null;
