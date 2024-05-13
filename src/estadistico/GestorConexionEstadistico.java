@@ -29,7 +29,7 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 					String estado=conexion.recibirmensajeDeServidor(false);
 					recibido=true;
 					// Patrón para extraer los valores
-					 String[]elementos=estado.split("$");
+					 String[]elementos=estado.split("-");
 					 int j=1;
 					 ipEsclavos=new LinkedList<String>();
 					 while(j<elementos.length) {

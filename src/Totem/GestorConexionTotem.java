@@ -65,7 +65,7 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 				boolean sinesclavos=false;
 				while (!recibido && !sinesclavos ) {
 					try {
-						String[] elementos= conexion.recibirmensajeDeServidor(false).split("$");
+						String[] elementos= conexion.recibirmensajeDeServidor(false).split("/");
 						recibido=true;
 						int i=1;
 						this.ipEsclavos=new LinkedList<String>();

@@ -82,7 +82,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 			actual=it.next();
 			ips+=actual.getIP();
 			if(it.hasNext()) {
-				ips+="$";
+				ips+="/";
 			}
 		}
 		return ips;

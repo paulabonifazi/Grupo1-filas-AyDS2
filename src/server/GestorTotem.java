@@ -78,7 +78,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 		else
 			mensaje="DniRepetido";
 		try {
-			conexion.enviarMensajeACliente(mensaje+"$"+IpEsclavos(), false);
+			conexion.enviarMensajeACliente(mensaje+"/"+IpEsclavos(), false);
 		} catch (ExcepcionLecturaErronea |ExcepcionFinConexion| ExcepcionDeInterrupcion e) {
 			//nunca ocurre porque no se habilita la comprobacion
 		}
@@ -92,7 +92,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 			actual=it.next();
 			ips+=actual.getIP();
 			if(it.hasNext()) {
-				ips+="$";
+				ips+="/";
 			}
 		}
 		return ips;
