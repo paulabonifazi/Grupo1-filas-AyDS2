@@ -106,13 +106,14 @@ public class GestorBox extends Thread implements IAtencion{
 		}
 	 	finally {
 	 		try {
-				if(buscaSolicitud!=null && buscaSolicitud.isAlive())
+	 			if(buscaSolicitud!=null && buscaSolicitud.isAlive())
 					this.buscaSolicitud.interrupt();
-				DNI=cola.finAtencion(IDBox);
+	 			DNI=cola.finAtencion(IDBox);
 	 			if(DNI!=null) {
 	 				try {
-	 					if(this.turno!=null)
+	 					if(turno.getDni()!=null ) {
 	 						cola.put(turno);
+	 					}
 	 					else
 	 						cola.put(new Turno(DNI));
 					} catch (InterruptedException e) {
@@ -121,7 +122,7 @@ public class GestorBox extends Thread implements IAtencion{
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
 				conexion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
-				// no puede hacerse nada más que terminar el thread
+				// no puede hacerse nada mas que terminar el thread
 			}
 	 	}
 	}

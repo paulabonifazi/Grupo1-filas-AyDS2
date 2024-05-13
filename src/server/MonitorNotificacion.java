@@ -52,6 +52,7 @@ public class MonitorNotificacion {
 		 
 		 public void parse(String mensaje) {
 			 int i=0;
+			 this.notificaciones=new LinkedBlockingQueue<Llamado>();
 			 if(mensaje!=null && !mensaje.isBlank() && !mensaje.isEmpty()) {
 				 String[] llamados=mensaje.split(";");
 				 String[] llamado;
