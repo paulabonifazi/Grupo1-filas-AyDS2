@@ -82,23 +82,28 @@ public class GestorConexionTotem extends Observable implements IRegistro{
 							if(desconexion<2)
 								desconexion++;
 							else {
-									desconexion=0;
 									try {
 										Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
 									} catch (InterruptedException e) {}
 									Boolean conectado=false;
-									while(!conectado && !ipEsclavos.isEmpty()) {
+									boolean sinEsclavos=false;
+									String ip="";
+									while(!conectado && !sinEsclavos) {
 										try {
 											conexion.cerrarConexion();
 										} catch (ExcepcionErrorAlCerrar e) {}
-										try {
-											conexion= new TCPCliente(ipEsclavos.remove(), this.puerto);
-											conectado=true;
-										} catch (ExcepcionErrorConexion e) {
-										}
-									}
-									if(ipEsclavos.isEmpty()) {
-										sinesclavos=true;
+											desconexion=0;
+											if(!ipEsclavos.isEmpty()) {
+												try {
+													ip=ipEsclavos.remove();
+													conexion= new TCPCliente(ip, this.puerto);
+													conectado=true;
+													conexion.enviarMensajeAlServidor("Registro;"+DNI, false);
+												} catch (ExcepcionErrorConexion e) {
+												}
+											}
+											else
+												sinesclavos=true;
 									}
 							}
 							

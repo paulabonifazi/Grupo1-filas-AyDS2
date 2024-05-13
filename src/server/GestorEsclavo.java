@@ -60,7 +60,6 @@ public class GestorEsclavo extends Thread{
 	 	}
 	 	finally {
 	 		try {
-	 			System.out.println("baibai");
 				serverEsclavo.cerrarPuertoServidor(); 
 				serverEsclavo.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {
