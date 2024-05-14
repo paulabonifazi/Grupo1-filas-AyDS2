@@ -100,7 +100,10 @@ public class GestorConexion extends Thread {
 							listaAux.addLast(esclavo);
 							nuevaEjecucion.start();
 						}
-						listaEsclavos=listaAux;
+						// Restaurar la lista de esclavos en el orden original
+					     while (!listaAux.isEmpty()) {
+					         this.listaEsclavos.add(listaAux.removeFirst());  // Restaurar en el orden correcto
+					     }
 					}
 					
 					

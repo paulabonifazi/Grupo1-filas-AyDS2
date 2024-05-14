@@ -31,9 +31,9 @@ public class Servidor{
 			}while(!valida);
 			while(modo!=null) {
 				if(modo.charAt(0)=='1') { //es MAESTRO
-					System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");
 					valida=false;
 					if(contrasenia==null) {
+						System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");
 						do {
 							contrasenia = scanner.nextLine();
 							if(!contrasenia.isEmpty() && contrasenia!=null && !contrasenia.isBlank())
@@ -252,7 +252,7 @@ public class Servidor{
 											}
 											else {
 												desconexiones=0;
-												while (desconexiones<2) {
+												while (desconexiones<2 && !conectado) {
 													try {
 														conexionConMaestro= new TCPCliente(esclavo.getIP(), puerto);
 														conectado=true;
