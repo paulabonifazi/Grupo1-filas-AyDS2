@@ -24,6 +24,7 @@ public class GestorCliente extends Thread{
 	public void run() {
 		String mensaje;
 		String[] elementos;
+		System.out.println("Se creo un Thread de GestorCliente"); //DEBUG
 		while(!this.isInterrupted()) {
 			mensaje=null;
 			elementos=null;
@@ -32,32 +33,44 @@ public class GestorCliente extends Thread{
 					try {
 						mensaje=cliente.recibirmensajeDeServidor(false);
 					} catch (ExcepcionFinConexion e) {
-						controlador.reintentarConexion();
 						this.interrupt();
+						try {
+							cliente.cerrarConexion();
+						} catch (ExcepcionErrorAlCerrar e1) {
+						}
+						System.out.println("GestorCliente ExcfinConec"); //DEBUG
+						controlador.reintentarConexion();
+						
 					}
-				while (mensaje==null);
+				while (mensaje==null && !this.isInterrupted());
 				//Mensaje recibido
-				elementos = mensaje.split(";");	
-				switch (elementos[0]) {
-	                case "Estado": //Actualizar personas en pantalla
-	                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
-	                	controlador.actualizarEsclavosServidor(elementos[2]);
-	                	System.out.println(elementos[2]); // DEBUG
-	                    break;
-	                case "Atencion": //Asignar cliente
-	                	controlador.asignarCliente(elementos[1]);
-	                	controlador.actualizarEsclavosServidor(elementos[2]);
-	                    break;
-	                case "ActCancelar":
-	                	controlador.habilitarBotonCancelar();
-	                	break;
-	                case "Cancelado":
-	                	controlador.solicitudCancelada();
-	                	break;
-	                default:
-	                	controlador.mostrarError(mensaje);
-	                   
-	            }
+				if (mensaje!=null) {
+					elementos = mensaje.split(";");	
+					System.out.println(elementos[0]); // DEBUG
+					switch (elementos[0]) {
+		                case "Estado": //Actualizar personas en pantalla
+		                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
+		                	if (elementos.length>2) {
+		                		controlador.actualizarEsclavosServidor(elementos[2]);
+		                		System.out.println(elementos[2]); // DEBUG
+		                	}
+		                    break;
+		                case "Atencion": //Asignar cliente
+		                	controlador.asignarCliente(elementos[1]);
+		                	if (elementos.length>2)
+		                		controlador.actualizarEsclavosServidor(elementos[2]);
+		                    break;
+		                case "ActCancelar":
+		                	controlador.habilitarBotonCancelar();
+		                	break;
+		                case "Cancelado":
+		                	controlador.solicitudCancelada();
+		                	break;
+		                default:
+		                	controlador.mostrarError(mensaje);
+		                   
+		            }
+				}
 			} else {
 				try {
 					cliente.cerrarConexion();
@@ -67,12 +80,6 @@ public class GestorCliente extends Thread{
 					e.printStackTrace();
 				}
 			}
-			
-			
-			
-			
-		
-		
+		}
 	}
-}
 }

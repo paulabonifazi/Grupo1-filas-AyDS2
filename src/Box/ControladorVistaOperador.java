@@ -286,51 +286,60 @@ public class ControladorVistaOperador implements ActionListener {
 	}
 
 
-	public void reintentarConexion() {
+	public synchronized void reintentarConexion() {
 		int reintentos=2;
 		boolean conectado=false;
 		int i=0;
+		int vueltas=0;
 		
-		
-		do { 
-			while (reintentos>0 && !conectado){
-				try {
-					System.out.println(reintentos); // DEBUG
-					
-					this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
-					conectado=true;
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExcepcionErrorConexion e) {
-					reintentos=reintentos-1;
+		if (cliente.estaCerrado()){
+			do { 
+				while (reintentos>0 && !conectado){
 					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e1) {
+						System.out.println(reintentos); // DEBUG
+						System.out.println("Vueltas"+vueltas); // DEBUG
+						vueltas++;
+						this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
+						conectado=true;
+						System.out.println("Conectado"); // DEBUG
+					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e.printStackTrace();
+					} catch (ExcepcionErrorConexion e) {
+						reintentos=reintentos-1;
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
+					System.out.println("Reintentos"+reintentos+"Conectado"+conectado+"Condicion"+(reintentos>0 && !conectado));
 				}
-			}
-			if (reintentos<=0) {
-				this.datosConexion.set(0,listaServidoresEsclavos.get(i));
-				i++;
-				reintentos=2;
-				if (i>=this.listaServidoresEsclavos.size())
-					System.exit(0);
-			}
-		}while (!conectado);
-		
-		if (!gcliente.isInterrupted()) //Interrumpe threads que esten relacionados con las conexiones
-			gcliente.interrupt();
-		if (!enviadorMensajes.isInterrupted())
-			enviadorMensajes.interrupt();
-		
-		this.gcliente=new GestorCliente(this.getTCPCliente(),this);;
-		this.enviadorMensajes= new EnviadorMensajes(this.getTCPCliente(),this.colamensajes,this);
-		
-		gcliente.start();
-		enviadorMensajes.start();
+				if (reintentos<=0) {
+					this.datosConexion.set(0,listaServidoresEsclavos.get(i));
+					i++;
+					reintentos=2;
+					if (i>=this.listaServidoresEsclavos.size())
+						System.exit(0);
+				}
+			}while (!conectado);
+			
+			if (!gcliente.isInterrupted()) //Interrumpe threads que esten relacionados con las conexiones
+				gcliente.interrupt();
+			if (!enviadorMensajes.isInterrupted())
+				enviadorMensajes.interrupt();
+			
+			this.gcliente=new GestorCliente(this.getTCPCliente(),this);;
+			this.enviadorMensajes= new EnviadorMensajes(this.getTCPCliente(),this.colamensajes,this);
+			
+			gcliente.start();
+			enviadorMensajes.start();
+			
+			ventanaState.solicitudCancelada();
+		}
+		else
+			System.out.println("El cliente no esta cerrado"); // DEBUG
 		
 	}
 
