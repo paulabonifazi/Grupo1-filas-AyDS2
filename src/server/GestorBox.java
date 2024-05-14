@@ -173,7 +173,7 @@ public class GestorBox extends Thread implements IAtencion{
 						fin=true;
 					}
 					else { //mostrar estado
-						enviarMensaje(conexion,"Estado;"+cola.size());
+						enviarMensaje(conexion,"Estado;"+cola.size()+";"+IpEsclavos());
 					} //y vuelve al ciclo (a esperar por mensaje del cliente)
 				}catch (ExcepcionFinConexion | ExcepcionDeInterrupcion e) { // ocurre unicametne si no se puede recibir mensaje del box
 					desconexiones++;
@@ -188,7 +188,7 @@ public class GestorBox extends Thread implements IAtencion{
         	}
         	else {
         		atencion=new Atencion(turno, solicitud); //registra la hora de comienzo de la atencion
-        		enviarMensaje(conexion,"Atencion;"+turno.getDni());
+        		enviarMensaje(conexion,"Atencion;"+turno.getDni()+";"+IpEsclavos());
         		llamados.put(new Llamado(atencion.getDNI(), atencion.getBox())); //se coloca el llamado en el buffer para mostrarlo por pantalla (en caso de que este activado)
         		//se debe esperar por la ausencia o por el fin de atencion
         		mensaje=null;
