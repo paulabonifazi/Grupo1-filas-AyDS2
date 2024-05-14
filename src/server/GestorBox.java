@@ -212,7 +212,8 @@ public class GestorBox extends Thread implements IAtencion{
 									turno.addAusencia();
 									cola.put(turno);
 								}
-								//TODO cuando lleva más de 2 asuentes se muestra en el televisor sin nro de box
+								else
+									llamados.put(new Llamado(atencion.getDNI(), ""));
 								enviarMensaje(conexion,"Recibido");
 							}
 							else

@@ -47,7 +47,10 @@ public class ReceptorDeNotificaciones extends Thread{
 				
 				elementos = mensaje.split("/");	
 				llamado=elementos[0].split(";");
-				actualizarLista(new FilaNotificacion(llamado[0],llamado[1]));
+				if(llamado.length==1)
+					actualizarLista(new FilaNotificacion(llamado[0],""));
+				else
+					actualizarLista(new FilaNotificacion(llamado[0],llamado[1]));
 				int i=1;
 				this.ipEsclavos=new LinkedList<String>();
 				while(i<elementos.length) {

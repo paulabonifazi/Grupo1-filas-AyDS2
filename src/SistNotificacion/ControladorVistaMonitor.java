@@ -49,14 +49,6 @@ public class ControladorVistaMonitor extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for(int i=0;i<6;i++) {
-				if (columnaNotificacion[i]!=null) {
-					if (columnaNotificacion[i].finalizoTiempo())
-						columnaNotificacion[i]=new FilaNotificacion();
-					else
-						columnaNotificacion[i].pasarSegundo();
-				}
-			}
 			actualizarVista();
 			semaforo.release();
 		}
@@ -166,9 +158,15 @@ public class ControladorVistaMonitor extends Thread {
 	}
 
 	public void actualizarLista(FilaNotificacion fila) {
-		
-		for (int i = 4; i >= 0; i--) {                
-			columnaNotificacion[i+1] = columnaNotificacion[i];
+		int j=0;
+		while(j<columnaNotificacion.length && !fila.getDni().equals(columnaNotificacion[j])) {
+			j++;
+		}
+		if(!(j<columnaNotificacion.length)) { //si no encuentra
+			j=columnaNotificacion.length-1;
+		}
+		for ( int i = j; i > 0; i--) {                
+			columnaNotificacion[i] = columnaNotificacion[i-1];
 		}
 		columnaNotificacion[0]=fila;
 		actualizarVista();
