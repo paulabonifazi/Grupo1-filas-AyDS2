@@ -245,34 +245,42 @@ public class GestorConexion extends Thread {
 		     
 		 }
 		 
-		//TODO tambien actualizar las conexiones de los esclavos		 
+		// TODO también actualizar las conexiones de los esclavos
 		 private void actualizaEsclavos() {
-			 	IConexion esclavo;
-			 	Set<String> keysToRemove = new HashSet<String>();
-			 	Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
-		        while (iterator.hasNext()) {
-		            esclavo = iterator.next();
-		            if (!esclavo.isConectado()) {
-		            	keysToRemove.add(esclavo.getID());
-		            }
-		        }
-		        LinkedList<Esclavo>listaAux= new LinkedList<Esclavo>();
-		        Esclavo aux;
-		        while(!listaEsclavos.isEmpty()) {
-		        	aux=listaEsclavos.removeFirst();
-		        	if(keysToRemove.contains(aux.getID())) {
-		        		conexionesEsclavos.remove(aux.getID());
-		        		System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ aux.getID()+ "\u001B[0m"+"\n"); 
-		        	}
-		        	else {
-		        		listaAux.addFirst(aux);;
-		        	}
-		        }
-		        while(!listaAux.isEmpty()) {
-		        	this.listaEsclavos.add(listaAux.remove());
-		        }
-		        
+		     IConexion esclavo;
+		     Set<String> keysToRemove = new HashSet<String>();
+		     Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
+		     
+		     // Identificar conexiones inactivas
+		     while (iterator.hasNext()) {
+		         esclavo = iterator.next();
+		         if (!esclavo.isConectado()) {
+		             keysToRemove.add(esclavo.getID());
+		         }
+		     }
+		     
+		     LinkedList<Esclavo> listaAux = new LinkedList<Esclavo>();
+		     Esclavo aux;
+		     
+		     // Procesar la lista de esclavos
+		     while (!listaEsclavos.isEmpty()) {
+		         aux = listaEsclavos.removeFirst();
+		         if (keysToRemove.contains(aux.getID())) {
+		             // Remover esclavo desconectado
+		             conexionesEsclavos.remove(aux.getID());
+		             System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= " + aux.getID() + "\u001B[0m" + "\n");
+		         } else {
+		             // Mantener esclavo conectado
+		             listaAux.addLast(aux);  // Mantener el orden original
+		         }
+		     }
+		     
+		     // Restaurar la lista de esclavos en el orden original
+		     while (!listaAux.isEmpty()) {
+		         this.listaEsclavos.add(listaAux.removeFirst());  // Restaurar en el orden correcto
+		     }
 		 }
+
 		 
 		 private boolean isInt(String cadena) {
 			 try {

@@ -244,7 +244,7 @@ public class Servidor{
 										act=false;
 										conectado=false;
 										Esclavo esclavo;
-										while(!listaEsclavos.isEmpty() && (!act||!conectado)) {
+										while(!listaEsclavos.isEmpty() && !act && !conectado) {
 											esclavo=listaEsclavos.remove();
 											if(esclavo.getID().equals(IDEsclavo)) { //no avanza mas porque llego a el
 												act=true;
