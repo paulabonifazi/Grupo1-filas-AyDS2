@@ -93,10 +93,8 @@ public class GestorConexion extends Thread {
 							esclavo=listaEsclavos.remove();
 							puertonuevaconexion=new TCPServidor(esclavo.getPuerto());
 							nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,esclavo.getIP(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
-							nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
-							
+							nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion,esclavo.getID());
 							conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
-							esclavo.setID(nuevaConexion.getID());
 							listaAux.addLast(esclavo);
 							nuevaEjecucion.start();
 						}
