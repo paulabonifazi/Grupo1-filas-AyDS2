@@ -159,10 +159,10 @@ public class ControladorVistaMonitor extends Thread {
 
 	public void actualizarLista(FilaNotificacion fila) {
 		int j=0;
-		while(j<columnaNotificacion.length && !fila.getDni().equals(columnaNotificacion[j])) {
+		while(j<columnaNotificacion.length && !fila.getDni().equals(columnaNotificacion[j].getDni())) {
 			j++;
 		}
-		if(!(j<columnaNotificacion.length)) { //si no encuentra
+		if(j == columnaNotificacion.length) { //si no encuentra
 			j=columnaNotificacion.length-1;
 		}
 		for ( int i = j; i > 0; i--) {                
