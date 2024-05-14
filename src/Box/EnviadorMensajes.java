@@ -60,7 +60,7 @@ public class EnviadorMensajes extends Thread{
 			
 			
 		}
-		System.out.println("Este thread ha muerto");
+		System.out.println("Este thread ha muerto"); // DEBUG
 	}
 			
 }

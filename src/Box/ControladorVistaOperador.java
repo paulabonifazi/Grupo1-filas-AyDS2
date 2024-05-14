@@ -291,7 +291,8 @@ public class ControladorVistaOperador implements ActionListener {
 		boolean conectado=false;
 		int i=0;
 		int vueltas=0;
-		
+		boolean conexionPerdida=false;
+
 		if (cliente.estaCerrado()){
 			do { 
 				while (reintentos>0 && !conectado){
@@ -314,14 +315,19 @@ public class ControladorVistaOperador implements ActionListener {
 							e1.printStackTrace();
 						}
 					}
-					System.out.println("Reintentos"+reintentos+"Conectado"+conectado+"Condicion"+(reintentos>0 && !conectado));
+					System.out.println("Reintentos"+reintentos+"Conectado"+conectado+"Condicion"+(reintentos>0 && !conectado)); // DEBUG
 				}
 				if (reintentos<=0) {
-					this.datosConexion.set(0,listaServidoresEsclavos.get(i));
-					i++;
-					reintentos=2;
-					if (i>=this.listaServidoresEsclavos.size())
-						System.exit(0);
+					if (i<this.listaServidoresEsclavos.size()) {
+						this.datosConexion.set(0,listaServidoresEsclavos.get(i));
+						i++;
+						reintentos=2;
+					}
+					else{
+						conexionPerdida();
+						conectado=true;
+						conexionPerdida=true;
+					}
 				}
 			}while (!conectado);
 			
@@ -335,8 +341,13 @@ public class ControladorVistaOperador implements ActionListener {
 			
 			gcliente.start();
 			enviadorMensajes.start();
-			
-			ventanaState.solicitudCancelada();
+			if (conexionPerdida==false)
+				ventanaState.solicitudCancelada();
+			else {
+				ventanaState=new EsperaState(this);
+				ventanaState.solicitudCancelada();
+			}
+				
 		}
 		else
 			System.out.println("El cliente no esta cerrado"); // DEBUG
