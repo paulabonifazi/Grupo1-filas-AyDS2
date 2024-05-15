@@ -45,6 +45,7 @@ public class ControladorVistaOperador implements ActionListener {
 	public ControladorVistaOperador() {
 		super();
 		ventanaState=new InactivoState(this);
+		this.listaServidoresEsclavos=new ArrayList<String>();
 	}
 	
 
@@ -187,7 +188,7 @@ public class ControladorVistaOperador implements ActionListener {
 	public void intentarConexion() {
 		try {
 			this.intentarConexionConServidor();
-		
+			iniciarPrograma();
 		}catch (ExcepcionErrorConexion | ExcepcionFinConexion e) {
 			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
 			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
@@ -195,6 +196,7 @@ public class ControladorVistaOperador implements ActionListener {
 					controladorLogin.mostrarVentana();
 					solicitarNumeroBox();
 					intentarConexion();
+
 				}
 				else {
 					System.exit(0);
@@ -218,7 +220,7 @@ public class ControladorVistaOperador implements ActionListener {
         }
 		
 		
-		cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
+		cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1))); //Primera conexion
 
 		mensaje= this.datosConexion.get(2) + ";" + "Box" + ";" + Integer.toString(numeroBox);
 		
@@ -253,7 +255,7 @@ public class ControladorVistaOperador implements ActionListener {
 		else {
 			throw new ExcepcionErrorConexion();
 		}
-		iniciarPrograma();
+		
 	}
 
 	public void solicitarNumeroBox() {
@@ -362,12 +364,29 @@ public class ControladorVistaOperador implements ActionListener {
 	}
 	
 	public void conexionPerdida() {
-		VentanaLogin auxventana=new VentanaLogin();
-		ControladorLogin auxcontroladorLogin= new ControladorLogin(auxventana);
-		auxventana.setControlador(auxcontroladorLogin);
-		auxcontroladorLogin.mostrarVentana();
-		ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
-		this.datosConexion=datosNuevaConexion;
+		//VentanaLogin auxventana=new VentanaLogin();
+		//ControladorLogin auxcontroladorLogin= new ControladorLogin(auxventana);
+		//ventana.setControlador(auxcontroladorLogin);
+		controladorLogin.mostrarVentana();
+		//ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
+
+			try {
+				intentarConexionConServidor();
+			} catch (ExcepcionErrorConexion e) {
+				JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
+				int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
+					if (JOptionPane.OK_OPTION == confirmado) {
+						conexionPerdida();
+					}
+					else {
+						System.exit(0);
+					}
+			}catch (ExcepcionFinConexion e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		/*this.datosConexion=datosNuevaConexion;
 		try {
 			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 		} catch (NumberFormatException e) {
@@ -384,9 +403,10 @@ public class ControladorVistaOperador implements ActionListener {
 				}
 		}
 		JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
+		*/
 	}
 	
-	private void conexionPerdidaReintento(ControladorLogin auxcontroladorLogin) {
+	/*private void conexionPerdidaReintento(ControladorLogin auxcontroladorLogin) {
 		auxcontroladorLogin.mostrarVentana();
 		ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
 		this.datosConexion=datosNuevaConexion;
@@ -400,13 +420,14 @@ public class ControladorVistaOperador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
 			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
 				if (JOptionPane.OK_OPTION == confirmado) {
-					conexionPerdidaReintento(auxcontroladorLogin);
+					controladorLogin.mostrarVentana();
+					intentarConexion();
 				}
 				else {
 					System.exit(0);
 				}
 		}
 		
-	}
+	}*/
 	
 }
