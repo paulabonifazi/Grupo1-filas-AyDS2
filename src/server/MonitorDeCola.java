@@ -45,6 +45,10 @@ public class MonitorDeCola {
     	return  atencionesAbiertas.remove(Id);
     }
     
+    public String hasAtencion(String Id)  {
+    	return  atencionesAbiertas.get(Id);
+    }
+    
  // M�todo para obtener el tama�o de la cola
     public int size() {
         return coladeTurnos.size();
