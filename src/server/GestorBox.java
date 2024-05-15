@@ -56,7 +56,7 @@ public class GestorBox extends Thread implements IAtencion{
 						desconexiones=0;
 						switch (mensaje) {
 		                    case "solicitudTurno":
-		                    	if(cola.finAtencion(IDBox)==null) {
+		                    	if(cola.hasAtencion(IDBox)==null) {
 		                    		solicitudTurno();
 		                    	}
 		                    	else {
