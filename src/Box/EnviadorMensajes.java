@@ -31,9 +31,9 @@ public class EnviadorMensajes extends Thread{
 					System.out.println("Mensaje Saliente"+mensaje); //DEBUG
 					switch(mensaje) {
 						case "Fin":
-							cliente.enviarMensajeAlServidor(mensaje, true);
+							cliente.enviarMensajeAlServidor(mensaje, false);
 						case "Ausente":
-							cliente.enviarMensajeAlServidor(mensaje, true);
+							cliente.enviarMensajeAlServidor(mensaje, false);
 						default:
 							cliente.enviarMensajeAlServidor(mensaje, false);
 					}
