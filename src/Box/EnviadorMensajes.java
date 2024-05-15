@@ -32,10 +32,13 @@ public class EnviadorMensajes extends Thread{
 					switch(mensaje) {
 						case "Fin":
 							cliente.enviarMensajeAlServidor(mensaje, false);
+							break;
 						case "Ausente":
 							cliente.enviarMensajeAlServidor(mensaje, false);
+							break;
 						default:
 							cliente.enviarMensajeAlServidor(mensaje, false);
+							break;
 					}
 				}
 			} catch (InterruptedException e) {
