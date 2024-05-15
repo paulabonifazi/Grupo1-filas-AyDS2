@@ -24,7 +24,6 @@ public class GestorCliente extends Thread{
 	public void run() {
 		String mensaje;
 		String[] elementos;
-		System.out.println("Se creo un Thread de GestorCliente"); //DEBUG
 		while(!this.isInterrupted()) {
 			mensaje=null;
 			elementos=null;
@@ -38,7 +37,6 @@ public class GestorCliente extends Thread{
 							cliente.cerrarConexion();
 						} catch (ExcepcionErrorAlCerrar e1) {
 						}
-						System.out.println("GestorCliente ExcfinConec"); //DEBUG
 						controlador.reintentarConexion();
 						
 					}
@@ -46,13 +44,11 @@ public class GestorCliente extends Thread{
 				//Mensaje recibido
 				if (mensaje!=null) {
 					elementos = mensaje.split(";");	
-					System.out.println(elementos[0]); // DEBUG
 					switch (elementos[0]) {
 		                case "Estado": //Actualizar personas en pantalla
 		                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
 		                	if (elementos.length>2) {
 		                		controlador.actualizarEsclavosServidor(elementos[2]);
-		                		System.out.println(elementos[2]); // DEBUG
 		                	}
 		                    break;
 		                case "Atencion": //Asignar cliente

@@ -22,13 +22,11 @@ public class EnviadorMensajes extends Thread{
 	
 	public void run() {
 		String mensaje;
-		System.out.println("Se creo un Thread de EnviadorMensajes"); //DEBUG
 		while(!this.isInterrupted()) {
 			mensaje=null;
 			try {
 				mensaje=blockingQueue.take();
 				if (mensaje!=null) {
-					System.out.println("Mensaje Saliente"+mensaje); //DEBUG
 					switch(mensaje) {
 						case "Fin":
 							cliente.enviarMensajeAlServidor(mensaje, false);
@@ -56,14 +54,12 @@ public class EnviadorMensajes extends Thread{
 				if (mensaje!=null)
 					blockingQueue.add(mensaje);
 				this.interrupt();
-				System.out.println("Enviador ExcfinConec"); //DEBUG
 				controlador.reintentarConexion();
 				
 			}
 			
 			
 		}
-		System.out.println("Este thread ha muerto"); // DEBUG
 	}
 			
 }

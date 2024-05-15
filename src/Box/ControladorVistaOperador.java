@@ -298,12 +298,8 @@ public class ControladorVistaOperador implements ActionListener {
 			do { 
 				while (reintentos>0 && !conectado){
 					try {
-						System.out.println(reintentos); // DEBUG
-						System.out.println("Vueltas"+vueltas); // DEBUG
-						vueltas++;
 						this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
 						conectado=true;
-						System.out.println("Conectado"); // DEBUG
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -316,7 +312,6 @@ public class ControladorVistaOperador implements ActionListener {
 							e1.printStackTrace();
 						}
 					}
-					System.out.println("Reintentos"+reintentos+"Conectado"+conectado+"Condicion"+(reintentos>0 && !conectado)); // DEBUG
 				}
 				if (reintentos<=0) {
 					if (i<this.listaServidoresEsclavos.size()) {
@@ -350,8 +345,6 @@ public class ControladorVistaOperador implements ActionListener {
 			}
 				
 		}
-		else
-			System.out.println("El cliente no esta cerrado"); // DEBUG
 		
 	}
 
@@ -363,11 +356,7 @@ public class ControladorVistaOperador implements ActionListener {
 	}
 	
 	public void conexionPerdida() {
-		//VentanaLogin auxventana=new VentanaLogin();
-		//ControladorLogin auxcontroladorLogin= new ControladorLogin(auxventana);
-		//ventana.setControlador(auxcontroladorLogin);
 		controladorLogin.mostrarVentana();
-		//ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
 
 			try {
 				intentarConexionConServidor();
