@@ -15,7 +15,8 @@ public class TCPCliente {
 	private Socket socket;
 	private PrintWriter out;
 	private BufferedReader in;
-
+	
+	
 	public TCPCliente(String ip, int puerto) throws ExcepcionErrorConexion { 
 			try {
 				socket= new Socket(ip,puerto);
@@ -65,16 +66,6 @@ public class TCPCliente {
 
 	public void enviarMensajeAlServidor(String mensaje, Boolean confirmacion ) throws ExcepcionLecturaErronea, ExcepcionFinConexion { ////confirmacion supone que se tiene liberado el inputSteam
 		out.println(mensaje); //NO detecta si se corto la comunicacion
-		if(confirmacion) {
-			try {
-				String respuesta= recibirmensajeDeServidor(false);
-				if(!respuesta.equals("Recibido")) {
-					throw new ExcepcionLecturaErronea(respuesta);
-				}
-			} catch (ExcepcionFinConexion e) {
-				throw new ExcepcionFinConexion();
-			} 
-		}
 	}
 
 }

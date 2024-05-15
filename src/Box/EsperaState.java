@@ -42,6 +42,12 @@ public class EsperaState extends StateAbstracta {
 	public void finalizarAtencionAtendido() {
 	}
 
+	@Override
+	public void recibirConfirmacion() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	
 	

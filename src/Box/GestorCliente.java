@@ -66,6 +66,8 @@ public class GestorCliente extends Thread{
 		                case "Cancelado":
 		                	controlador.solicitudCancelada();
 		                	break;
+		                case "Recibido":
+		                	break;
 		                default:
 		                	controlador.mostrarError(mensaje);
 		                   

@@ -21,4 +21,6 @@ public abstract class StateAbstracta {
 	public abstract void finalizarAtencionAusente();
 	
 	public abstract void finalizarAtencionAtendido();
+	
+	public abstract void recibirConfirmacion();
 }

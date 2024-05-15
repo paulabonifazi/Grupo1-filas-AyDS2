@@ -42,4 +42,10 @@ public class InactivoState extends StateAbstracta{
 		
 	}
 
+	@Override
+	public void recibirConfirmacion() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

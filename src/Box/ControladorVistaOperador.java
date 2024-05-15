@@ -99,7 +99,7 @@ public class ControladorVistaOperador implements ActionListener {
 			this.ventanaState.finalizarAtencionAusente();
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.NOAUSENTE)) {
-			this.vista.clienteAsignadoVentana(dni);
+			this.vista.clienteAsignadoVentana(this.dni);
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.ATENDIDO)) {
@@ -111,7 +111,7 @@ public class ControladorVistaOperador implements ActionListener {
 			
 		}
 		else if (evento.getActionCommand().equals(IVistaOperador.NOATENDIDO)) {
-			this.vista.clienteAsignadoVentana(dni);
+			this.vista.clienteAsignadoVentana(this.dni);
 			
 		}
 		else {}
@@ -134,6 +134,7 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void clienteAsignado(String dni) {
 		vista.clienteAsignadoVentana(dni);
+		this.dni=dni;
 	}
 	
 	
@@ -155,12 +156,10 @@ public class ControladorVistaOperador implements ActionListener {
 	
 	public void finalizarAtencionClienteAusente() {
 		colamensajes.add("Ausente");
-		vista.solicitarClienteVentana();
 	}
 
 	public void finalizarAtencionClienteAtendido() {
 		colamensajes.add("Fin");
-		vista.solicitarClienteVentana();
 	}
 	
 	public void solicitarCancelacion() {
@@ -386,48 +385,18 @@ public class ControladorVistaOperador implements ActionListener {
 				e.printStackTrace();
 			}
 
-		/*this.datosConexion=datosNuevaConexion;
-		try {
-			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExcepcionErrorConexion e) {
-			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
-			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
-				if (JOptionPane.OK_OPTION == confirmado) {
-					conexionPerdidaReintento(auxcontroladorLogin);
-				}
-				else {
-					System.exit(0);
-				}
-		}
-		JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
-		*/
+	}
+
+
+	public void cambiarVentanaLuegoDeConfirmacion() {
+		vista.solicitarClienteVentana();
 	}
 	
-	/*private void conexionPerdidaReintento(ControladorLogin auxcontroladorLogin) {
-		auxcontroladorLogin.mostrarVentana();
-		ArrayList<String> datosNuevaConexion = auxcontroladorLogin.getDatosConexion();
-		this.datosConexion=datosNuevaConexion;
+	public void confirmacionRecibida() {
+		ventanaState.recibirConfirmacion();
 		
-		try {
-			this.cliente=new TCPCliente(this.datosConexion.get(0),Integer.parseInt(this.datosConexion.get(1)));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExcepcionErrorConexion e) {
-			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
-			int confirmado = JOptionPane.showConfirmDialog(null,"�Desea Intentar nuevamente?");
-				if (JOptionPane.OK_OPTION == confirmado) {
-					controladorLogin.mostrarVentana();
-					intentarConexion();
-				}
-				else {
-					System.exit(0);
-				}
-		}
-		
-	}*/
+	}
+	
+
 	
 }
