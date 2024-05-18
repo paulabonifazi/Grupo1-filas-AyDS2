@@ -1,4 +1,7 @@
 package server;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import Excepciones.*;
 import TCP.*;
 import interfaces.INotificacion;
@@ -8,13 +11,15 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	private MonitorNotificacion llamados;
 	private String ipClienteEsperado;
 	private Boolean borrado;
+	private LinkedList<Esclavo> listaEsclavos;
 	
-	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado) {
+	public GestorNotificacion(MonitorNotificacion llamados,TCPServidor serverNotificacion,String ipClienteEsperado,boolean borrado,LinkedList<Esclavo> listaEsclavos) {
 		super();
 		this.serverNotificacion = serverNotificacion;
 		this.llamados = llamados;
 		this.ipClienteEsperado = ipClienteEsperado;
 		this.borrado=borrado;
+		this.listaEsclavos=listaEsclavos;
 	}
 
 
@@ -23,7 +28,7 @@ public class GestorNotificacion extends Thread implements INotificacion{
 		Llamado llamado;
 		int desconexiones=0;
 	 	try {
-	 		this.serverNotificacion.aceptarConexion(7000); //espera por 7 segundos
+	 		this.serverNotificacion.aceptarConexion(30000); //espera por 7 segundos
 	 		if(serverNotificacion.validarIPCliente(ipClienteEsperado)) {
 	 			this.llamados.activar(borrado); //activa el sistema de llamado
 	 			while(desconexiones<2) { //No recibe datos, solo envia.
@@ -64,8 +69,23 @@ public class GestorNotificacion extends Thread implements INotificacion{
 	@Override
 	public void mostrar(String dni, String IDBox) throws ExcepcionFinConexion, ExcepcionDeInterrupcion, ExcepcionLecturaErronea {
 			try {
- 				serverNotificacion.enviarMensajeACliente(dni+";"+IDBox, true);//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
+ 				serverNotificacion.enviarMensajeACliente(dni+";"+IDBox+"/"+IpEsclavos(), true); 
+ 				//!!!) Los tiempos en los que se muestran los boxes los maneja el controlador de TvLlamados
 			}
 			finally {}
+	}
+	
+	private String IpEsclavos() {
+		String ips="";
+		Iterator<Esclavo> it=this.listaEsclavos.iterator();
+		Esclavo actual;
+		while(it.hasNext()) {
+			actual=it.next();
+			ips+=actual.getIP();
+			if(it.hasNext()) {
+				ips+="/";
+			}
+		}
+		return ips;
 	}
 }

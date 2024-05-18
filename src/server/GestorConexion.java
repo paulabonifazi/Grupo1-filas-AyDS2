@@ -48,6 +48,63 @@ public class GestorConexion extends Thread {
 					this.parametros.setPuertoLibre(puertoEntrada.getPuerto());
 					this.parametros.setIP(puertoEntrada.getIPServidor());
 					
+					
+					//GESTOR DE CONEXIONES
+					//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
+					InfoConexion info;
+					if(listaConexiones!=null && !listaConexiones.isEmpty()) {
+						while (!listaConexiones.isEmpty()) {
+							info=listaConexiones.removeFirst();
+							switch (this.getnamefromid(info.getID())) { 
+						            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
+							            	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+						            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, info.getIP(),listaEsclavos);
+						            		nuevaEjecucion.start();
+						            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
+						            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+						                break;
+						            case "Box":
+							            		puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+							            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,info.getIP(),info.getID(),listaEsclavos);
+							            		nuevaEjecucion.start();
+							            		this.conexiones.put(info.getID(), new C_Box(puertonuevaconexion, nuevaEjecucion, info.getID()));
+						                break;
+						            case "TvLlamado":
+						                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+						                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, info.getIP(),false,listaEsclavos);
+						                	nuevaEjecucion.start();
+						                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
+						            	break;
+						            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
+						                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
+						                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, info.getIP(),listaEsclavos);
+						                	
+						                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
+						                	nuevaEjecucion.start();
+						                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
+						            	break;
+							}
+						}
+					}
+					Esclavo esclavo;
+					LinkedList<Esclavo> listaAux=new LinkedList<Esclavo>();
+					if(listaEsclavos!=null && !listaEsclavos.isEmpty()) {
+						while(!listaEsclavos.isEmpty()) {
+							esclavo=listaEsclavos.remove();
+							puertonuevaconexion=new TCPServidor(esclavo.getPuerto());
+							nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,esclavo.getIP(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
+							nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion,esclavo.getID());
+							conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
+							listaAux.addLast(esclavo);
+							nuevaEjecucion.start();
+						}
+						// Restaurar la lista de esclavos en el orden original
+					     while (!listaAux.isEmpty()) {
+					         this.listaEsclavos.add(listaAux.removeFirst());  // Restaurar en el orden correcto
+					     }
+					}
+					
+					
 					while(true) {
 						try {
 							puertonuevaconexion=null;
@@ -55,63 +112,6 @@ public class GestorConexion extends Thread {
 							nuevaEjecucion=null;
 							nuevaConexion=null;
 							ID=null;
-							
-							
-
-							//GESTOR DE CONEXIONES
-							//TODO CUANDO SE PASA A MAESTRO (cuando empieza en maestro la lista esta vacia y no hace nada) recorrer la lista de conexiones creando los threads (recordar de agregar la estructura de atenciones pendientes, en el gestor de box se debe permitir ingresar de 1 a la operacion ausente/fin, pero verificando que haya una atencion pendiente en la estructura (en la clase monitor de cola))
-							InfoConexion info;
-							if(listaConexiones!=null && !listaConexiones.isEmpty()) {
-								while (!listaConexiones.isEmpty()) {
-									info=listaConexiones.remove();
-									switch (this.getnamefromid(info.getID())) { 
-								            case "Totem"://Mensaje de Totem: "<contraseña>;Totem"
-									            	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								            		nuevaEjecucion=new GestorTotem(cola, puertonuevaconexion, info.getIP(),listaEsclavos);
-								            		nuevaEjecucion.start();
-								            		nuevaConexion=new C_Totem(puertonuevaconexion, nuevaEjecucion);
-								            		this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
-								                break;
-								            case "Box":
-									            		puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-									            		nuevaEjecucion=new GestorBox(cola, llamados, historico,  puertonuevaconexion,info.getIP(),info.getID(),listaEsclavos);
-									            		nuevaEjecucion.start();
-									            		this.conexiones.put(info.getID(), new C_Box(puertonuevaconexion, nuevaEjecucion, info.getID()));
-								                break;
-								            case "TvLlamado":
-								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, info.getIP(),false);
-								                	nuevaEjecucion.start();
-								                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
-								            	break;
-								            case "Estadisticos": //Mensaje de Estadistico: "<contraseña>;Estadistico"+
-								                	puertonuevaconexion=new TCPServidor(info.getPuerto()); //se asigna un puerto
-								                	nuevaEjecucion=new GestorEstadistico(cola, historico, puertonuevaconexion, info.getIP(),listaEsclavos);
-								                	
-								                	nuevaConexion=new C_Estadistico(puertonuevaconexion,nuevaEjecucion);
-								                	nuevaEjecucion.start();
-								                	this.conexiones.put(nuevaConexion.getID(),nuevaConexion);
-								            	break;
-									}
-								}
-							}
-							Esclavo esclavo;
-							LinkedList<Esclavo> listaAux=new LinkedList<Esclavo>();
-							if(listaEsclavos!=null && !listaEsclavos.isEmpty()) {
-								while(!listaEsclavos.isEmpty()) {
-									esclavo=listaEsclavos.remove();
-									puertonuevaconexion=new TCPServidor(esclavo.getPuerto());
-									nuevaEjecucion= new GestorEsclavo(puertonuevaconexion,esclavo.getIP(),cola,llamados,historico,parametros,conexiones,listaEsclavos);
-									nuevaConexion=new C_Esclavo(puertonuevaconexion,nuevaEjecucion);
-									
-									conexionesEsclavos.put(nuevaConexion.getID(),nuevaConexion);
-									esclavo.setID(nuevaConexion.getID());
-									listaAux.addLast(esclavo);
-									nuevaEjecucion.start();
-								}
-								listaEsclavos=listaAux;
-							}
-							
 							//RECONEXION DE COMPONENTES
 							// TODO en cada gestor de componente recordar enviar la info de los esclavos (al inicio de cada interaccion, es decir antes de rebir una instruccion de la componente)
 							//luego en cada componente, se recibe el mensaje con la lista de los esclavos y cuando se registre una desconexion: se reintenta 2 veces con el maestro y sino se empieza a intentar con los esclavos recorriendo la lista... (si no se conecta a ningun vuelve al login)
@@ -157,7 +157,7 @@ public class GestorConexion extends Thread {
 							            case "TvLlamado": //Mensaje de TVLlamado: "<contraseña>;TvLlamado"
 							                if(!conexiones.containsKey("L")) {
 							                	puertonuevaconexion=new TCPServidor(); //se asigna un puerto
-							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente(),true);
+							                	nuevaEjecucion=new GestorNotificacion(llamados, puertonuevaconexion, puertoEntrada.getIPCliente(),true,listaEsclavos);
 							                	
 							                	this.conexiones.put("L", new C_TvLlamado(puertonuevaconexion,nuevaEjecucion));
 							                	
@@ -246,39 +246,42 @@ public class GestorConexion extends Thread {
 		     
 		 }
 		 
-		//TODO tambien actualizar las conexiones de los esclavos		 
+		// TODO también actualizar las conexiones de los esclavos
 		 private void actualizaEsclavos() {
-			 	IConexion esclavo;
-			 	int pos;
-			 	Set<String> keysToRemove = new HashSet<String>();
-			 	Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
-		        while (iterator.hasNext()) {
-		            esclavo = iterator.next();
-		            if (!esclavo.isConectado()) {
-		            	keysToRemove.add(esclavo.getID());
-		            }
-		        }
-		        for (String key : keysToRemove) {
-		            pos=buscaPosEsclavo(key);
-		            if(pos!=-1) {
-		            	System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= "+ conexionesEsclavos.get(key).getID()+ "\u001B[0m"+"\n"); 
-		            	listaEsclavos.remove(pos);
-		            	conexionesEsclavos.remove(key);
-		            }
-		        }
+		     IConexion esclavo;
+		     Set<String> keysToRemove = new HashSet<String>();
+		     Iterator<IConexion> iterator = conexionesEsclavos.values().iterator();
+		     
+		     // Identificar conexiones inactivas
+		     while (iterator.hasNext()) {
+		         esclavo = iterator.next();
+		         if (!esclavo.isConectado()) {
+		             keysToRemove.add(esclavo.getID());
+		         }
+		     }
+		     
+		     LinkedList<Esclavo> listaAux = new LinkedList<Esclavo>();
+		     Esclavo aux;
+		     
+		     // Procesar la lista de esclavos
+		     while (!listaEsclavos.isEmpty()) {
+		         aux = listaEsclavos.removeFirst();
+		         if (keysToRemove.contains(aux.getID())) {
+		             // Remover esclavo desconectado
+		             conexionesEsclavos.remove(aux.getID());
+		             System.out.print("\u001B[31m" + "Atencion: desconexión del esclavo con ID= " + aux.getID() + "\u001B[0m" + "\n");
+		         } else {
+		             // Mantener esclavo conectado
+		             listaAux.addLast(aux);  // Mantener el orden original
+		         }
+		     }
+		     
+		     // Restaurar la lista de esclavos en el orden original
+		     while (!listaAux.isEmpty()) {
+		         this.listaEsclavos.add(listaAux.removeFirst());  // Restaurar en el orden correcto
+		     }
 		 }
-		 
-		 private int buscaPosEsclavo(String id) {
-			int pos = -1; // Inicializamos el índice como -1 para indicar que no se encontró el elemento
-			// Buscamos el índice del elemento con el ID dado
-			for (int i = 0; i < listaEsclavos.size(); i++) {
-				if (listaEsclavos.get(i).getID().compareTo(id)==0) {
-				    pos = i;
-				    break; // Salimos del bucle una vez que encontramos el elemento
-				 }
-			}
-			return pos;
-		 }
+
 		 
 		 private boolean isInt(String cadena) {
 			 try {
@@ -331,7 +334,7 @@ public class GestorConexion extends Thread {
 					 	name="Totem";
 					 	break;
 				 case 'L': //TVLlamado
-					 	name= "TVLlamado";
+					 	name= "TvLlamado";
 					 	break;
 				 case 'B': //Box
 					 	name="Box";

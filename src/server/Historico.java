@@ -48,6 +48,7 @@ public class Historico {
     public void parse(String mensaje) {
 		 int i=0;
 		 this.ID=0;
+		 this.atenciones= new ConcurrentHashMap<Integer, Atencion>();
 		 if(mensaje!=null && !mensaje.isBlank() && !mensaje.isEmpty()) {
 			 String[] historia=mensaje.split(";");
 			 String[] entrada;

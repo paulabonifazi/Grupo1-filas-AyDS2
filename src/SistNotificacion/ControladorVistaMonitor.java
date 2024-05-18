@@ -24,6 +24,7 @@ public class ControladorVistaMonitor extends Thread {
 	private ReceptorDeNotificaciones receptor;
 	private IVistaMonitor vista;
 	public Semaphore semaforo;
+	private int puerto;
 	
 	public ControladorVistaMonitor(ReceptorDeNotificaciones receptor) {
 		super();
@@ -47,14 +48,6 @@ public class ControladorVistaMonitor extends Thread {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			for(int i=0;i<6;i++) {
-				if (columnaNotificacion[i]!=null) {
-					if (columnaNotificacion[i].finalizoTiempo())
-						columnaNotificacion[i]=new FilaNotificacion();
-					else
-						columnaNotificacion[i].pasarSegundo();
-				}
 			}
 			actualizarVista();
 			semaforo.release();
@@ -123,7 +116,9 @@ public class ControladorVistaMonitor extends Thread {
 				e.printStackTrace();
 			}
 			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
-			cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+			this.puerto=Integer.parseInt(datosConexion.get(1));
+			cliente=new TCPCliente(datosConexion.get(0),this.puerto);
+			this.receptor.setpuerto(this.puerto);
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
 		}
 		else {
@@ -135,6 +130,11 @@ public class ControladorVistaMonitor extends Thread {
 	public void setLogin(ControladorLogin controladorLogin) {
 		// TODO Auto-generated method stub
 		this.controladorLogin=controladorLogin;
+	}
+	
+	public void volverLoginError() {
+		JOptionPane.showMessageDialog(null, "Se produjo un error de conexion, reintente conectarse");
+		this.controladorLogin.mostrarVentana();
 	}
 	
 	public void setVista(IVistaMonitor vista) {
@@ -158,9 +158,15 @@ public class ControladorVistaMonitor extends Thread {
 	}
 
 	public void actualizarLista(FilaNotificacion fila) {
-		
-		for (int i = 4; i >= 0; i--) {                
-			columnaNotificacion[i+1] = columnaNotificacion[i];
+		int j=0;
+		while(j<columnaNotificacion.length && !fila.getDni().equals(columnaNotificacion[j].getDni())) {
+			j++;
+		}
+		if(j == columnaNotificacion.length) { //si no encuentra
+			j=columnaNotificacion.length-1;
+		}
+		for ( int i = j; i > 0; i--) {                
+			columnaNotificacion[i] = columnaNotificacion[i-1];
 		}
 		columnaNotificacion[0]=fila;
 		actualizarVista();

@@ -1,6 +1,5 @@
 package Box;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.swing.JOptionPane;
@@ -13,22 +12,19 @@ import TCP.TCPCliente;
 
 public class GestorCliente extends Thread{
 	TCPCliente cliente;
-	BlockingQueue<String> blockingQueue;
 	ControladorVistaOperador controlador;
 	StateAbstracta estado;
 	
 	public GestorCliente(TCPCliente cliente,ControladorVistaOperador controlador) {
 		super();
 		this.cliente = cliente;
-		blockingQueue = new LinkedBlockingDeque<>();
 		this.controlador=controlador;
 	}
-
 
 	public void run() {
 		String mensaje;
 		String[] elementos;
-		while(true) {
+		while(!this.isInterrupted()) {
 			mensaje=null;
 			elementos=null;
 			if (!cliente.estaCerrado()){		
@@ -36,29 +32,44 @@ public class GestorCliente extends Thread{
 					try {
 						mensaje=cliente.recibirmensajeDeServidor(false);
 					} catch (ExcepcionFinConexion e) {
-						// TODO Auto-generated catch block
-						System.exit(0);
+						this.interrupt();
+						try {
+							cliente.cerrarConexion();
+						} catch (ExcepcionErrorAlCerrar e1) {
+						}
+						controlador.reintentarConexion();
+						
 					}
-				while (mensaje==null);
+				while (mensaje==null && !this.isInterrupted());
 				//Mensaje recibido
-				elementos = mensaje.split(";");	
-				switch (elementos[0]) {
-	                case "Estado": //Actualizar personas en pantalla
-	                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
-	                    break;
-	                case "Atencion": //Asignar cliente
-	                	controlador.asignarCliente(elementos[1]);
-	                    break;
-	                case "ActCancelar":
-	                	controlador.habilitarBotonCancelar();
-	                	break;
-	                case "Cancelado":
-	                	controlador.solicitudCancelada();
-	                	break;
-	                default:
-	                	controlador.mostrarError(mensaje);
-	                   
-	            }
+				if (mensaje!=null) {
+					elementos = mensaje.split(";");	
+					switch (elementos[0]) {
+		                case "Estado": //Actualizar personas en pantalla
+		                	controlador.actualizarEstadoCola(Integer.parseInt(elementos[1]));
+		                	if (elementos.length>2) {
+		                		controlador.actualizarEsclavosServidor(elementos[2]);
+		                	}
+		                    break;
+		                case "Atencion": //Asignar cliente
+		                	controlador.asignarCliente(elementos[1]);
+		                	if (elementos.length>2)
+		                		controlador.actualizarEsclavosServidor(elementos[2]);
+		                    break;
+		                case "ActCancelar":
+		                	controlador.habilitarBotonCancelar();
+		                	break;
+		                case "Cancelado":
+		                	controlador.solicitudCancelada();
+		                	break;
+		                case "Recibido":
+		                	controlador.confirmacionRecibida();
+		                	break;
+		                default:
+		                	controlador.mostrarError(mensaje);
+		                   
+		            }
+				}
 			} else {
 				try {
 					cliente.cerrarConexion();
@@ -68,12 +79,6 @@ public class GestorCliente extends Thread{
 					e.printStackTrace();
 				}
 			}
-			
-			
-			
-			
-		
-		
+		}
 	}
-}
 }

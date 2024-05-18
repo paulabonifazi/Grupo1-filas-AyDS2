@@ -12,7 +12,7 @@ import interfaces.IEstado;
 @SuppressWarnings("deprecation")
 public class GestorConexionEstadistico extends Observable implements IEstado{
 	private TCPCliente conexion;
-	private LinkedList<String> ipEsclavos;
+	private LinkedList<String> ipEsclavos=new LinkedList<String>();
 	private int puerto;
 	public GestorConexionEstadistico() {
 		// TODO Auto-generated constructor stub
@@ -29,7 +29,7 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 					String estado=conexion.recibirmensajeDeServidor(false);
 					recibido=true;
 					// Patrón para extraer los valores
-					 String[]elementos=estado.split("$");
+					 String[]elementos=estado.split("-");
 					 int j=1;
 					 ipEsclavos=new LinkedList<String>();
 					 while(j<elementos.length) {
@@ -64,39 +64,42 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 		            setChanged();
 					notifyObservers(clientesAtendidos+";"+tPromEsp+";"+tPromSoli+";"+tPromAtc+";"+clientesEnEspera); //problema de conexion vuelve al login
 			
-				}
-				catch(ExcepcionFinConexion e) {
+				}catch (ExcepcionFinConexion e1) {
 					if(desconexion<2)
 						desconexion++;
 					else {
-							desconexion=0;
 							try {
 								Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
-							} catch (InterruptedException e2) {}
+							} catch (InterruptedException e) {}
 							Boolean conectado=false;
-							while(!conectado && !ipEsclavos.isEmpty()) {
+							String ip="";
+							while(!conectado && !sinesclavos) {
 								try {
 									conexion.cerrarConexion();
-								} catch (ExcepcionErrorAlCerrar e3) {}
-								try {
-									conexion= new TCPCliente(ipEsclavos.remove(), this.puerto);
-									conectado=true;
-								} catch (ExcepcionErrorConexion e4) {
-								}
+								} catch (ExcepcionErrorAlCerrar e) {}
+									desconexion=0;
+									if(!ipEsclavos.isEmpty()) {
+										try {
+											ip=ipEsclavos.remove();
+											conexion= new TCPCliente(ip, this.puerto);
+											conectado=true;
+											conexion.enviarMensajeAlServidor("MostrarEstado", false);
+										} catch (ExcepcionErrorConexion e) {
+										}
+									}
+									else
+										sinesclavos=true;
 							}
-							if(ipEsclavos.isEmpty()) {
-								sinesclavos=true;
-							}
-					}
-					
+						}
+				
 				}
 			}
 			if(!recibido) {
-				setChanged();
-				notifyObservers("Conexion"); //problema de conexion vuelve al login
+					setChanged();
+					notifyObservers("Conexion"); //problema de conexion vuelve al login
 			}
 		} catch (ExcepcionLecturaErronea|ExcepcionFinConexion e) {
-			//no puede ocurrir
+					//no puede ocurrir
 		}
 	}
 	

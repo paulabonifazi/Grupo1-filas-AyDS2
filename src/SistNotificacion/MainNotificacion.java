@@ -1,7 +1,6 @@
 package SistNotificacion;
 
 import Box.ControladorLogin;
-import Box.ControladorVistaOperador;
 import Box.VentanaLogin;
 
 public class MainNotificacion {

@@ -106,7 +106,7 @@ public class TCPServidor {
 		        if (in != null) {
 		            in.close();
 		        }
-				if (!clienteSocket.isClosed()) {
+				if (clienteSocket!=null&&!clienteSocket.isClosed()) {
 		            clienteSocket.close();
 		        }
 		        
@@ -163,7 +163,7 @@ public class TCPServidor {
 	
 	public void cerrarPuertoServidor() throws ExcepcionErrorAlCerrar {
 		try {
-			if(!socket.isClosed())
+			if(socket!=null&&!socket.isClosed())
 				this.socket.close();
 		} catch (IOException e) {
 			throw new ExcepcionErrorAlCerrar(); //ocurre cuando ya estaba cerrado el socket

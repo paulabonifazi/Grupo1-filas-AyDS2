@@ -24,13 +24,13 @@ public class AtendiendoState extends StateAbstracta{
 
 	@Override
 	public void finalizarAtencionAusente() {
-		controlador.cambiarEstado(new InactivoState(controlador));
+		//controlador.cambiarEstado(new InactivoState(controlador));
 		controlador.finalizarAtencionClienteAusente();
 	}
 
 	@Override
 	public void finalizarAtencionAtendido() {
-		controlador.cambiarEstado(new InactivoState(controlador));
+		//controlador.cambiarEstado(new InactivoState(controlador));
 		controlador.finalizarAtencionClienteAtendido();
 	}
 
@@ -38,6 +38,12 @@ public class AtendiendoState extends StateAbstracta{
 	public void cancelarSolicitud() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void recibirConfirmacion() {
+		controlador.cambiarEstado(new InactivoState(controlador));
+		controlador.cambiarVentanaLuegoDeConfirmacion();
 	}
 
 
