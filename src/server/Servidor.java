@@ -91,6 +91,7 @@ public class Servidor{
 									try {
 										puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
 										System.out.println("Espere a que es cierre el gestor de conexiones para cerrar el programa\n");	
+										gestorConexion.interrupt();
 									} 
 									catch (ExcepcionErrorAlCerrar e) {
 										System.out.println("Error critico: no se ha cerrado correctamente el sistema");

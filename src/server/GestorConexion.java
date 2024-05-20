@@ -104,8 +104,7 @@ public class GestorConexion extends Thread {
 					     }
 					}
 					
-					
-					while(true) {
+					while(!Thread.interrupted()) {
 						try {
 							puertonuevaconexion=null;
 							Respuesta=null;
@@ -295,19 +294,6 @@ public class GestorConexion extends Thread {
 		 //TODO cortar las conexiones de los esclavos
 		 private void cierraConexiones() {
 			 IConexion conexion;
-			 Iterator<IConexion> it = conexionesEsclavos.values().iterator();
-		        while (it.hasNext()) {
-		            conexion = it.next();
-		            if (conexion.isConectado()) {
-		            	try {
-							conexion.cerrarConexion();
-							System.out.println("Se cerró: "+ conexion.getID());
-						} catch (ExcepcionErrorAlCerrar e) {
-		            		System.out.println("Error critico: no fue posible cerrar la conexion de: "+conexion.getID());
-							e.printStackTrace();
-						}
-		            }
-		        }
 			 Iterator<IConexion> iterator = conexiones.values().iterator();
 		        while (iterator.hasNext()) {
 		            conexion = iterator.next();
@@ -321,6 +307,20 @@ public class GestorConexion extends Thread {
 						}
 		            }
 		        }
+			 Iterator<IConexion> it = conexionesEsclavos.values().iterator();
+		        while (it.hasNext()) {
+		            conexion = it.next();
+		            if (conexion.isConectado()) {
+		            	try {
+							conexion.cerrarConexion();
+							System.out.println("Se cerró: "+ conexion.getID());
+						} catch (ExcepcionErrorAlCerrar e) {
+		            		System.out.println("Error critico: no fue posible cerrar la conexion de: "+conexion.getID());
+							e.printStackTrace();
+						}
+		            }
+		        }
+			 
 		     
 		 }
 		     
