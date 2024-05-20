@@ -58,6 +58,7 @@ public class ControladorVistaMonitor extends Thread {
 	public void intentarConexion() {
 		try {
 			this.intentarConexionConServidor();
+			iniciarPrograma();
 		
 		}catch (ExcepcionErrorConexion | ExcepcionFinConexion e) {
 			JOptionPane.showMessageDialog(null, "ERROR DE CONEXION :(");
@@ -73,7 +74,7 @@ public class ControladorVistaMonitor extends Thread {
 	}
 
 	private void intentarConexionConServidor() throws ExcepcionErrorConexion,ExcepcionFinConexion{ // PostCondicion Conexion exitosa. 
-		cliente=null;
+		this.cliente=null;
 		String mensaje;
 		String[] elementos;
 		
@@ -88,12 +89,12 @@ public class ControladorVistaMonitor extends Thread {
 	    }
 		
 		
-		cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
+		this.cliente=new TCPCliente(datosConexion.get(0),Integer.parseInt(datosConexion.get(1)));
 	
 		mensaje= datosConexion.get(2) + ";" + "TvLlamado";
 		
 		try {
-			cliente.enviarMensajeAlServidor(mensaje, false);
+			this.cliente.enviarMensajeAlServidor(mensaje, false);
 		} catch (ExcepcionLecturaErronea e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +103,7 @@ public class ControladorVistaMonitor extends Thread {
 		//while ((mensaje = cliente.recibirmensajeDeServidor(false)) != null)
 		//No se si lo de abajo es lo mismo
 		do
-			mensaje=cliente.recibirmensajeDeServidor(false);
+			mensaje=this.cliente.recibirmensajeDeServidor(false);
 		while (mensaje==null);
 		
 		
@@ -110,21 +111,20 @@ public class ControladorVistaMonitor extends Thread {
 		
 		if (elementos[0].equals("Exito")){
 			try {
-				cliente.cerrarConexion();
+				this.cliente.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			datosConexion.add(1,elementos[1]); // Reemplazo los datos de conexion
 			this.puerto=Integer.parseInt(datosConexion.get(1));
-			cliente=new TCPCliente(datosConexion.get(0),this.puerto);
+			this.cliente=new TCPCliente(datosConexion.get(0),this.puerto);
 			this.receptor.setpuerto(this.puerto);
 			JOptionPane.showMessageDialog(null, "Conexion exitosa :D");
 		}
 		else {
 			throw new ExcepcionErrorConexion();
 		}
-		iniciarPrograma();
 	}
 
 	public void setLogin(ControladorLogin controladorLogin) {
@@ -135,6 +135,22 @@ public class ControladorVistaMonitor extends Thread {
 	public void volverLoginError() {
 		JOptionPane.showMessageDialog(null, "Se produjo un error de conexion, reintente conectarse");
 		this.controladorLogin.mostrarVentana();
+		this.receptor=new ReceptorDeNotificaciones();
+		try {
+			intentarConexionConServidor();
+			this.receptor.setControlador(this);
+			this.receptor.setCliente(cliente);
+			this.receptor.setpuerto(puerto);
+			this.receptor.start();
+		} catch (ExcepcionErrorConexion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExcepcionFinConexion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public void setVista(IVistaMonitor vista) {
