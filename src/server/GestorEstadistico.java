@@ -26,7 +26,7 @@ public class GestorEstadistico extends Thread implements IEstado{
 				String mensaje = null;
 				int desconexiones=0;
 			 	try {
-			 		this.conexion.aceptarConexion(30000);
+			 		this.conexion.aceptarConexion(600000);
 			 		if(conexion.validarIPCliente(IPClienteEsperado)) {
 			 			while(desconexiones<2) {
 				 			try {
