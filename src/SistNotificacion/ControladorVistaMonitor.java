@@ -133,23 +133,26 @@ public class ControladorVistaMonitor extends Thread {
 	}
 	
 	public void volverLoginError() {
-		JOptionPane.showMessageDialog(null, "Se produjo un error de conexion, reintente conectarse");
-		this.controladorLogin.mostrarVentana();
-		this.receptor=new ReceptorDeNotificaciones();
-		try {
-			intentarConexionConServidor();
-			this.receptor.setControlador(this);
-			this.receptor.setCliente(cliente);
-			this.receptor.setpuerto(puerto);
-			this.receptor.start();
-		} catch (ExcepcionErrorConexion e) {
-			volverLoginError();
-		} catch (ExcepcionFinConexion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int confirmado = JOptionPane.showConfirmDialog(null,"Se produjo un error de conexion ¿Desea Intentar nuevamente?");
+		if (JOptionPane.OK_OPTION == confirmado) {
+			this.controladorLogin.mostrarVentana();
+			this.receptor=new ReceptorDeNotificaciones();
+			try {
+				intentarConexionConServidor();
+				this.receptor.setControlador(this);
+				this.receptor.setCliente(cliente);
+				this.receptor.setpuerto(puerto);
+				this.receptor.start();
+			} catch (ExcepcionErrorConexion e) {
+				volverLoginError();
+			} catch (ExcepcionFinConexion e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		
+		else {
+			System.exit(0);
+		}		
 	}
 	
 	public void setVista(IVistaMonitor vista) {
