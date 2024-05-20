@@ -143,8 +143,7 @@ public class ControladorVistaMonitor extends Thread {
 			this.receptor.setpuerto(puerto);
 			this.receptor.start();
 		} catch (ExcepcionErrorConexion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			volverLoginError();
 		} catch (ExcepcionFinConexion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
