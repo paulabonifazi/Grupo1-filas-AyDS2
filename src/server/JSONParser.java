@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class JSONParser extends AbstractParser{
 	private final String JSON_FILE;
 	
-	
 	public JSONParser(String jSON_FILE) {
 		super();
 		JSON_FILE = jSON_FILE;
