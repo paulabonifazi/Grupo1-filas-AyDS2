@@ -1,4 +1,6 @@
-package server;
+package prueba;
+
+
 import org.json.*;
 
 import java.io.*;
@@ -6,37 +8,31 @@ import java.util.ArrayList;
 
 
 public class JSONParser extends AbstractParser{
-	private final String JSON_FILE;
+
 	
-	public JSONParser(String jSON_FILE) {
-		super();
-		JSON_FILE = jSON_FILE;
+	public JSONParser(String string) throws FileNotFoundException {
+		super(string);
 	}
 
 
 	@Override
-	public ArrayList<ClientePOJO> cargarListaDeClientes(){
+	protected ArrayList<ClientePOJO> cargarDatos(FileInputStream archivoDatos){
 		ArrayList<ClientePOJO> clientes=null;
-		try {
-			JSONTokener tokenes=new JSONTokener(new FileInputStream(new File(JSON_FILE)));
-			JSONArray arrayClientes= new JSONArray(tokenes);
-			clientes = new ArrayList<ClientePOJO>();
-			
-			
-			for (int i = 0; i < arrayClientes.length(); i++) {
-	            JSONObject jsonObject = arrayClientes.getJSONObject(i);
-	            String nombre = jsonObject.getString("nombre");
-	            String fechaDeNacimiento = jsonObject.getString("fecha_de_nacimiento");
-	            String membresia = jsonObject.getString("membresia");
+		JSONTokener tokenes=new JSONTokener(archivoDatos);
+		JSONArray arrayClientes= new JSONArray(tokenes);
+		clientes = new ArrayList<ClientePOJO>();
 
-	            ClientePOJO client = new ClientePOJO(nombre,fechaDeNacimiento,membresia);
-	            clientes.add(client);
-	        }
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		for (int i = 0; i < arrayClientes.length(); i++) {
+			JSONObject jsonObject = arrayClientes.getJSONObject(i);
+	        String nombre = jsonObject.getString("nombre");
+	        String fechaDeNacimiento = jsonObject.getString("fecha_de_nacimiento");
+	        String membresia = jsonObject.getString("membresia"); //Si se agregan mas campos en el JSON agregar un CAMPO=jsonObject.getString(NOMBRE DEL CAMPO)
+
+	        ClientePOJO client = new ClientePOJO(nombre,fechaDeNacimiento,membresia);
+	        clientes.add(client);
+	    }
+		
 		return clientes;
-	}	
+	}
 	
 }

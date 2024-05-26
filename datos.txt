@@ -1,0 +1,3 @@
+nombre;fecha_de_nacimiento;membresia;
+Juan;3 de Mayo;Plata;
+Pedro;40 de noviembre;Oro;

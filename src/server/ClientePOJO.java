@@ -1,12 +1,12 @@
-package server;
+package prueba;
 /**
  * Es un Pojo, solo tiene datos del cliente y ningun comportamiento salvo getter y setter
  * 
  */
 public class ClientePOJO {
-	private String nombre;
-	private String fechaDeNacimiento;
-	private String membresia;
+	public String nombre;
+	public String fechaDeNacimiento;
+	public String membresia;
 	
 	
 	public ClientePOJO(String nombre, String fechaDeNacimiento, String membresia) {
@@ -44,6 +44,13 @@ public class ClientePOJO {
 
 	public void setMembresia(String membresia) {
 		this.membresia = membresia;
+	}
+
+
+	@Override
+	public String toString() {
+		return "ClientePOJO [nombre=" + nombre + ", fechaDeNacimiento=" + fechaDeNacimiento + ", membresia=" + membresia
+				+ "]";
 	}
 
 	

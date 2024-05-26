@@ -1,0 +1,12 @@
+[
+    {
+        "nombre": "Juan",
+        "fecha_de_nacimiento": "3 de Mayo",
+        "membresia": "Plata"
+    },
+    {
+        "nombre": "Pedro",
+        "fecha_de_nacimiento": "40 de noviembre",
+        "membresia": "Oro"
+    }
+]

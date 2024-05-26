@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <clientes>
+     <cliente>
+         <nombre>Juan</nombre>
+         <fecha_de_nacimiento>3 de Mayo</fecha_de_nacimiento>
+         <membresia>Plata</membresia>
+     </cliente>
+     <cliente>
+         <nombre>Pedro</nombre>
+         <fecha_de_nacimiento>40 de noviembre</fecha_de_nacimiento>
+         <membresia>Oro</membresia>
+     </cliente>
+ </clientes>
