@@ -7,8 +7,8 @@ import Excepciones.EstrategiaInexistenteException;
 public class ParametrosDeConexion {
 	private static final String[] ESTRATEGIAS= {"Edad","Tiempo","Grupo"};
 	private static final String[] EXTENSIONES = {".txt",".json",".xml"};
-    private static final String[] ARCHIVOSLECTURA = {"C:\\Users\\nicoa\\Downloads\\configuracion", "C:\\Users\\nicoa\\Downloads\\clientes"};
-    private static final String[] ARCHIVOSESCRITURA = {"C:\\Users\\nicoa\\Downloads\\log"};
+    private static final String[] ARCHIVOSLECTURA = {"configuracion", "clientes"};
+    private static final String[] ARCHIVOSESCRITURA = {"log"};
 	private static ParametrosDeConexion Singleton= new ParametrosDeConexion();
 	private int PuertoLibre; 
 	private String IP; 
