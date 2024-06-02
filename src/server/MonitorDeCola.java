@@ -33,7 +33,11 @@ public class MonitorDeCola {
 	// M�todo para colocar un elemento en la cola
     public void put(Turno elemento) throws InterruptedException {
     		semaforodeacceso.acquire();;
-    		insertaOrdenado(elemento);
+    		if(elemento.getAusencias()>0) {
+    			listadeTurnos.add(3, elemento);
+    		}
+    		else
+    			insertaOrdenado(elemento);
     		if(elemento.getAusencias()==0) {
     			LocalDate fechaActual = LocalDate.now();
     			this.bufferpersistencia.put("Ingreso-"+ elemento.getDni()+"-"+elemento.getHrRegistro().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");

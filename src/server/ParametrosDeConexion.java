@@ -56,6 +56,12 @@ public class ParametrosDeConexion {
 		return this.grupos.indexOf(name);
 	}
 	
+	
+	
+	public ArrayList<String> getGrupos() {
+		return grupos;
+	}
+
 	public String getPeorGrupo() {
 		if(grupos.size()>0 && this.estrategia.equals(ParametrosDeConexion.ESTRATEGIAS[2])) {
 			return this.grupos.get(grupos.size()-1);
