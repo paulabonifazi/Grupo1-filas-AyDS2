@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.concurrent.PriorityBlockingQueue;
+
 import Excepciones.*;
 import TCP.TCPCliente;
 import TCP.TCPServidor;
@@ -19,7 +21,7 @@ public class Servidor{
 		LinkedList<InfoConexion> listaConexiones=new LinkedList<InfoConexion>();
 		String contrasenia=null;
 		Boolean isFinalizar;
-		
+		FactoryStrategyQueue factoryestrategia= new FactoryStrategyQueue(ParametrosDeConexion.getInstance());
 		try(Scanner scanner = new Scanner(System.in)){
 			String modo;
 			boolean valida=false;
@@ -49,7 +51,9 @@ public class Servidor{
 						ParametrosDeConexion.getInstance().defineEstrategia(factoryPersistencia.getReaderConfig().getConfig());
 					}
 					MonitorPersistencia bufferPersistencia= new MonitorPersistencia();
+					
 					cola.setbufferPersistencia(bufferPersistencia);
+					cola.setColadeTurnos(new PriorityBlockingQueue<>(20,factoryestrategia.getStrategy()));
 					GestorPersistencia gestorPersistencia= new GestorPersistencia(bufferPersistencia,factoryPersistencia.getWritterLog());
 					gestorPersistencia.start();
 					TCPServidor puertoLibre;

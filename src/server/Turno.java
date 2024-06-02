@@ -59,7 +59,7 @@ public class Turno {
 		return grupo;
 	}
 	
-	public Cliente getClietne() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 	

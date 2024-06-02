@@ -16,7 +16,7 @@ public class GestorSolicitud extends Thread {
     public void run() {
 		try {
 			Turno solicitado=cola.take(this.IdBox);
-			turno.setTurno(solicitado.getClietne(), solicitado.getHrRegistro(),solicitado.getHrIngresoCola(),solicitado.getAusencias());
+			turno.setTurno(solicitado.getCliente(), solicitado.getHrRegistro(),solicitado.getHrIngresoCola(),solicitado.getAusencias());
 		} catch (InterruptedException e) {
 			//si se interrumpe finaliza el thread
 		}

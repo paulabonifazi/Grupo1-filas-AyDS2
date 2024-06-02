@@ -23,7 +23,6 @@ public class MonitorDeCola {
 	}
 	
 	public MonitorDeCola() {
-		this.coladeTurnos=new LinkedBlockingQueue<Turno>();
 		this.semaforodeSolicitud=new Semaphore(1, true);
 		atencionesAbiertas= new ConcurrentHashMap<String, Turno>();
 	}
@@ -37,7 +36,11 @@ public class MonitorDeCola {
     		}
     }
     
- // M�todo para retirar un elemento de la cola
+	public void setColadeTurnos(BlockingQueue<Turno> coladeTurnos) {
+		this.coladeTurnos = coladeTurnos;
+	}
+
+	// M�todo para retirar un elemento de la cola
     public Turno take(String Id) throws InterruptedException {
     	Turno turno = null;
     	try {
