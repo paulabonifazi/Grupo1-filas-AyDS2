@@ -34,7 +34,10 @@ public class MonitorDeCola {
     public void put(Turno elemento) throws InterruptedException {
     		semaforodeacceso.acquire();;
     		if(elemento.getAusencias()>0) {
-    			listadeTurnos.add(3, elemento);
+    			if(listadeTurnos.size()>3)
+    				listadeTurnos.add(3, elemento);
+    			else
+    				listadeTurnos.add(elemento);
     		}
     		else
     			insertaOrdenado(elemento);
