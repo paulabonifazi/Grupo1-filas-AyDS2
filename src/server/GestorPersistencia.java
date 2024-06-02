@@ -28,6 +28,9 @@ public class GestorPersistencia extends Thread {
 		catch(IOException | InterruptedException e) {
 			
 		}
+		finally {
+			System.out.println("Se cerro el gestor de persistencia");
+		}
 		
 		
 	}

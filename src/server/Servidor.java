@@ -102,10 +102,13 @@ public class Servidor{
 			                    	break;
 			                    case 6:
 			                       isFinalizar=true; //para finalizar su propio ciclo y permite verificar a los threads interrumpidos validar su finalizacion
-									try {
-										puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
+	
+			                       try {
+										
 										System.out.println("Espere a que es cierre el gestor de conexiones para cerrar el programa\n");	
 										gestorConexion.interrupt();
+										gestorPersistencia.interrupt();
+										puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
 									} 
 									catch (ExcepcionErrorAlCerrar e) {
 										System.out.println("Error critico: no se ha cerrado correctamente el sistema");

@@ -1,6 +1,8 @@
 package server;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -14,6 +16,7 @@ public class MonitorDeCola {
 	private MonitorPersistencia bufferpersistencia;
 	//TODO Estructura para las atenciones pendientes, donde se agregan desde el metodo take (cuando se retira un turno y se inicia una atencion) y se retira cuando el box finaliza/ ausenta una atencion (va a tener que haber un metodo sincronziado para eliminar la atencion pendiente)
 	private ConcurrentHashMap<String, Turno> atencionesAbiertas; 
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	public void setbufferPersistencia(MonitorPersistencia buffer) {
 		this.bufferpersistencia=buffer;
@@ -29,7 +32,8 @@ public class MonitorDeCola {
     public void put(Turno elemento) throws InterruptedException {
     		coladeTurnos.put(elemento);
     		if(elemento.getAusencias()==0) {
-    			this.bufferpersistencia.put("Ingreso-"+ elemento.getDni()+"-"+elemento.getHrRegistro());
+    			LocalDate fechaActual = LocalDate.now();
+    			this.bufferpersistencia.put("Ingreso-"+ elemento.getDni()+"-"+elemento.getHrRegistro().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");
     		}
     }
     
@@ -41,7 +45,9 @@ public class MonitorDeCola {
 	        turno = coladeTurnos.take();
 	        atencionesAbiertas.put(Id, turno);
 	        if(turno.getAusencias()==0) {
-	        	this.bufferpersistencia.put("Egreso-"+turno.getDni()+"-"+LocalTime.now());
+	        	LocalDate fechaActual = LocalDate.now();
+	        	
+	        	this.bufferpersistencia.put("Egreso-"+turno.getDni()+"-"+LocalTime.now().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");
 	        }
 	        semaforodeSolicitud.release();
 	        
