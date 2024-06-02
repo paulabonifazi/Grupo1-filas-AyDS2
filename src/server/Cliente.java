@@ -8,7 +8,14 @@ public class Cliente {
 	public Cliente(String dni, int edad, String grupo) {
 		this.dni=dni;
 		this.edad=edad;
-		this.grupo=grupo;
+		if(grupo!= null) {
+			if(ParametrosDeConexion.getInstance().getGrupoindex(grupo)!=-1)
+				this.grupo=grupo;
+			else
+				this.grupo=ParametrosDeConexion.getInstance().getPeorGrupo();
+		}
+		else
+			this.grupo= grupo;
 	}
 
 	public String getDni() {

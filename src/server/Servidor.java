@@ -21,9 +21,9 @@ public class Servidor{
 		Boolean isFinalizar;
 		
 		try(Scanner scanner = new Scanner(System.in)){
-			System.out.println("Ingresar modo de servidor [1:Maestro/0:esclavo]");
 			String modo;
 			boolean valida=false;
+			System.out.println("Ingresar modo de servidor [1:Maestro/0:esclavo]");
 			do {
 				modo = scanner.nextLine();
 				if (modo != null && !modo.isEmpty() && !modo.isBlank() && modo.length() == 1 && (modo.charAt(0) == '0' || modo.charAt(0) == '1')) {
@@ -47,7 +47,6 @@ public class Servidor{
 						}while(!valida);
 						ParametrosDeConexion.getInstance().setContraseña(contrasenia); //ingresar contraseña al empezar el servidor
 						ParametrosDeConexion.getInstance().defineEstrategia(factoryPersistencia.getReaderConfig().getConfig());
-						System.out.println(ParametrosDeConexion.getInstance().estado());
 					}
 					MonitorPersistencia bufferPersistencia= new MonitorPersistencia();
 					cola.setbufferPersistencia(bufferPersistencia);
@@ -222,7 +221,6 @@ public class Servidor{
 													bufferSalida.parse(elementos[2]);
 													historico.parse(elementos[3]);
 													ParametrosDeConexion.getInstance().parse(elementos[4]);
-													System.out.println(ParametrosDeConexion.getInstance().estado());
 													
 													infconexiones=elementos[5].split(";");
 													String[] conexion;
@@ -308,6 +306,8 @@ public class Servidor{
 		}
 		catch (IOException e1) {
 			System.out.println("Error:"+ e1.getMessage());
+		} catch (EstrategiaInexistente e) {
+			System.out.println("La estrategia del archivo de configuracion es invalida");
 		}
 		
 	}

@@ -3,6 +3,7 @@ package server;
 import java.util.ArrayList;
 
 public class ParametrosDeConexion {
+	private static final String[] ESTRATEGIAS= {"Edad","Tiempo","Grupo"};
 	private static final String[] EXTENSIONES = {".txt",".json",".xml"};
     private static final String[] ARCHIVOSLECTURA = {"C:\\Users\\nicoa\\Downloads\\configuracion", "C:\\Users\\nicoa\\Downloads\\clientes"};
     private static final String[] ARCHIVOSESCRITURA = {"C:\\Users\\nicoa\\Downloads\\log"};
@@ -53,17 +54,20 @@ public class ParametrosDeConexion {
 		return this.grupos.indexOf(name);
 	}
 	
-	public String estado() {
-		return this.contraseña+","+this.estrategia+","+estructuraGrupo();
-	}
-	
 	public String getPeorGrupo() {
-		if(grupos.size()>0) {
+		if(grupos.size()>0 && this.estrategia.equals(ParametrosDeConexion.ESTRATEGIAS[2])) {
 			return this.grupos.get(grupos.size()-1);
 		}
 		else
 			return  null;
 	}
+	
+	
+	
+	public String estado() {
+		return this.contraseña+","+this.estrategia+","+estructuraGrupo();
+	}
+	
 	
 	private String estructuraGrupo() {
 		String rta="";
@@ -104,18 +108,42 @@ public class ParametrosDeConexion {
 	public static String[] getArchivosEscritura() {
 		return ARCHIVOSESCRITURA;
 	}
+	
+	public static String[] getEstrategias() {
+		return ESTRATEGIAS;
+	}
+	
 
-	public void defineEstrategia(String cadena) { //grupos= "x-xx-xxx-xxxx-xxxx"
+	public void defineEstrategia(String cadena) throws EstrategiaInexistente { //grupos= "x-xx-xxx-xxxx-xxxx"
 		String[] aux=cadena.split("/");
-		if(aux.length==2) {
 			this.estrategia=aux[0];
-			String[] auxG= aux[1].split("-");
-			int i=0;
-			this.grupos=new ArrayList<String>();
-			while(i<auxG.length) {
-				this.grupos.add(auxG[i]);
-				i++;
+			if(validaEstrategia(this.estrategia)) {
+				if(aux.length>=2) {
+					String[] auxG= aux[1].split("-");
+					int i=0;
+					this.grupos=new ArrayList<String>();
+					while(i<auxG.length) {
+						this.grupos.add(auxG[i]);
+						i++;
+					}
+				}
 			}
+			else {
+				throw new EstrategiaInexistente();
+			}
+		
+	}
+
+	private boolean validaEstrategia(String estrategia) {
+		boolean rta=false;
+		int i=0;
+		String [] aux= ESTRATEGIAS;
+		while(i<aux.length && !estrategia.equals(aux[i])) {
+			i++;
 		}
+		if(i<aux.length) {
+			rta=true;
+		}
+		return rta;
 	}
 }
