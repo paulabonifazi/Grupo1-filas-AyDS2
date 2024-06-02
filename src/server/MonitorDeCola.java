@@ -3,59 +3,77 @@ package server;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 public class MonitorDeCola {
-	private BlockingQueue<Turno> coladeTurnos;
+	private ArrayList<Turno> listadeTurnos;
+	private Semaphore semaforodeacceso;
 	private Semaphore semaforodeSolicitud;
 	private MonitorPersistencia bufferpersistencia;
 	//TODO Estructura para las atenciones pendientes, donde se agregan desde el metodo take (cuando se retira un turno y se inicia una atencion) y se retira cuando el box finaliza/ ausenta una atencion (va a tener que haber un metodo sincronziado para eliminar la atencion pendiente)
 	private ConcurrentHashMap<String, Turno> atencionesAbiertas; 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+	private IStrategy estrategia;
 	
 	public void setbufferPersistencia(MonitorPersistencia buffer) {
 		this.bufferpersistencia=buffer;
 	}
 	
 	public MonitorDeCola() {
-		this.coladeTurnos=new LinkedBlockingQueue<Turno>();
-		this.semaforodeSolicitud=new Semaphore(1, true);
+		this.listadeTurnos=new ArrayList<Turno>();
+		this.semaforodeSolicitud=new Semaphore(0, true);
+		this.semaforodeacceso=new Semaphore(1,true);
 		atencionesAbiertas= new ConcurrentHashMap<String, Turno>();
 	}
 	
 	// Mï¿½todo para colocar un elemento en la cola
     public void put(Turno elemento) throws InterruptedException {
-    		coladeTurnos.put(elemento);
+    		semaforodeacceso.acquire();;
+    		insertaOrdenado(elemento);
     		if(elemento.getAusencias()==0) {
     			LocalDate fechaActual = LocalDate.now();
     			this.bufferpersistencia.put("Ingreso-"+ elemento.getDni()+"-"+elemento.getHrRegistro().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");
     		}
+    		semaforodeSolicitud.release();
+    		semaforodeacceso.release();
     }
     
- // Mï¿½todo para retirar un elemento de la cola
+ private void insertaOrdenado(Turno elemento) {
+	 int indice = listadeTurnos.size();
+	    while (indice > 0 && estrategia.compare(elemento, listadeTurnos.get(indice-1)) > 0) {
+	        indice--;
+	    }
+	 // Inserta el nuevo elemento en su posición ordenada
+	    listadeTurnos.add(indice, elemento);
+	}
+
+	// Mï¿½todo para retirar un elemento de la cola
     public Turno take(String Id) throws InterruptedException {
     	Turno turno = null;
     	try {
 	    	semaforodeSolicitud.acquire(); //garantiza que la toma de turnos es de a 1 box y que es por orden de llegada
-	        turno = coladeTurnos.take();
-	        atencionesAbiertas.put(Id, turno);
-	        if(turno.getAusencias()==0) {
-	        	LocalDate fechaActual = LocalDate.now();
-	        	
-	        	this.bufferpersistencia.put("Egreso-"+turno.getDni()+"-"+LocalTime.now().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");
-	        }
-	        semaforodeSolicitud.release();
-	        
-    	}catch (InterruptedException e){
-    		if(semaforodeSolicitud.availablePermits()==0) //por si a caso se interrumpio en el take... se asegure de devolver permiso
-    			semaforodeSolicitud.release();
-    		throw e;
-        }
+		    try {	
+	    		semaforodeacceso.acquire();
+		        turno = listadeTurnos.remove(0);
+		        atencionesAbiertas.put(Id, turno);
+		        if(turno.getAusencias()==0) {
+		        	LocalDate fechaActual = LocalDate.now();
+		        	
+		        	this.bufferpersistencia.put("Egreso-"+turno.getDni()+"-"+LocalTime.now().format(formatter)+"["+fechaActual.getDayOfMonth()+"/"+fechaActual.getMonthValue()+"/"+fechaActual.getYear()+"]");
+		        }
+		        semaforodeacceso.release();
+		    }
+		    catch (InterruptedException e){
+	    		semaforodeSolicitud.release();
+	    		throw e;
+		    }
+    	}finally {
+			
+		}
     	return turno;
     }
     
@@ -74,11 +92,11 @@ public class MonitorDeCola {
     
  // Mï¿½todo para obtener el tamaï¿½o de la cola
     public int size() {
-        return coladeTurnos.size();
+        return listadeTurnos.size();
     }
     
     public boolean contiene(String DNI) {
-    	Iterator<Turno> iterator = coladeTurnos.iterator();
+    	Iterator<Turno> iterator = listadeTurnos.iterator();
     	Boolean encuentra=false;
         while (iterator.hasNext()&& !encuentra) {
             Turno elem = iterator.next();
@@ -101,7 +119,7 @@ public class MonitorDeCola {
     public String estado() {
     	String estado="";
     	Turno turno;
-    	Iterator<Turno> iterator = coladeTurnos.iterator();
+    	Iterator<Turno> iterator = listadeTurnos.iterator();
     	while (iterator.hasNext()) {
     		turno=iterator.next();
     		estado+=turno.toString();
@@ -123,7 +141,7 @@ public class MonitorDeCola {
     
     public void parse(String cola, String atenciones) {
 		 int i;
-		 this.coladeTurnos= new LinkedBlockingQueue<Turno>();
+		 this.listadeTurnos= new ArrayList<Turno>();
 		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
 			 String[] turnos=cola.split(";");
 			 String[] turno;
@@ -132,13 +150,9 @@ public class MonitorDeCola {
 			 while(i<turnos.length) {
 					 turno=turnos[i].split(",");
 					 if(turno.length==4) {
-						try {
 							cliente= turno[0].split("#");
 							if(cliente.length==3)
-								this.coladeTurnos.put(new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),turno[1],turno[2],turno[3]));
-						} catch (InterruptedException e) {
-						}
-					 }
+								this.listadeTurnos.add(new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),turno[1],turno[2],turno[3]));
 					 i++;
 			 }
 		 }
@@ -146,7 +160,6 @@ public class MonitorDeCola {
 		 if(atenciones!=null && !atenciones.isBlank() && !atenciones.isEmpty()) {
 			 String[] pendientes=atenciones.split(";");
 			 String[] atencion;
-			 String[] cliente;
 			 i=0;
 			 while(i<pendientes.length) {
 				 atencion=pendientes[i].split(",");
@@ -158,5 +171,9 @@ public class MonitorDeCola {
 			 }
 		 }
 	 }
+    }
+	public void setStrategy(IStrategy estrategia) {
+		this.estrategia=estrategia;
+	}
 }
 

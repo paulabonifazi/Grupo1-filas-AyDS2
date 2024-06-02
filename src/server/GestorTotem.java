@@ -76,6 +76,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 		if(!cola.contiene(DNI)) {
 			//TODO FACTORY DE TURNO DESDE ARCHIVO... si no esta en arch elegir las peores prioridades (se ve en parametros)
 				Turno turno=new Turno(lectorCliente.getClient(DNI)); //al crear el turno se registra la hora
+				System.out.println(turno.toString());
 				cola.put(turno);
 				mensaje= "Exito";
 		}

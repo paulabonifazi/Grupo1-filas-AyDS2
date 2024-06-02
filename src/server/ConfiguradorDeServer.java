@@ -17,4 +17,22 @@ public class ConfiguradorDeServer {
 		}
 		return rta;
 	}
+	public static IStrategy defineEstrategia() {
+		IStrategy rta=null;
+		switch(ParametrosDeConexion.getInstance().getEstrategia()) {
+			case "Edad":
+				rta= new EstrategiaEdad();
+				break;
+			case "Tiempo":
+				rta= new EstrategiaTiempo();
+				break;
+			case "Grupo":
+				rta= new EstrategiaGrupo();
+				break;
+			default: 
+				rta= new EstrategiaTiempo();
+				break;
+		}
+		return rta;
+	}
 }

@@ -2,6 +2,8 @@ package server;
 
 import java.util.ArrayList;
 
+import Excepciones.EstrategiaInexistenteException;
+
 public class ParametrosDeConexion {
 	private static final String[] ESTRATEGIAS= {"Edad","Tiempo","Grupo"};
 	private static final String[] EXTENSIONES = {".txt",".json",".xml"};
@@ -114,7 +116,7 @@ public class ParametrosDeConexion {
 	}
 	
 
-	public void defineEstrategia(String cadena) throws EstrategiaInexistente { //grupos= "x-xx-xxx-xxxx-xxxx"
+	public void defineEstrategia(String cadena) throws EstrategiaInexistenteException { //grupos= "x-xx-xxx-xxxx-xxxx"
 		String[] aux=cadena.split("/");
 			this.estrategia=aux[0];
 			if(validaEstrategia(this.estrategia)) {
@@ -129,7 +131,7 @@ public class ParametrosDeConexion {
 				}
 			}
 			else {
-				throw new EstrategiaInexistente();
+				throw new EstrategiaInexistenteException();
 			}
 		
 	}

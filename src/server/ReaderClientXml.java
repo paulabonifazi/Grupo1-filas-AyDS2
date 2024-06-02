@@ -2,6 +2,10 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,13 +35,23 @@ public class ReaderClientXml implements IReaderClient {
                     Element elementoCliente = (Element) nodoCliente;
                     String dni = elementoCliente.getAttribute("DNI");
                     if (dni.equals(dnibuscado)) {
-                        int edad = Integer.parseInt(elementoCliente.getAttribute("Edad"));
+                        // Parsear la fecha de nacimiento
+                        String fechaNacimientoStr = elementoCliente.getAttribute("FechaNacimiento");
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Date fechaNacimiento = sdf.parse(fechaNacimientoStr);
+                        
+                        // Calcular la edad a partir de la fecha de nacimiento
+                        Date fechaActual = new Date();
+                        long diff = fechaActual.getTime() - fechaNacimiento.getTime();
+                        long edadEnMilisegundos = 1000L * 60 * 60 * 24 * 365;
+                        int edad = (int) (diff / edadEnMilisegundos);
+                        
                         String grupo = elementoCliente.getAttribute("Grupo");
                         return new Cliente(dnibuscado, edad, grupo);
                     }
                 }
             }
-        } catch (ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException | ParseException e) {
             e.printStackTrace();
         }
         // Si no se encuentra, se crea el peor cliente

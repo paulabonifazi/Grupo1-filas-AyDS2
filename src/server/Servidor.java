@@ -48,6 +48,7 @@ public class Servidor{
 						ParametrosDeConexion.getInstance().setContraseña(contrasenia); //ingresar contraseña al empezar el servidor
 						ParametrosDeConexion.getInstance().defineEstrategia(factoryPersistencia.getReaderConfig().getConfig());
 					}
+					cola.setStrategy(ConfiguradorDeServer.defineEstrategia());
 					MonitorPersistencia bufferPersistencia= new MonitorPersistencia();
 					cola.setbufferPersistencia(bufferPersistencia);
 					GestorPersistencia gestorPersistencia= new GestorPersistencia(bufferPersistencia,factoryPersistencia.getWritterLog());
@@ -306,7 +307,7 @@ public class Servidor{
 		}
 		catch (IOException e1) {
 			System.out.println("Error:"+ e1.getMessage());
-		} catch (EstrategiaInexistente e) {
+		} catch (EstrategiaInexistenteException e) {
 			System.out.println("La estrategia del archivo de configuracion es invalida");
 		}
 		
