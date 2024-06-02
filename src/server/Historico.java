@@ -54,6 +54,7 @@ public class Historico {
 			 String[] entrada;
 			 String[] infoturno;
 			 String[] infosolicitud;
+			 String[] cliente;
 			 Turno turno;
 			 Solicitud solicitud;
 			 while(i<historia.length) {
@@ -61,7 +62,8 @@ public class Historico {
 				 if(entrada.length==4) {
 					 infoturno=entrada[0].split(",");
 				     infosolicitud=entrada[1].split(",");
-					 turno=new Turno(infoturno[0],infoturno[1],infoturno[2]);
+				     cliente= infoturno[0].split("#");
+					 turno=new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),infoturno[1],infoturno[2],infoturno[3]);
 					 solicitud=new Solicitud(infosolicitud[0],infosolicitud[1]);
 					 this.atenciones.put(ID++, new Atencion(turno, solicitud,entrada[2],entrada[3]));
 				 }

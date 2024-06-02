@@ -44,7 +44,6 @@ public class GestorBox extends Thread implements IAtencion{
 	@Override
     public void run() {
 		String mensaje = null;
-		String DNI;
 		desconexiones=0;
 	 	try {
 	 		this.conexion.aceptarConexion(600000);
@@ -67,9 +66,9 @@ public class GestorBox extends Thread implements IAtencion{
 		                    	enviarMensaje(conexion,"DebeTenerSolicitud1ro");
 		                        break;
 		                    case "Fin":
-		                    		DNI=cola.finAtencion(IDBox);
-			                    	if(DNI!=null) {
-			                    		Atencion atencion= new Atencion(new Turno(DNI), new Solicitud(IDBox));
+		                    		turno=cola.finAtencion(IDBox);
+			                    	if(turno!=null) {
+			                    		Atencion atencion= new Atencion(turno, new Solicitud(IDBox));
 			                    		atencion.registrarFin();
 										historico.agregarAtencion(atencion); //se agrega la atencion al historico
 										enviarMensaje(conexion,"Recibido");
@@ -78,13 +77,20 @@ public class GestorBox extends Thread implements IAtencion{
 			                    		enviarMensaje(conexion,"DebeTenerAtencion1ro");
 		                    	break;
 		                    case "Ausente":
-		                    		DNI=cola.finAtencion(IDBox);
-		                    	if(DNI!=null) {
-		                    		cola.put(new Turno(DNI));
+		                    	turno=cola.finAtencion(IDBox);
+		                    	if(turno!=null) {
+		                    		if(turno.getAusencias()<1) {
+										turno.addAusencia();
+										cola.put(turno);
+									}
+									else {
+										llamados.put(new Llamado(turno.getDni(), ""));
+									}
 		                    		enviarMensaje(conexion,"Recibido");
 		                    	}
-		                    	else
+		                    	else {
 		                    		enviarMensaje(conexion,"DebeTenerAtencion1ro");
+		                    	}
 		                        break;
 		                    default:
 		                    	enviarMensaje(conexion,"InstruccionInexistente");
@@ -109,17 +115,19 @@ public class GestorBox extends Thread implements IAtencion{
 	 		try {
 	 			if(buscaSolicitud!=null && buscaSolicitud.isAlive())
 					this.buscaSolicitud.interrupt();
-	 			DNI=cola.finAtencion(IDBox);
-	 			if(DNI!=null) {
-	 				try {
-	 					if(turno.getDni()!=null ) {
-	 						cola.put(turno);
+	 			try {
+	 				if(turno!=null && turno.getDni()!=null ) {
+ 						cola.put(turno);
+ 						cola.finAtencion(IDBox);
+ 					}
+	 				else {
+	 					turno=cola.finAtencion(IDBox);
+	 					if(turno!=null){
+							cola.put(turno);
 	 					}
-	 					else
-	 						cola.put(new Turno(DNI));
-					} catch (InterruptedException e) {
-					}
-	 			}
+	 				}
+	 			} catch (InterruptedException e) {
+				}
 				conexion.cerrarPuertoServidor(); //por si acaso no se cerro (si se cierra y ya estaba cerrado se tira la excepcion error al cerrar)
 				conexion.cerrarConexion();
 			} catch (ExcepcionErrorAlCerrar e1) {

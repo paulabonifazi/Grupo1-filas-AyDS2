@@ -6,22 +6,25 @@ import java.time.LocalTime;
 public class Turno {
 	private int ausencias;
 	private LocalTime hrRegistro;
-	private String dni;
-	
+	private LocalTime hrIngresoCola;
+	private Cliente cliente;
+
 	public Turno() {
-		dni=null;
+		cliente=null;
 		ausencias=0;
 	}
 	
-	public Turno(String dni) {
-		this.dni = dni;
+	public Turno(Cliente cliente) {
+		this.cliente = cliente;
 		hrRegistro=	LocalTime.now();
+		hrIngresoCola=LocalTime.now();
 		ausencias=0;
 	}
 	
-	public Turno(String dni,String hr, String ausencias) {
-		this.dni = dni;
-		this.hrRegistro=LocalTime.parse(hr);
+	public Turno(Cliente cliente,String hrregistro,String hrausente, String ausencias) {
+		this.cliente = cliente;
+		this.hrRegistro=LocalTime.parse(hrregistro);
+		this.hrIngresoCola=LocalTime.parse(hrausente);
 		this.ausencias=Integer.parseInt(ausencias);
 	}
 
@@ -29,14 +32,41 @@ public class Turno {
 	public LocalTime getHrRegistro() {
 		return hrRegistro;
 	}
+	
+	public LocalTime getHrIngresoCola() {
+		return hrIngresoCola;
+	}
 
 	public String getDni() {
+		String dni=null;
+		if(cliente!=null)
+			dni=cliente.getDni();
 		return dni;
 	}
 	
-	public void setTurno(String dni,LocalTime hrRegistro,int ausencias) { //le permite al subthread de solicitud de turno asignarle un turno al thread de gestorBox
-		this.dni = dni;
+	public int getedad() {
+		int edad=0;
+		if(cliente!=null) {
+			edad=cliente.getEdad();
+		}
+		return edad;
+	}
+	
+	public String getgrupo() {
+		String grupo=null;
+		if(cliente!=null)
+			grupo=cliente.getGrupo();
+		return grupo;
+	}
+	
+	public Cliente getClietne() {
+		return cliente;
+	}
+	
+	public void setTurno(Cliente cliente,LocalTime hrRegistro, LocalTime hrIngresoCola,int ausencias) { //le permite al subthread de solicitud de turno asignarle un turno al thread de gestorBox
+		this.cliente = cliente;
 		this.hrRegistro= hrRegistro;
+		this.hrIngresoCola=hrIngresoCola;
 		this.ausencias=ausencias;
 	}
 	
@@ -44,6 +74,7 @@ public class Turno {
 		int aux;
 		aux=this.ausencias;
 		this.ausencias=aux+1;
+		hrIngresoCola=	LocalTime.now();
 	}
 
 	public int getAusencias() {
@@ -52,7 +83,7 @@ public class Turno {
 
 	@Override
 	public String toString() {
-		return dni+","+hrRegistro.toString()+","+ausencias;
+		return cliente.estado()+","+hrRegistro.toString()+","+hrIngresoCola.toString()+","+ausencias;
 	}
 	
 	

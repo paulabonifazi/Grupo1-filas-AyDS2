@@ -12,18 +12,16 @@ public class GestorEsclavo extends Thread{
 	private MonitorDeCola cola;
 	private MonitorNotificacion llamados;
 	private Historico historico;
-	private ParametrosDeConexion parametros;
 	private HashMap<String, IConexion> conexiones;
 	private  LinkedList<Esclavo> listaEsclavos;
 	
-	public GestorEsclavo(TCPServidor serverEsclavo,String ipClienteEsperado,MonitorDeCola cola,MonitorNotificacion llamados,Historico historico, ParametrosDeConexion parametros,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos) {
+	public GestorEsclavo(TCPServidor serverEsclavo,String ipClienteEsperado,MonitorDeCola cola,MonitorNotificacion llamados,Historico historico,HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos) {
 		super();
 		this.serverEsclavo = serverEsclavo;
 		this.ipClienteEsperado = ipClienteEsperado;
 		this.cola=cola;
 		this.llamados=llamados;
 		this.historico=historico;
-		this.parametros=parametros;
 		this.conexiones=conexiones;
 		this.listaEsclavos=listaEsclavos;
 	}
@@ -74,7 +72,7 @@ public class GestorEsclavo extends Thread{
 	//TODO devolver el estado con un formato para que lo entienda el esclavo
 	private String estadoServer() {
 		String estado=null;
-		estado=cola.estado()+"/"+llamados.estado()+"/"+historico.estado()+"/"+parametros.getContraseña()+"/"+ this.estadoConexiones() +"/"+this.estadoEsclavos();
+		estado=cola.estado()+"/"+llamados.estado()+"/"+historico.estado()+"/"+ParametrosDeConexion.getInstance().estado()+"/"+ this.estadoConexiones() +"/"+this.estadoEsclavos();
 		return estado;
 	}
 	//HashMap<String, IConexion> conexiones,LinkedList<Esclavo> listaEsclavos

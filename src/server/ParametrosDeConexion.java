@@ -1,15 +1,25 @@
 package server;
 
+import java.util.ArrayList;
+
 public class ParametrosDeConexion {
+	private static final String[] EXTENSIONES = {".txt",".json",".xml"};
+    private static final String[] ARCHIVOSLECTURA = {"C:\\Users\\nicoa\\Downloads\\configuracion", "C:\\Users\\nicoa\\Downloads\\clientes"};
+    private static final String[] ARCHIVOSESCRITURA = {"C:\\Users\\nicoa\\Downloads\\log"};
+	private static ParametrosDeConexion Singleton= new ParametrosDeConexion();
 	private int PuertoLibre; 
 	private String IP; 
 	private String contraseña;
-	private boolean finalizar=false;
+	private String estrategia;
+	private ArrayList<String> grupos=new ArrayList<String>();
 
-	public ParametrosDeConexion(String contraseña) {
-		this.contraseña=contraseña;
+	private ParametrosDeConexion() {
 	}
 
+	public static ParametrosDeConexion getInstance() {
+		return Singleton;
+	}
+	
 	public int getPuertoLibre() { //lo utiliza el controlador del servidor (main) para mostrarlo por pantalla
 		return PuertoLibre;
 	}
@@ -26,13 +36,6 @@ public class ParametrosDeConexion {
 		this.contraseña = contraseña;
 	}
 
-	public boolean isFinalizar() { //lo consulta el gestor de conexiones para verificar que se quiere finalizar (y no sea un error)
-		return finalizar;
-	}
-
-	public void setFinalizar(boolean finalizar) { //lo setea el controlador del servidor (en este caso el main)
-		this.finalizar = finalizar;
-	}
 
 	public String getIP() {//lo utiliza el controlador del servidor (main) para mostrarlo por pantalla
 		return IP;
@@ -42,4 +45,77 @@ public class ParametrosDeConexion {
 		IP = iP;
 	}
 	
+	public String getEstrategia() {
+		return this.estrategia;
+	}
+	
+	public int getGrupoindex(String name) {
+		return this.grupos.indexOf(name);
+	}
+	
+	public String estado() {
+		return this.contraseña+","+this.estrategia+","+estructuraGrupo();
+	}
+	
+	public String getPeorGrupo() {
+		if(grupos.size()>0) {
+			return this.grupos.get(grupos.size()-1);
+		}
+		else
+			return  null;
+	}
+	
+	private String estructuraGrupo() {
+		String rta="";
+		int i=0;
+		while(i<this.grupos.size()) {
+			rta+=grupos.get(i);
+			i++;
+			if(i<this.grupos.size()) {
+				rta+="-";
+			}
+		}
+		return rta;
+	}
+	
+	public void parse(String parametros) {
+		String[] elem=parametros.split(",");
+		if(elem.length==3) {
+			this.contraseña=elem[0];
+			this.estrategia=elem[1];
+			String[] auxG= elem[2].split("-");
+			int i=0;
+			this.grupos=new ArrayList<String>();
+			while(i<auxG.length) {
+				this.grupos.add(auxG[i]);
+				i++;
+			}
+		}
+	}
+	
+	public static String[] getExtensiones() {
+		return EXTENSIONES;
+	}
+
+	public static String[] getArchivosLectura() {
+		return ARCHIVOSLECTURA;
+	}
+	
+	public static String[] getArchivosEscritura() {
+		return ARCHIVOSESCRITURA;
+	}
+
+	public void defineEstrategia(String cadena) { //grupos= "x-xx-xxx-xxxx-xxxx"
+		String[] aux=cadena.split("/");
+		if(aux.length==2) {
+			this.estrategia=aux[0];
+			String[] auxG= aux[1].split("-");
+			int i=0;
+			this.grupos=new ArrayList<String>();
+			while(i<auxG.length) {
+				this.grupos.add(auxG[i]);
+				i++;
+			}
+		}
+	}
 }
