@@ -1,6 +1,8 @@
-package server;
+package persistencia;
 
 import java.io.IOException;
+
+import server.IWritterLog;
 
 public class GestorPersistencia extends Thread {
 	private IWritterLog writterlog;

@@ -9,6 +9,10 @@ import java.util.Scanner;
 import Excepciones.*;
 import TCP.TCPCliente;
 import TCP.TCPServidor;
+import persistencia.AbstractFactoryPersistencia;
+import persistencia.DetectorDeArchivo;
+import persistencia.GestorPersistencia;
+import persistencia.MonitorPersistencia;
 public class Servidor{
 
 	public static void main(String[] args) {

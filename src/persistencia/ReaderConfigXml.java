@@ -1,4 +1,4 @@
-package server;
+package persistencia;
 
 import java.io.IOException;
 import java.io.File;
@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import server.*;
 
 public class ReaderConfigXml implements IReaderConfig {
 	

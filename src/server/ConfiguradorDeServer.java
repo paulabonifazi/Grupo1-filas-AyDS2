@@ -1,5 +1,10 @@
 package server;
 
+import persistencia.AbstractFactoryPersistencia;
+import persistencia.PersistenciaJson;
+import persistencia.PersistenciaTxt;
+import persistencia.PersistenciaXml;
+
 public class ConfiguradorDeServer {
 	
 	public static AbstractFactoryPersistencia definePersistencia(String tipo) {

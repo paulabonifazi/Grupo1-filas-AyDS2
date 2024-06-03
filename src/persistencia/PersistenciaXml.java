@@ -1,4 +1,6 @@
-package server;
+package persistencia;
+
+import server.IWritterLog;
 
 public class PersistenciaXml implements AbstractFactoryPersistencia {
 	

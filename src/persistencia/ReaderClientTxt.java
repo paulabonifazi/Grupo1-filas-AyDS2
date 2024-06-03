@@ -1,4 +1,4 @@
-package server;
+package persistencia;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +7,9 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import server.Cliente;
+import server.*;
 
 public class ReaderClientTxt implements IReaderClient {
 

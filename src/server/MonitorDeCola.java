@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
+import persistencia.MonitorPersistencia;
+
 public class MonitorDeCola {
 	private ArrayList<Turno> listadeTurnos;
 	private Semaphore semaforodeacceso;

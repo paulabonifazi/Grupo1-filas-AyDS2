@@ -1,4 +1,6 @@
-package server;
+package persistencia;
+
+import server.IWritterLog;
 
 public interface AbstractFactoryPersistencia {
 	public IReaderConfig getReaderConfig(); //lo tiene el server cuando arranca

@@ -1,4 +1,4 @@
-package server;
+package persistencia;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +19,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import server.IWritterLog;
+import server.*;
 
 public class WritterLogXml implements IWritterLog{
 

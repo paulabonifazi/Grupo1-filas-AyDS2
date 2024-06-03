@@ -1,8 +1,11 @@
-package server;
+package persistencia;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import server.IWritterLog;
+import server.*;
 
 public class WritterLogTxt implements IWritterLog {
 

@@ -1,4 +1,4 @@
-package server;
+package persistencia;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,6 +8,9 @@ import java.util.Calendar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import server.Cliente;
+import server.*;
 
 public class ReaderClientJson implements IReaderClient {
 

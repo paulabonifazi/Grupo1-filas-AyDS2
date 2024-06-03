@@ -1,7 +1,9 @@
-package server;
+package persistencia;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import server.*;
 
 public class DetectorDeArchivo {
 

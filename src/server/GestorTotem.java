@@ -1,6 +1,7 @@
 package server;
 
 import interfaces.IRegistro;
+import persistencia.IReaderClient;
 
 import java.io.IOException;
 import java.util.Iterator;
