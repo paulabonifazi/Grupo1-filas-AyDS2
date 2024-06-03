@@ -3,7 +3,7 @@
  El informe se encuentra en la carpeta Parte-3
 
 # Instrucciones de Instalación y Configuración
-Descargar los ejecutables .jar de la carpeta "Parte-3" perteneciente al proyecto y ejecutarlos arrancando por Servidor y luego Totem, Box, Estadistica y TV.
+Descargar los ejecutables .jar de la carpeta "Parte-4" perteneciente al proyecto y ejecutarlos arrancando por Servidor y luego Totem, Box, Estadistica y TV.
 
 # Requisitos para un buen funcionamiento
 Tener instalado el Java Development Kit versión 17.0 en adelante.
