@@ -1,6 +1,8 @@
 package server;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -14,13 +16,14 @@ public class Servidor{
 		MonitorNotificacion bufferSalida=new MonitorNotificacion();
 		Historico historico= new Historico();
 		LinkedList<Esclavo> listaEsclavos=new LinkedList<Esclavo>();
-		LinkedList<InfoConexion> listaConexiones=null;
+		LinkedList<InfoConexion> listaConexiones=new LinkedList<InfoConexion>();
 		String contrasenia=null;
+		Boolean isFinalizar;
 		
 		try(Scanner scanner = new Scanner(System.in)){
-			System.out.println("Ingresar modo de servidor [1:Maestro/0:esclavo]");
 			String modo;
 			boolean valida=false;
+			System.out.println("Ingresar modo de servidor [1:Maestro/0:esclavo]");
 			do {
 				modo = scanner.nextLine();
 				if (modo != null && !modo.isEmpty() && !modo.isBlank() && modo.length() == 1 && (modo.charAt(0) == '0' || modo.charAt(0) == '1')) {
@@ -32,6 +35,7 @@ public class Servidor{
 			while(modo!=null) {
 				if(modo.charAt(0)=='1') { //es MAESTRO
 					valida=false;
+					AbstractFactoryPersistencia factoryPersistencia= ConfiguradorDeServer.definePersistencia(DetectorDeArchivo.detectarArchivo());
 					if(contrasenia==null) {
 						System.out.println("Ingresar contraseña de conexion: (no puede ser vacia)");
 						do {
@@ -41,15 +45,22 @@ public class Servidor{
 							else
 								System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
 						}while(!valida);
+						ParametrosDeConexion.getInstance().setContraseña(contrasenia); //ingresar contraseña al empezar el servidor
+						ParametrosDeConexion.getInstance().defineEstrategia(factoryPersistencia.getReaderConfig().getConfig());
 					}
-					ParametrosDeConexion parametros= new ParametrosDeConexion(contrasenia); //ingresar contraseña al empezar el servidor 
+					cola.setStrategy(ConfiguradorDeServer.defineEstrategia());
+					MonitorPersistencia bufferPersistencia= new MonitorPersistencia();
+					cola.setbufferPersistencia(bufferPersistencia);
+					GestorPersistencia gestorPersistencia= new GestorPersistencia(bufferPersistencia,factoryPersistencia.getWritterLog());
+					gestorPersistencia.start();
 					TCPServidor puertoLibre;
 					try {
 						puertoLibre = new TCPServidor();
-						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,parametros,puertoLibre,listaEsclavos,listaConexiones);
+						GestorConexion gestorConexion= new GestorConexion(cola,bufferSalida,historico,puertoLibre,listaEsclavos,listaConexiones,factoryPersistencia);
 						gestorConexion.start();
-						while (!parametros.isFinalizar()) {
-							System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Cerrar servidor");
+						isFinalizar=false;
+						while (!isFinalizar) {
+							System.out.println("Seleccione una opcion:\n 1)Mostrar puerto de entrada.\n 2)Mostar IP del servidor\n 3)Mostrar contraseña de conexión.\n 4)Cambiar contraseña de conexión.\n 5)Mostrar conexiones\n 6)Cerrar servidor");
 							int opcion=0;
 							valida=false;
 							do {
@@ -66,13 +77,13 @@ public class Servidor{
 							
 			                switch (opcion) {
 			                    case 1:
-			                        System.out.println("El número de puerto de entrada es: "+ parametros.getPuertoLibre()+"\n");
+			                        System.out.println("El número de puerto de entrada es: "+ ParametrosDeConexion.getInstance().getPuertoLibre()+"\n");
 			                        break;
 			                    case 2:
-			                        System.out.println("La IP del servidor es: "+ parametros.getIP()+"\n");
+			                        System.out.println("La IP del servidor es: "+ ParametrosDeConexion.getInstance().getIP()+"\n");
 			                        break;
 			                    case 3:
-			                    	System.out.println("La contraseña es: "+ parametros.getContraseña()+"\n");
+			                    	System.out.println("La contraseña es: "+ ParametrosDeConexion.getInstance().getContraseña()+"\n");
 			                        break;
 			                    case 4:
 			                        System.out.println("Ingrese la nueva contraseña:(no puede ser vacia)");
@@ -84,14 +95,20 @@ public class Servidor{
 			            				else
 			            					System.out.println("Error, reingrese la contraseña (no puede ser vacia)");
 			            			}while(!valida);
-			                        parametros.setContraseña(contrasenia);
+			                        ParametrosDeConexion.getInstance().setContraseña(contrasenia);
 			                        break;
 			                    case 5:
-			                        parametros.setFinalizar(true); //para finalizar su propio ciclo y permite verificar a los threads interrumpidos validar su finalizacion
-									try {
-										puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
+			                    	mostrarListas(listaEsclavos,listaConexiones);
+			                    	break;
+			                    case 6:
+			                       isFinalizar=true; //para finalizar su propio ciclo y permite verificar a los threads interrumpidos validar su finalizacion
+	
+			                       try {
+										
 										System.out.println("Espere a que es cierre el gestor de conexiones para cerrar el programa\n");	
 										gestorConexion.interrupt();
+										gestorPersistencia.interrupt();
+										puertoLibre.cerrarPuertoServidor();//esto genera una excepcion de interrupcion en el thread del gestor
 									} 
 									catch (ExcepcionErrorAlCerrar e) {
 										System.out.println("Error critico: no se ha cerrado correctamente el sistema");
@@ -204,7 +221,7 @@ public class Servidor{
 													cola.parse(elementos[0],elementos[1]);
 													bufferSalida.parse(elementos[2]);
 													historico.parse(elementos[3]);
-													contrasenia= elementos[4];
+													ParametrosDeConexion.getInstance().parse(elementos[4]);
 													
 													infconexiones=elementos[5].split(";");
 													String[] conexion;
@@ -285,7 +302,50 @@ public class Servidor{
 					
 				}
 			}
-		}			
+		} catch (FileNotFoundException e1) {
+			System.out.println("Error: "+ e1.getMessage()+ " no se encuentra");
+		}
+		catch (IOException e1) {
+			System.out.println("Error:"+ e1.getMessage());
+		} catch (EstrategiaInexistenteException e) {
+			System.out.println("La estrategia del archivo de configuracion es invalida");
+		}
+		
 	}
 	
+	
+	public static void mostrarListas(LinkedList<Esclavo> listaEsclavos,LinkedList<InfoConexion> listaConexiones){
+		InfoConexion info;
+		int i=0;
+		if((listaConexiones!=null && !listaConexiones.isEmpty()) || listaEsclavos!=null && !listaEsclavos.isEmpty()) {
+			LinkedList<InfoConexion> listaAuxC=new LinkedList<InfoConexion>();
+			if(listaConexiones!=null && !listaConexiones.isEmpty()) {
+				while (!listaConexiones.isEmpty()) {
+					info=listaConexiones.removeFirst();
+					i++;
+					System.out.println(i+") ID: "+info.getID()+ ", IP: "+ info.getIP());
+					listaAuxC.addLast(info);
+				}
+				while (!listaAuxC.isEmpty()) {
+			         listaConexiones.add(listaAuxC.removeFirst());  // Restaurar en el orden correcto
+			     }
+			}
+			Esclavo esclavo;
+			LinkedList<Esclavo> listaAux=new LinkedList<Esclavo>();
+			if(listaEsclavos!=null && !listaEsclavos.isEmpty()) {
+				while(!listaEsclavos.isEmpty()) {
+					esclavo=listaEsclavos.remove();
+					i++;
+					System.out.println(i+") ID: "+esclavo.getID()+ ", IP: "+ esclavo.getIP());
+					listaAux.addLast(esclavo);
+				}
+				// Restaurar la lista de esclavos en el orden original
+			     while (!listaAux.isEmpty()) {
+			         listaEsclavos.add(listaAux.removeFirst());  // Restaurar en el orden correcto
+			     }
+			}
+		}
+		else
+			System.out.println("No hay conexiones activas");
+	}
 }

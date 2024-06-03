@@ -1,0 +1,32 @@
+[
+  {
+    "tipo": "Ingreso",
+    "dni": "Nicolas",
+    "hora": "20:42"
+  },
+  {
+    "tipo": "Ingreso",
+    "dni": "Fer",
+    "hora": "20:42"
+  },
+  {
+    "tipo": "Ingreso",
+    "dni": "Cris",
+    "hora": "20:42"
+  },
+  {
+    "tipo": "Ingreso",
+    "dni": "lol",
+    "hora": "20:42"
+  },
+  {
+    "tipo": "Egreso",
+    "dni": "Nicolas",
+    "hora": "20:42"
+  },
+  {
+    "tipo": "Ingreso",
+    "dni": "Nicolas",
+    "hora": "10"
+  }
+]

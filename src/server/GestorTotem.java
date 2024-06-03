@@ -2,6 +2,7 @@ package server;
 
 import interfaces.IRegistro;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -12,12 +13,14 @@ public class GestorTotem  extends Thread implements IRegistro{
 	private String IPClienteEsperado;
 	private TCPServidor conexion;
 	private LinkedList<Esclavo> listaEsclavos;
+	IReaderClient lectorCliente;
 	
-	public GestorTotem(MonitorDeCola cola, TCPServidor conexion, String IPClienteEsperado, LinkedList<Esclavo> listaesclavos) {
+	public GestorTotem(MonitorDeCola cola, TCPServidor conexion, String IPClienteEsperado, LinkedList<Esclavo> listaesclavos,IReaderClient lectorCliente) {
 		this.cola=cola;
 		this.conexion=conexion;
 		this.IPClienteEsperado=IPClienteEsperado;
 		this.listaEsclavos=listaesclavos;
+		this.lectorCliente=lectorCliente;
 	}
 	
 	@Override
@@ -54,7 +57,7 @@ public class GestorTotem  extends Thread implements IRegistro{
 		} 
 	 	catch (ExcepcionErrorAlAceptar | ExcepcionFinTimeoutAceptar e) {
 		}
-	 	catch (InterruptedException |ExcepcionDeInterrupcion|ExcepcionFinTimeoutLectura e) {
+	 	catch (InterruptedException |ExcepcionDeInterrupcion|ExcepcionFinTimeoutLectura|IOException e) {
 		} 
 	 	finally {
 	 		try {
@@ -68,10 +71,11 @@ public class GestorTotem  extends Thread implements IRegistro{
 	
 	
 	@Override
-	public void registrar(String DNI) throws  InterruptedException{
+	public void registrar(String DNI) throws  InterruptedException, IOException{
 		String mensaje = null;
 		if(!cola.contiene(DNI)) {
-				Turno turno=new Turno(DNI); //al crear el turno se registra la hora
+			//TODO FACTORY DE TURNO DESDE ARCHIVO... si no esta en arch elegir las peores prioridades (se ve en parametros)
+				Turno turno=new Turno(lectorCliente.getClient(DNI)); //al crear el turno se registra la hora
 				cola.put(turno);
 				mensaje= "Exito";
 		}

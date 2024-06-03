@@ -9,6 +9,12 @@ public class InfoConexion {
 		this.IP=ip;
 		this.puerto=Integer.parseInt(puerto);;
 	}
+	
+	public InfoConexion(String id, String ip, int puerto) {
+		this.ID=id;
+		this.IP=ip;
+		this.puerto=puerto;
+	}
 
 	
 	public int getPuerto() {
