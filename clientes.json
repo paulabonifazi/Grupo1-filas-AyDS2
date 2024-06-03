@@ -1,0 +1,19 @@
+{
+  "clientes": [
+    {
+      "DNI": "44667826",
+      "FechaNacimiento": "2002-12-26",
+      "Grupo": "Grupo1"
+    },
+    {
+      "DNI": "21653744",
+      "FechaNacimiento": "1970-05-29",
+      "Grupo": "Grupo2"
+    },
+    {
+      "DNI": "12345678",
+      "FechaNacimiento": "2001-01-01",
+      "Grupo": "Grupo3"
+    }
+  ]
+}

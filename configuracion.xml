@@ -1,0 +1,9 @@
+<configuracion>
+    <estrategia tipo="Edad">
+        <grupo>80</grupo>
+        <grupo>50</grupo>
+	<grupo>30</grupo>
+	<grupo>10</grupo>
+        <!-- Otros grupos si es necesario -->
+    </estrategia>
+</configuracion>
