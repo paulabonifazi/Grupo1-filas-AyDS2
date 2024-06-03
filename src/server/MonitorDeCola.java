@@ -51,7 +51,7 @@ public class MonitorDeCola {
     
  private void insertaOrdenado(Turno elemento) {
 	 int indice = listadeTurnos.size();
-	    while (indice > 0 && estrategia.compare(elemento, listadeTurnos.get(indice-1)) > 0) {
+	    while (indice > 0 && (listadeTurnos.get(indice-1).getAusencias()>0||estrategia.compare(elemento, listadeTurnos.get(indice-1)) > 0)) {
 	        indice--;
 	    }
 	 // Inserta el nuevo elemento en su posición ordenada
