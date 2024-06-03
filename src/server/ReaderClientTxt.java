@@ -12,7 +12,7 @@ public class ReaderClientTxt implements IReaderClient {
 
 	 @Override
 	    public Cliente getClient(String dnibuscado) throws IOException {
-	        String archivoClientes = "C:\\Users\\nicoa\\Downloads\\clientes.txt";
+	        String archivoClientes = ParametrosDeConexion.getArchivosLectura()[1] + ".txt";
 
 	        try (BufferedReader reader = new BufferedReader(new FileReader(archivoClientes))) {
 	            String linea;
