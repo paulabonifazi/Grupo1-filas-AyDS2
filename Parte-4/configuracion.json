@@ -1,0 +1,8 @@
+{
+  "configuracion": {
+    "estrategia": {
+      "tipo": "Tiempo",
+      "grupos": []
+    }
+  }
+}

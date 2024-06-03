@@ -1,0 +1,6 @@
+<clientes>
+    <cliente DNI="44667826" FechaNacimiento="26/12/2002" Grupo="Grupo1"/>
+    <cliente DNI="21653744" FechaNacimiento="29/05/1970" Grupo="Grupo2"/>
+    <cliente DNI="12345678" FechaNacimiento="01/01/2001" Grupo="Grupo3"/>
+    <!-- Otros clientes si es necesario -->
+</clientes>
