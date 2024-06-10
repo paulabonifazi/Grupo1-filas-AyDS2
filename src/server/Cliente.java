@@ -9,7 +9,7 @@ public class Cliente {
 		this.dni=dni;
 		this.edad=edad;
 		if(grupo!= null) {
-			if(ParametrosDeConexion.getInstance().getEstrategia().equals(ParametrosDeConexion.getEstrategias()[2])&&ParametrosDeConexion.getInstance().getGrupoindex(grupo)==-1)
+			if(ParametrosDeConexion.getInstance().getEstrategia()!=null && ParametrosDeConexion.getInstance().getEstrategia().equals(ParametrosDeConexion.getEstrategias()[2])&&ParametrosDeConexion.getInstance().getGrupoindex(grupo)==-1)
 				this.grupo=ParametrosDeConexion.getInstance().getPeorGrupo();
 			else
 				this.grupo=grupo;

@@ -44,14 +44,19 @@ public class ReceptorDeNotificaciones extends Thread{
 			try {
 				mensaje=cliente.recibirmensajeDeServidor(true);
 				recibido=true;
-				
 				elementos = mensaje.split("/");	
+				int i;
 				llamado=elementos[0].split(";");
-				if(llamado.length==1)
-					actualizarLista(new FilaNotificacion(llamado[0],""));
-				else
-					actualizarLista(new FilaNotificacion(llamado[0],llamado[1]));
-				int i=1;
+				if(llamado.length>1 || puedeParsearseAInt(llamado[0])) {
+					i=1;
+					if(llamado.length==1)
+						actualizarLista(new FilaNotificacion(llamado[0],""));
+					else
+						actualizarLista(new FilaNotificacion(llamado[0],llamado[1]));
+				}
+				else {
+					i=0;
+				}
 				this.ipEsclavos=new LinkedList<String>();
 				while(i<elementos.length) {
 					if(!elementos[i].isBlank() && !elementos[i].isEmpty()) {
@@ -102,5 +107,14 @@ public class ReceptorDeNotificaciones extends Thread{
 		controlador.semaforo.release();
 		controlador.actualizarVista();
 			
-	}			
+	}	
+	
+	public static boolean puedeParsearseAInt(String numero) {
+        try {
+            Integer.parseInt(numero);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

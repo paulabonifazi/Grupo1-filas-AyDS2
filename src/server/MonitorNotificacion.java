@@ -3,6 +3,7 @@ package server;
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class MonitorNotificacion {
 	private BlockingQueue<Llamado> notificaciones=new LinkedBlockingQueue<Llamado>();
@@ -20,7 +21,7 @@ public class MonitorNotificacion {
 	    
 	 // Método para retirar un elemento de la cola
 	    public Llamado take() throws InterruptedException {
-	    	return notificaciones.take();
+	    	return notificaciones.poll(5, TimeUnit.SECONDS);
 	    }
 
 		public boolean isActivado() {

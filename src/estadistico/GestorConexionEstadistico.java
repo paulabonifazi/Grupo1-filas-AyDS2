@@ -137,4 +137,61 @@ public class GestorConexionEstadistico extends Observable implements IEstado{
 		}
 		
 	}
+
+	public void validarConexion() {
+		try {
+			conexion.enviarMensajeAlServidor("MostrarEstado", false);
+			int desconexion=0;
+			boolean recibido=false;
+			boolean sinesclavos=false;
+			while (!recibido && !sinesclavos ) {
+				try {	
+					String[] elementos= conexion.recibirmensajeDeServidor(false).split("-");
+					recibido=true;
+					int i=0;
+					this.ipEsclavos=new LinkedList<String>();
+					while(i<elementos.length) {
+						if(!elementos[i].isBlank() && !elementos[i].isEmpty()) {
+							ipEsclavos.add(elementos[i]);
+						}
+						i++;
+					}
+				}catch (ExcepcionFinConexion e1) {
+					if(desconexion<2)
+						desconexion++;
+					else {
+							try {
+								Thread.sleep(3000); //para esperar que el esclavo se establezca como maestro
+							} catch (InterruptedException e) {}
+							Boolean conectado=false;
+							String ip="";
+							while(!conectado && !sinesclavos) {
+								try {
+									conexion.cerrarConexion();
+								} catch (ExcepcionErrorAlCerrar e) {}
+									desconexion=0;
+									if(!ipEsclavos.isEmpty()) {
+										try {
+											ip=ipEsclavos.remove();
+											conexion= new TCPCliente(ip, this.puerto);
+											conectado=true;
+											recibido=true;
+										} catch (ExcepcionErrorConexion e) {
+										}
+									}
+									else
+										sinesclavos=true;
+							}
+						}
+				
+				}
+			}
+			if(!recibido) {
+					setChanged();
+					notifyObservers("Conexion"); //problema de conexion vuelve al login
+			}
+		} catch (ExcepcionLecturaErronea|ExcepcionFinConexion e) {
+					//no puede ocurrir
+		}
+	}
 }
