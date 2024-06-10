@@ -2,6 +2,7 @@
     <estrategia tipo="Grupo">
         <grupo>Grupo1</grupo>
         <grupo>Grupo2</grupo>
+	<grupo>Grupo3</grupo>
         <!-- Otros grupos si es necesario -->
     </estrategia>
 </configuracion>

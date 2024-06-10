@@ -1,0 +1,8 @@
+{
+  "configuracion": {
+    "estrategia": {
+      "tipo": "Grupo",
+      "grupos": ["Grupo1","Grupo2"]
+    }
+  }
+}

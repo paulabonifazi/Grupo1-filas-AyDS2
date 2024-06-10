@@ -1,0 +1,8 @@
+{
+  "configuracion": {
+    "estrategia": {
+      "tipo": "Edad",
+      "grupos": ["80","40","20"]
+    }
+  }
+}
