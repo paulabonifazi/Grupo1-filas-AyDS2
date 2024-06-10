@@ -1,6 +1,6 @@
 # Grupo1-Filas
  Análisis y Diseño de Sistemas
- El informe se encuentra en la carpeta Parte-3
+ El informe se encuentra en la carpeta Parte-4
 
 # Instrucciones de Instalación y Configuración
 Descargar los ejecutables .jar de la carpeta "Parte-4" perteneciente al proyecto y ejecutarlos arrancando por Servidor y luego Totem, Box, Estadistica y TV.
@@ -10,13 +10,13 @@ Tener instalado el Java Development Kit versión 17.0 en adelante.
 Utilizar en un único dispositivo o dispositivos conectados por una red LAN.
 
 # Instrucciones de operación
-Primero ejecutar Servidor.jar desde la terminal. Luego hay que abrir los arhivos ejecutables Totem.jar, Box.jar y Estadistica.jar, incluidos en la carpeta "Parte-3"
+Primero ejecutar Server.jar desde la terminal. Luego hay que abrir los arhivos ejecutables Totem.jar, Box.jar y Estadistica.jar, incluidos en la carpeta "Parte-4"
 
-## Servidor.jar
+## Server.jar
 Esta interfaz está diseñada para iniciar el servidor de las listas.
 Para ejecutar este .jar es necesario tener instalado el entorno de ejecución java.
 Debe abrirse la terminal e ingresar:
-java -jar "direccion de Servidor.jar"
+java -jar "direccion de Server.jar"
 
 ## Totem.jar
 Esta interfaz está diseñada para ser operada por un cliente ingresando su DNI. 
