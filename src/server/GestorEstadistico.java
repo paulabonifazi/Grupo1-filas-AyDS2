@@ -35,16 +35,14 @@ public class GestorEstadistico extends Thread implements IEstado{
 								if (mensaje.equals("MostrarEstado")) {
 					 				this.MostrarEstado();
 					 			}
-								else {
-									if (mensaje.equals("Valida")) {
-										conexion.enviarMensajeACliente(IpEsclavos(), null);
+					 			else {
+						 			try {
+										conexion.enviarMensajeACliente("InstruccionInexistente", false);
+									} catch (ExcepcionLecturaErronea e) {
+										//nunca ocurre porque no se habilita la comprobacion
 									}
-									else {
-											conexion.enviarMensajeACliente("InstruccionInexistente", false);
-						 			}
-								}
-					 			
-							} catch (ExcepcionFinTimeoutLectura |ExcepcionLecturaErronea e) {
+					 			}
+							} catch (ExcepcionFinTimeoutLectura e) {
 								//no hay timeOut por lo que no puede ocurrir
 							}
 				 			catch(ExcepcionFinConexion|ExcepcionDeInterrupcion e) { //ocurre cuando no se puede recibir mensaje del estadístico

@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,8 +56,6 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
     private JPanel panel_3;
     private JPanel panel_4;
     private JPanel panel_5;
-    
-    private javax.swing.Timer inactivityTimer;
 
     public VistaTotem() {
         setTitle("Tótem");
@@ -66,13 +63,16 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
         cartas = new CardLayout();
         cardPanel = new JPanel(cartas);
         setContentPane(cardPanel);
-        
+
         panelPrincipal = new JPanel();
         panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
         panelPrincipal.setLayout(new GridLayout(6, 0, 0, 0));
         configurarPanelPrincipal();
 
         cardPanel.add(panelPrincipal, "Principal");
+
+        
+
         JPanel Login = new JPanel();
         Login.setLayout(new GridLayout(0, 1, 0, 10)); // Espaciado vertical
         cardPanel.add(Login, "Login");
@@ -238,8 +238,6 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
     public void setActionListener(ActionListener c) {
         this.actionlistener=c;
         this.RegistroBtn.addActionListener(c);
-        inactivityTimer = new javax.swing.Timer(5000, c);
-        inactivityTimer.setActionCommand("TEMPORIZADOR");
     }
 
 	@Override
@@ -248,20 +246,6 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
 		
 	}
 
-	private void reiniciarTemporizador() {
-        if (inactivityTimer.isRunning()) {
-            inactivityTimer.restart();
-        } else {
-            inactivityTimer.start();
-        }
-    }
-	
-	private void pausarTemporizador() {
-        if (inactivityTimer!=null&& inactivityTimer.isRunning()) {
-            inactivityTimer.stop();
-        } 
-    }
-	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -287,12 +271,11 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
 	public void entraSV() {
 		setBounds(100, 100, 800, 800);
 		this.cartas.show(this.cardPanel, "Principal");
-		reiniciarTemporizador();
+		
 	}
 
 	@Override
 	public void salirSV() {
-		this.pausarTemporizador();
 		setBounds(100, 100, 450, 300);
 		this.cartas.show(this.cardPanel, "Login");
 		
@@ -318,8 +301,7 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
         );
 
         if (opcion == JOptionPane.YES_OPTION) {
-            this.pausarTemporizador();
-        	ActionEvent evento=new ActionEvent(opcion, 0, "ENVIAR");
+            ActionEvent evento=new ActionEvent(opcion, 0, "ENVIAR");
             this.actionlistener.actionPerformed(evento);
         } else {
         	
@@ -358,7 +340,7 @@ public class VistaTotem extends JFrame implements IVistaRegistro,KeyListener,Mou
             JOptionPane.DEFAULT_OPTION,
             JOptionPane.PLAIN_MESSAGE
         );
-        this.reiniciarTemporizador();
+        
     }
 	@Override
 	public void errorIngreso(String motivo) {

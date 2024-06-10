@@ -32,9 +32,6 @@ public class ControladorVistaRegistro implements ActionListener,Observer {
             case "ENVIAR":
             	this.modelo.registrar(vista.getDNI());
             	break;
-            case "TEMPORIZADOR":
-            	this.modelo.validarConexion();
-            	break;
         }
     }
     

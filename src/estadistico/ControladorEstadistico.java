@@ -30,11 +30,7 @@ public class ControladorEstadistico implements ActionListener,Observer {
                 this.modelo.loginSV(contra, ip, puerto);
             break;
             case "ACTUALIZAR":
-            	this.vista.pausarTemporizador();
             	this.modelo.MostrarEstado();
-            	break;
-            case "TEMPORIZADOR":
-            	this.modelo.validarConexion();
             	break;
         }
     }

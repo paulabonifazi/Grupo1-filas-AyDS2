@@ -210,7 +210,6 @@ public class Servidor{
 									puerto=Integer.parseInt(elementos[1]); //nuevo puerto dado por el servidor
 									conexionConMaestro=new TCPCliente(Ip, puerto);
 									conectado=true;
-									System.out.println("Exito");
 									while(conectado){
 										desconexiones=0;
 										while(desconexiones<2) { //interactua con el servidor hasta que no se puede reconectar (reintenta 2 veces)

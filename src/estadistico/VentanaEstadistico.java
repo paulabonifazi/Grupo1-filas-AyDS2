@@ -22,8 +22,7 @@ public class VentanaEstadistico extends JFrame implements KeyListener,IVistaEsta
     private JTextArea AtencionesTxt;
     private CardLayout Cartas;
     private JButton ActualizaBtn;
-    private javax.swing.Timer inactivityTimer;
-    
+
     public VentanaEstadistico() {
         initComponents();
     }
@@ -192,33 +191,15 @@ public class VentanaEstadistico extends JFrame implements KeyListener,IVistaEsta
 	public void setActionListener(ActionListener actionListener) {
 		this.RegistroBtn.addActionListener(actionListener);
 		this.ActualizaBtn.addActionListener(actionListener);
-		inactivityTimer = new javax.swing.Timer(5000, actionListener);
-        inactivityTimer.setActionCommand("TEMPORIZADOR");
 	}
-	
-	private void reiniciarTemporizador() {
-        if (inactivityTimer.isRunning()) {
-            inactivityTimer.restart();
-        } else {
-            inactivityTimer.start();
-        }
-    }
-	
-	public void pausarTemporizador() {
-        if (inactivityTimer!=null&& inactivityTimer.isRunning()) {
-            inactivityTimer.stop();
-        } 
-    }
 
 	@Override
 	public void entraSV() {
 		this.Cartas.show(Ventana, "Estadisticas");
-		reiniciarTemporizador();
 	}
 
 	@Override
 	public void salirSV() {
-		this.pausarTemporizador();
 		this.Cartas.show(Ventana, "Login");
 	}
 
@@ -234,7 +215,6 @@ public class VentanaEstadistico extends JFrame implements KeyListener,IVistaEsta
 		this.TpromSoliTxt.setText(TPromLlam+" seg.");
 		this.ClientesTxt.setText(tamCola+" clientes");
 		this.AtencionesTxt.setText(cantAtendidos+" atenciones");
-		this.reiniciarTemporizador();
 	}
 
 	@Override

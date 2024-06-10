@@ -51,7 +51,7 @@ public class MonitorDeCola {
     
  private void insertaOrdenado(Turno elemento) {
 	 int indice = listadeTurnos.size();
-	    while (indice > 0 && (listadeTurnos.get(indice-1).getAusencias()>0||estrategia.compare(elemento, listadeTurnos.get(indice-1)) > 0)) {
+	    while (indice > 0 && estrategia.compare(elemento, listadeTurnos.get(indice-1)) > 0) {
 	        indice--;
 	    }
 	 // Inserta el nuevo elemento en su posición ordenada
@@ -149,24 +149,18 @@ public class MonitorDeCola {
     public void parse(String cola, String atenciones) {
 		 int i;
 		 this.listadeTurnos= new ArrayList<Turno>();
-		 this.semaforodeSolicitud=new Semaphore(0, true);
-		this.semaforodeacceso=new Semaphore(1,true);
-		String[] cliente;
 		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
 			 String[] turnos=cola.split(";");
 			 String[] turno;
-			 
+			 String[] cliente;
 			 i=0;
 			 while(i<turnos.length) {
 					 turno=turnos[i].split(",");
 					 if(turno.length==4) {
 							cliente= turno[0].split("#");
-							if(cliente.length==3) {
+							if(cliente.length==3)
 								this.listadeTurnos.add(new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),turno[1],turno[2],turno[3]));
-								semaforodeSolicitud.release();
-							}	
-						i++;
-					 }
+					 i++;
 			 }
 		 }
 		 this.atencionesAbiertas=new ConcurrentHashMap<String, Turno>();
@@ -184,6 +178,7 @@ public class MonitorDeCola {
 			 }
 		 }
 	 }
+    }
 	public void setStrategy(IStrategy estrategia) {
 		this.estrategia=estrategia;
 	}

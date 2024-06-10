@@ -11,5 +11,5 @@ public interface IVistaEstadistico {
 	int getPuerto();
 	String getContrasenia();
 	void actualiza(String tamCola, String cantAtendidos, String TPromEsp, String TPromAtn, String TPromLlam);
-	void pausarTemporizador();
+	
 }

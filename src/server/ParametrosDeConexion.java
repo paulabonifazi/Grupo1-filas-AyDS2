@@ -92,17 +92,15 @@ public class ParametrosDeConexion {
 	
 	public void parse(String parametros) {
 		String[] elem=parametros.split(",");
-		if(elem.length>=2) {
+		if(elem.length==3) {
 			this.contraseña=elem[0];
 			this.estrategia=elem[1];
-			if(elem.length==3) {
-				String[] auxG= elem[2].split("-");
-				int i=0;
-				this.grupos=new ArrayList<String>();
-				while(i<auxG.length) {
-					this.grupos.add(auxG[i]);
-					i++;
-				}
+			String[] auxG= elem[2].split("-");
+			int i=0;
+			this.grupos=new ArrayList<String>();
+			while(i<auxG.length) {
+				this.grupos.add(auxG[i]);
+				i++;
 			}
 		}
 	}
