@@ -41,14 +41,15 @@ public class GestorTotem  extends Thread implements IRegistro{
 			 				this.registrar(elementos[1]);
 			 				}
 			 			else {
-				 			try {
-								conexion.enviarMensajeACliente("InstruccionInexistente", false);
-				 			} catch (ExcepcionLecturaErronea e) {
-								//nunca ocurre porque no se habilita la comprobacion
-							}
+			 				if(elementos[0].equals("Validar")) {
+			 					this.conexion.enviarMensajeACliente(IpEsclavos(), false);
+			 				}
+			 				else {
+									conexion.enviarMensajeACliente("InstruccionInexistente", false);
+				 			}
 			 			}
 	 				}
-	 				catch(ExcepcionFinConexion |ExcepcionDeInterrupcion e) { //las desconexiones provienen de no poder recibir mensaje del totem
+	 				catch(ExcepcionFinConexion |ExcepcionDeInterrupcion | ExcepcionLecturaErronea e) { //las desconexiones provienen de no poder recibir mensaje del totem
 	 					desconexiones++;
 	 					Thread.sleep(500);
 	 				}

@@ -149,6 +149,8 @@ public class MonitorDeCola {
     public void parse(String cola, String atenciones) {
 		 int i;
 		 this.listadeTurnos= new ArrayList<Turno>();
+		 this.semaforodeSolicitud=new Semaphore(0, true);
+		this.semaforodeacceso=new Semaphore(1,true);
 		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
 			 String[] turnos=cola.split(";");
 			 String[] turno;
@@ -158,9 +160,11 @@ public class MonitorDeCola {
 					 turno=turnos[i].split(",");
 					 if(turno.length==4) {
 							cliente= turno[0].split("#");
-							if(cliente.length==3)
+							if(cliente.length==3) {
 								this.listadeTurnos.add(new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),turno[1],turno[2],turno[3]));
-					 i++;
+								semaforodeSolicitud.release();
+							}	
+					i++;
 			 }
 		 }
 		 this.atencionesAbiertas=new ConcurrentHashMap<String, Turno>();
