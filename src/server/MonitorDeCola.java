@@ -183,7 +183,6 @@ public class MonitorDeCola {
 				 i++;
 			 }
 		 }
-		 System.out.println(this.estado());
 	 }
 	public void setStrategy(IStrategy estrategia) {
 		this.estrategia=estrategia;
