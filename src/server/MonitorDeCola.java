@@ -151,10 +151,11 @@ public class MonitorDeCola {
 		 this.listadeTurnos= new ArrayList<Turno>();
 		 this.semaforodeSolicitud=new Semaphore(0, true);
 		this.semaforodeacceso=new Semaphore(1,true);
+		String[] cliente;
 		 if(cola!=null && !cola.isBlank() && !cola.isEmpty()) {
 			 String[] turnos=cola.split(";");
 			 String[] turno;
-			 String[] cliente;
+			 
 			 i=0;
 			 while(i<turnos.length) {
 					 turno=turnos[i].split(",");
@@ -164,7 +165,8 @@ public class MonitorDeCola {
 								this.listadeTurnos.add(new Turno(new Cliente(cliente[0],Integer.parseInt(cliente[1]),cliente[2]),turno[1],turno[2],turno[3]));
 								semaforodeSolicitud.release();
 							}	
-					i++;
+						i++;
+					 }
 			 }
 		 }
 		 this.atencionesAbiertas=new ConcurrentHashMap<String, Turno>();
@@ -181,8 +183,8 @@ public class MonitorDeCola {
 				 i++;
 			 }
 		 }
+		 System.out.println(this.estado());
 	 }
-    }
 	public void setStrategy(IStrategy estrategia) {
 		this.estrategia=estrategia;
 	}

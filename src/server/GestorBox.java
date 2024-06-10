@@ -67,6 +67,7 @@ public class GestorBox extends Thread implements IAtencion{
 		                        break;
 		                    case "Fin":
 		                    		turno=cola.finAtencion(IDBox);
+		                    		System.out.println(turno.toString());
 			                    	if(turno!=null) {
 			                    		Atencion atencion= new Atencion(turno, new Solicitud(IDBox));
 			                    		atencion.registrarFin();
@@ -78,6 +79,7 @@ public class GestorBox extends Thread implements IAtencion{
 		                    	break;
 		                    case "Ausente":
 		                    	turno=cola.finAtencion(IDBox);
+		                    	System.out.println(turno.toString());
 		                    	if(turno!=null) {
 		                    		if(turno.getAusencias()<1) {
 										turno.addAusencia();
